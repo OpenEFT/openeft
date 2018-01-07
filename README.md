@@ -1,2 +1,2 @@
 # openeft
-Decentralized realtime gross settlement protocol based on blockchain technology
+Decentralized realtime gross settlement protocol.
