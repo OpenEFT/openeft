@@ -1,16 +1,11 @@
 # openeft project
 
-openeft is decentralized electronic financial transction processing software offering following features:
+OpenEFT is an open source decentralized electronic financial transaction processing daemon. openeft daemon provides following features:
  * Cross Platform
   * Windows
   * Linux
   * Mac
- * Feature
- * Feature
- * Feature
- * Feature
 
-## Design Decisions
-
-C/C++ programming lanaguages are used to develop openeft.
+## Programing language
+C++ programming lanaguage is used in openeft development.
 
