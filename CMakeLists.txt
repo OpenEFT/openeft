@@ -125,6 +125,7 @@ endif()
 
 # Installation paths
 if(UNIX AND SYSTEM_DIR_INSTALL)
+    file(REMOVE_RECURSE "${PROJECT_SOURCE_DIR}/install")
     # Install into the system (/usr/bin or /usr/local/bin)
     set(INSTALL_ROOT      "share/${project}")       # /usr/[local]/share/<project>
     set(INSTALL_CMAKE     "share/${project}/cmake") # /usr/[local]/share/<project>/cmake
@@ -140,19 +141,22 @@ if(UNIX AND SYSTEM_DIR_INSTALL)
     set(INSTALL_INIT      "/etc/init")              # /etc/init (upstart init scripts)
 else()
     # Install into local directory
-    set(INSTALL_ROOT      ".")                      # ./
-    set(INSTALL_CMAKE     "cmake")                  # ./cmake
-    set(INSTALL_EXAMPLES  ".")                      # ./
-    set(INSTALL_DATA      ".")                      # ./
-    set(INSTALL_BIN       ".")                      # ./
-    set(INSTALL_SHARED    "lib")                    # ./lib
-    set(INSTALL_LIB       "lib")                    # ./lib
-    set(INSTALL_INCLUDE   "include")                # ./include
-    set(INSTALL_DOC       "doc")                    # ./doc
-    set(INSTALL_SHORTCUTS "misc")                   # ./misc
-    set(INSTALL_ICONS     "misc")                   # ./misc
-    set(INSTALL_INIT      "misc")                   # ./misc
+    file(MAKE_DIRECTORY "install")
+    set(INSTALL_ROOT      "${PROJECT_SOURCE_DIR}/install/.")                      # ./
+    set(INSTALL_CMAKE     "${PROJECT_SOURCE_DIR}/install/cmake")                  # ./cmake
+    set(INSTALL_EXAMPLES  "${PROJECT_SOURCE_DIR}/install/.")                      # ./
+    set(INSTALL_DATA      "${PROJECT_SOURCE_DIR}/install/.")                      # ./
+    set(INSTALL_BIN       "${PROJECT_SOURCE_DIR}/install/.")                      # ./
+    set(INSTALL_SHARED    "${PROJECT_SOURCE_DIR}/install/.")                      # ./lib
+    set(INSTALL_LIB       "${PROJECT_SOURCE_DIR}/install/.")                      # ./lib
+    set(INSTALL_INCLUDE   "include")                                              # ./include
+    set(INSTALL_DOC       "${PROJECT_SOURCE_DIR}/install/doc")                    # ./doc
+    set(INSTALL_SHORTCUTS "${PROJECT_SOURCE_DIR}/install/misc")                   # ./misc
+    set(INSTALL_ICONS     "${PROJECT_SOURCE_DIR}/install/misc")                   # ./misc
+    set(INSTALL_INIT      "${PROJECT_SOURCE_DIR}/install/misc")                   # ./misc
 endif()
+
+set(CMAKE_SKIP_INSTALL_ALL_DEPENDENCY On)
 
 # Set runtime path
 set(CMAKE_SKIP_BUILD_RPATH            FALSE) # Add absolute path to all dependencies for BUILD
@@ -180,6 +184,7 @@ add_subdirectory(docs)
 # 
 # Deployment (global project files)
 # 
+install (FILES ${PROJECT_BINARY_DIR}/${META_PROJECT_NAME} DESTINATION ${INSTALL_BIN} COMPONENT runtime)
 
 # Install version file
 install(FILES "${PROJECT_BINARY_DIR}/VERSION" DESTINATION ${INSTALL_ROOT} COMPONENT runtime)
