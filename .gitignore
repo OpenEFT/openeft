@@ -1,9 +1,9 @@
 *build*/
 CMakeLists.txt.user
 *~
-/**/*.xcodeproj/**/xcuserdata/
-/**/*.xcodeproj/**/xcshareddata/
 /extern/
 *install*/
 *.pyc
 *.log
+*nbproject*/
+*.localconfig*/
