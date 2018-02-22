@@ -1,6 +1,9 @@
 # OpenEFT project
 
-OpenEFT is an open source decentralized electronic financial transaction processing daemon. openeft daemon provides following features:
+OpenEFT is an open source decentralized electronic financial transaction processing system based on 
+EFT protocol.
+
+openeft daemon provides following features:
  * Cross Platform
   * Windows
   * Linux
