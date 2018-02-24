@@ -29,7 +29,9 @@
 #include <openssl/des.h>
 
 #include "openeft.h"
+#include "openeft-version.h"
 #include "log/log.h"
+#include "config/config.h"
 
 
 uint32_t log_fp;
@@ -54,7 +56,33 @@ uint32_t eft_init(int argc, char* argv[])
   log_fp = fileno(stdout);
   log_run_level = LOG_DEBUG;
   err_code = 0;
+
+  uint32_t c = 0;
+  CEftConfig cfg;
+  
+  /* check for revision before any system logics. */
+  while ((c = getopt(argc, argv, "Vvc:")) != EOF) {
+    switch (c) {
+      case 'V':
+      case 'v':
+        printf("%s\n",
+                OPENEFT_NAME_VERSION);
+
+        exit(0);
+        break;
+      case 'c':
+        cfg.config_path = optarg;
+        break;
+      default:
+        /* in case of any other arguments */
+        
+        printf("valid arguments are v, or V.\n");
+
+        return EFT_NOK;
+        break;
+    }
+  }
  
-  return EFT_NOK;
+  return EFT_OK;
 }
 
