@@ -32,20 +32,23 @@
 #include "openeft-version.h"
 #include "log/log.h"
 #include "config/config.h"
+#include "console/console.h"
 
 
 uint32_t log_fp;
 uint32_t log_run_level;
-uint32_t err_code;
+
 
 
 
 uint32_t eft_init(int argc, char* argv[]);
+void print_help();
 
 int main(int argc, char* argv[])
 {
-  if (eft_init(argc, argv) == EFT_NOK) {
-    log(LOG_EMERG, "Error code [%d]\n", err_code);
+  uint32_t ret_code;
+  if (ret_code = eft_init(argc, argv) != EFT_OK) {
+    log(LOG_EMERG, "return code [%d]\n", ret_code);
   }
   return 0;
 }
@@ -55,10 +58,14 @@ uint32_t eft_init(int argc, char* argv[])
 {
   log_fp = fileno(stdout);
   log_run_level = LOG_DEBUG;
-  err_code = 0;
 
   uint32_t c = 0;
   CEftConfig cfg;
+  
+  if(argc == 1) {
+    print_help();
+    return EFT_OK;
+  }
   
   /* check for revision before any system logics. */
   while ((c = getopt(argc, argv, "Vvc:")) != EOF) {
@@ -75,10 +82,9 @@ uint32_t eft_init(int argc, char* argv[])
         break;
       default:
         /* in case of any other arguments */
+        print_help();
         
-        printf("valid arguments are v, or V.\n");
-
-        return EFT_NOK;
+        return EFT_ARG_ERR;
         break;
     }
   }
@@ -86,3 +92,11 @@ uint32_t eft_init(int argc, char* argv[])
   return EFT_OK;
 }
 
+void print_help()
+{
+  printf("Command line parameters:\n");
+  printf("Vv" MOV_COL_RIGHT_CMD "print server version.\n");
+  printf("c [config path] " MOV_COL_RIGHT_CMD "specify the configuration file path to use.\n");
+  
+  return;
+}

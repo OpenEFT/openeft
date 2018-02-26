@@ -19,8 +19,13 @@
 #ifndef _OPENEFT_H
 #define _OPENEFT_H
 
-#define EFT_OK    0
-#define EFT_NOK !EFT_OK
+enum EFT_ERROR_CODE {
+  EFT_OK = 0,
+  EFT_NOK,
+  EFT_ARG_ERR,
+  EFT_ERROR_CODE_LAST
+};
+
 
 #endif
 

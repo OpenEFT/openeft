@@ -20,11 +20,12 @@
 #define _OPENEFT_CONFIG_H
 
 #include <string>
+using namespace std;
 
-class  CEftConfig
+class CEftConfig
 {
 public:
-  std::string  config_path;
+  string config_path;
 };
 
 #endif /* CONFIG_H */

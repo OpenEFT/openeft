@@ -33,8 +33,6 @@
 #define LOG_DEFAULT  d
 #define LOG_CONT     c
 
-extern uint32_t log_run_level;
-extern uint32_t log_fp;
 
 /* Keep things simple for sakes */
 #define log(level, fmt, ...) \
