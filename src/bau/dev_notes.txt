@@ -1,0 +1,2 @@
+Inhert from the CControl class and implement your favorite graphical or web console.
+CConsole class is a light ascii console with ssh capablities.

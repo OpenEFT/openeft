@@ -19,6 +19,9 @@
 #ifndef _OPENEFT_CONSOLE_H
 #define _OPENEFT_CONSOLE_H
 
+#include "control.h"
+
+
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_GREEN   "\x1b[32m"
 #define ANSI_COLOR_YELLOW  "\x1b[33m"
@@ -46,6 +49,18 @@
 #define CONSOLE_NUMBER_OF_COMMANDS	5
 
 
+/*
+ * Listens to fdin and executes commands 
+ */ 
+class CConsole : public CControl
+{
+  public:
+    CConsole(uint32_t fdin = stdin);
+    virtual uint32_t process(uint32_t cmd);
+    
+    private:
+      uint32_t fd;
+};
 
 
 
