@@ -16,16 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 
-#ifndef _OPENEFT_H
-#define _OPENEFT_H
-
-enum EFT_ERROR_CODE {
-  EFT_OK = 0,
-  EFT_NOK,
-  EFT_ARG_ERR,
-  EFT_ERROR_CODE_LAST
-};
+#include "global.h"
+#include "log.h"
 
 
-#endif
-
+uint32_t init_log(const CEftConfig &cfg)
+{
+  cfg.log_fp = fileno(stdout);
+  cfg.log_run_level = LOG_DEBUG;
+  
+  return EFT_OK;
+}

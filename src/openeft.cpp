@@ -19,48 +19,58 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include <iostream>
+#include <string>
+
 #include <openssl/des.h>
 
-#include "openeft.h"
+#include "global.h"
 #include "openeft-version.h"
 #include "log/log.h"
 #include "config/config.h"
-#include "console/console.h"
+#include "control/console.h"
+
+using namespace std;
 
 
-uint32_t log_fp;
-uint32_t log_run_level;
+uint32_t init_control(const CEftConfig &cfg); /* Initialize all the consoles and control mechanisms */
+uint32_t init_blockchain(); /* Initialize the blockchains */
+uint32_t init_consensus(); /* Initialzie consensus state machine */
+uint32_t init_comms(); /* Initialize the network interfaces */
+uint32_t init_config(const CEftConfig &cfg); /* Read the configurations and apply them to the core OpenEFT deamon */
+uint32_t init_eftnode(); /* Init the eftnode properties if this deamon configured as an eftnode */
+uint32_t init_hsm(); /* Initialize the HSMs' connections and command base */
+uint32_t init_ssm(); /* Initialize the internal SSM */
+uint32_t init_kernel(); /* Initialize and boot the core eft protocol state machine */
+uint32_t init_transaction_handlers(); /* Initialize the transaction messaging standard */
+uint32_t init_peer(); /* Initialze objects needed to process peer functionalities */
+uint32_t init_log(const CEftConfig &cfg); /* Initialize the log system */
+uint32_t init_openeft(int argc, char* argv[]); /* Init openeft main object */
 
-
-
-
-uint32_t eft_init(int argc, char* argv[]);
 void print_help();
 
 int main(int argc, char* argv[])
 {
   uint32_t ret_code;
-  if (ret_code = eft_init(argc, argv) != EFT_OK) {
+  if (ret_code = init_openeft(argc, argv) != EFT_OK) {
     log(LOG_EMERG, "return code [%d]\n", ret_code);
   }
   return 0;
 }
 
 
-uint32_t eft_init(int argc, char* argv[])
+uint32_t init_openeft(int argc, char* argv[])
 {
-  log_fp = fileno(stdout);
-  log_run_level = LOG_DEBUG;
-
-  uint32_t c = 0;
   CEftConfig cfg;
+  
+  uint32_t retcode;
+  uint32_t c = 0;
   
   if(argc == 1) {
     print_help();
@@ -88,7 +98,15 @@ uint32_t eft_init(int argc, char* argv[])
         break;
     }
   }
- 
+  
+  /* I N I T */
+  if(retcode = init_config(cfg) != EFT_OK)
+    log(LOG_EMERG, "Configuration failed [%d]\n", ret_code);
+
+  if(retcode = init_control(cfg) != EFT_OK)
+    log(LOG_EMERG, "Control initialization failed [%d]\n", ret_code);
+
+  
   return EFT_OK;
 }
 

@@ -33,10 +33,24 @@
 #define LOG_DEFAULT  d
 #define LOG_CONT     c
 
+/*
+ ** Log format
+ ** [File Name][Line No][Function Name][PID][Thread ID] [Log Content...]
+ ** 
+ */ 
 
-/* Keep things simple for sakes */
 #define log(level, fmt, ...) \
-        do { if (level <= log_run_level) dprintf(log_fp, "%s:%d:%s(): " fmt, __FILE__, \
-                                __LINE__, __func__, __VA_ARGS__); } while (0)
+        do { \
+          if (level <= log_run_level) \
+            dprintf(log_fp, "[%s][%d][%s()][%d][%d] [" fmt "]", \
+                                __FILE__, \
+                                __LINE__, \
+                                __func__, \
+                                getpid(), \
+                                boost::this_thread::get_id(), \
+                                __VA_ARGS__); \
+        } while (0)
 
 #endif
+
+

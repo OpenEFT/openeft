@@ -16,26 +16,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 
-#ifndef _OPENEFT_CONFIG_H
-#define _OPENEFT_CONFIG_H
+#ifndef _OPENEFT_GLOBAL_H
+#define _OPENEFT_GLOBAL_H
 
-#include <string>
-using namespace std;
-
-class CEftConfig
-{
-public:
-  string config_path;
-  
-  bool ssh_enabled;
-  uint16_t ssh_port;
-  
-  /* fd to collect the logs */
-  uint32_t log_fp;
-  uint32_t log_run_level;
-  
-  
+enum EFT_ERROR_CODE {
+  EFT_OK = 0,
+  EFT_NOK,
+  EFT_ARG_ERR,
+  EFT_ERROR_CODE_LAST
 };
 
-#endif /* CONFIG_H */
+
+#define USE_THREAD_LOCAL
+
+/* 
+ ** I will keep openeft single-threaded as much as I can but
+ ** if in turned out that we need to play with threads, we
+ ** need to make sure to thread-safe global variables properly
+ ** and prevent Race conditions.
+ */
+#ifdef USE_THREAD_LOCAL
+#    define THREAD_LOCAL thread_local
+#else
+#    define THREAD_LOCAL __thread
+#endif
+
+#endif
 

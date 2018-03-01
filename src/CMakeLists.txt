@@ -7,10 +7,6 @@
 configure_file(version.h.in ${CMAKE_CURRENT_BINARY_DIR}/include/${META_PROJECT_NAME}/${META_PROJECT_NAME}-version.h)
 configure_file(version.h.in ${CMAKE_CURRENT_SOURCE_DIR}/${META_PROJECT_NAME}-version.h)
 
-# 
-# Sub-projects
-# 
-
 # Libraries
 set(IDE_FOLDER "")
 
@@ -22,8 +18,7 @@ endif()
 
 #  The main openeft executableRA
 add_executable( openeft
-    openeft.cpp
-    openeft.h
+    openeft.cpp log.cpp
 )
 
 # 

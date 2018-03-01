@@ -22,6 +22,8 @@ set_policy(CMP0063 NEW) # ENABLE CMP0063: Honor visibility properties for all ta
 # Include cmake modules
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/src")
+
 include(GenerateExportHeader)
 
 set(WriterCompilerDetectionHeaderFound NOTFOUND)
@@ -179,7 +181,6 @@ endif()
 
 add_subdirectory(src)
 add_subdirectory(docs)
-
 
 # 
 # Deployment (global project files)
