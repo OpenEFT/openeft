@@ -35,19 +35,7 @@
 #define BOOT_OK		MOV_COL_RIGHT_BOOT "[" ANSI_COLOR_GREEN "DONE" ANSI_COLOR_RESET "]" 
 #define BOOT_FAILED	MOV_COL_RIGHT_BOOT "[" ANSI_COLOR_RED "FAILED" ANSI_COLOR_RESET "]"
 
-
-#define CONSOLE_CMD_HELP		"help"
-#define CONSOLE_CMD_HELP_DESC		"Help with server commands"
-#define CONSOLE_CMD_LIST		"ls"
-#define CONSOLE_CMD_LIST_DESC		"List the fds that are currently connected to this EFTnode"
-#define CONSOLE_CMD_RAND		"rand"
-#define CONSOLE_CMD_RAND_DESC		"Generate a random number"
-#define CONSOLE_CMD_CHECKUP		"checkup"
-#define CONSOLE_CMD_CHECKUP_DESC	"Checkup the server health"
-#define CONSOLE_CMD_RELOAD		"reload"
-#define CONSOLE_CMD_RELOAD_DESC		"Reload openeft configurations"
-#define CONSOLE_NUMBER_OF_COMMANDS	5
-
+using namespace std;
 
 /*
  * Listens to fdin and executes commands 
@@ -55,11 +43,21 @@
 class CConsole : public CControl
 {
   public:
-    CConsole(uint32_t fdin = stdin);
-    virtual uint32_t process(uint32_t cmd);
+    /* Calling process can pipe and dup the in and out fds and make
+                 this object a child and leave her on her own */
+    CConsole(uint32_t fdin, uint32_t fdout);
+    virtual uint32_t process();
     
     private:
-      uint32_t fd;
+      uint32_t fdin, fdout;
+      
+      struct Cmd
+      {
+        int cmd_id; /* Command ID from enum EFT_COMMANDS */
+        string cmd_str; /* Command string that the user types in the console. */
+      };
+      
+      vector<Cmd> cmd_array;
 };
 
 

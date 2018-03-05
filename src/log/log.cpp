@@ -17,6 +17,8 @@
 //----------------------------------------------------------------------
 
 #include "global.h"
+
+#include "config/config.h"
 #include "log.h"
 
 

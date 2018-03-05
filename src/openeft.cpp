@@ -15,22 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
+#include "global.h"
 
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#include <iostream>
-#include <string>
-
 #include <openssl/des.h>
 
-#include "global.h"
 #include "openeft-version.h"
 #include "log/log.h"
 #include "config/config.h"

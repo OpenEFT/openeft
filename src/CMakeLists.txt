@@ -18,7 +18,7 @@ endif()
 
 #  The main openeft executableRA
 add_executable( openeft
-    openeft.cpp log.cpp
+    openeft.cpp log/log.cpp
 )
 
 # 

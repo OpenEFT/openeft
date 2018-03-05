@@ -19,6 +19,15 @@
 #ifndef _OPENEFT_GLOBAL_H
 #define _OPENEFT_GLOBAL_H
 
+#include <stdint.h>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 enum EFT_ERROR_CODE {
   EFT_OK = 0,
   EFT_NOK,

@@ -40,14 +40,40 @@ public:
     /* I add a set of MIBs here. Hope somewhen in the 
     future we would have standard MIBs for blockchains. */
 
-    EFT_OP_TABLE,
-    EFT_COMPLIANCE_TABLE,
-    EFT_TR_TABLE,
-    EFT_PEER_ADV_TABLE,
-    EFT_NET_OP_TABLE,
-    EFT_NET_COMPLIANCE_TABLE,
-    EFT_NET_TR_TABLE,
+    EFT_GET_OP_TABLE,
+    EFT_GET_COMPLIANCE_TABLE,
+    EFT_GET_TR_TABLE,
+    EFT_GET_PEER_ADV_TABLE,
+    EFT_GET_NET_OP_TABLE,
+    EFT_GET_NET_COMPLIANCE_TABLE,
+    EFT_GET_NET_TR_TABLE,
     EFT_COMMANDS_LAST
+  };
+  
+  struct HelpResult
+  {
+    string eft_checkup;
+    string eft_reload_cfg;
+    string eft_hard_reset;
+    string eft_get_op_table;
+    string eft_get_compliance_table;
+    string eft_get_tr_table;
+    string eft_get_peer_adv_table;
+    string eft_get_net_op_table;
+    string eft_get_net_compliance_table;
+    string eft_get_net_tr_table;
+  };
+  
+  struct CheckupResult
+  {
+  };
+  
+  struct ReloadCfgResult
+  {
+  };
+  
+  struct HardResetResult
+  {
   };
   
   struct OpTable
@@ -85,13 +111,22 @@ public:
     
   };
 
-  virtual uint32_t process(uint32_t cmd) = 0;
+  virtual uint32_t process() = 0;
   
 protected:
-  uint32_t retrieve_table(uint32_t table);
-  uint32_t reload_config();
-  uint32_t checkup();
-  uint32_t hard_rest();
+  
+  uint32_t help(HelpResult &ret);
+  uint32_t checkup(CheckupResult &ret);
+  uint32_t reload_config(ReloadCfgResult &ret);  
+  uint32_t hard_rest(HardResetResult &ret);
+  uint32_t get_op_table(OpTable &ret);
+  uint32_t get_compliance_table(ComplianceTable &ret);
+  uint32_t get_transaction_table(TransactionTable &ret);
+  uint32_t get_peer_adv_table(PeerAdvTable &ret);
+  uint32_t get_net_op_table(NetOpTable &ret);
+  uint32_t get_net_compliance_table(NetComplianceTable &ret);
+  uint32_t get_net_transaction_table(NetTransactionTable &ret);
+  
 };
 
 #endif /* CONTROL_H */
