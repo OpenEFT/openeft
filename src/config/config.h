@@ -20,21 +20,20 @@
 #define _OPENEFT_CONFIG_H
 
 #include <string>
+#include "log/log.h"
 using namespace std;
 
 class CEftConfig
 {
 public:
-  string config_path;
+  static string config_path;
   
-  bool ssh_enabled;
-  uint16_t ssh_port;
+  static bool ssh_enabled;
+  static uint16_t ssh_port;
   
   /* fd to collect the logs */
-  uint32_t log_fp;
-  uint32_t log_run_level;
-  
-  
+  static uint32_t log_fp;
+  static uint32_t log_run_level;
 };
 
 #endif /* CONFIG_H */

@@ -32,7 +32,7 @@
 using namespace std;
 
 
-uint32_t init_control(const CEftConfig &cfg); /* Initialize all the consoles and control mechanisms */
+uint32_t init_control(); /* Initialize all the consoles and control mechanisms */
 uint32_t init_blockchain(); /* Initialize the blockchains */
 uint32_t init_consensus(); /* Initialzie consensus state machine */
 uint32_t init_comms(); /* Initialize the network interfaces */
@@ -43,7 +43,6 @@ uint32_t init_ssm(); /* Initialize the internal SSM */
 uint32_t init_kernel(); /* Initialize and boot the core eft protocol state machine */
 uint32_t init_transaction_handlers(); /* Initialize the transaction messaging standard */
 uint32_t init_peer(); /* Initialze objects needed to process peer functionalities */
-uint32_t init_log(const CEftConfig &cfg); /* Initialize the log system */
 uint32_t init_openeft(int argc, char* argv[]); /* Init openeft main object */
 
 void print_help();
@@ -94,10 +93,10 @@ uint32_t init_openeft(int argc, char* argv[])
   
   /* I N I T */
   if(retcode = init_config(cfg) != EFT_OK)
-    log(LOG_EMERG, "Configuration failed [%d]\n", ret_code);
+    log(LOG_EMERG, "Configuration failed [%d]\n", retcode);
 
-  if(retcode = init_control(cfg) != EFT_OK)
-    log(LOG_EMERG, "Control initialization failed [%d]\n", ret_code);
+  if(retcode = init_control() != EFT_OK)
+    log(LOG_EMERG, "Control initialization failed [%d]\n", retcode);
 
   
   return EFT_OK;

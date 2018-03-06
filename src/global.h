@@ -20,13 +20,18 @@
 #define _OPENEFT_GLOBAL_H
 
 #include <stdint.h>
-#include <iostream>
-#include <string>
-#include <vector>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+#include <boost/filesystem.hpp>
+#include <boost/thread.hpp>
 
 enum EFT_ERROR_CODE {
   EFT_OK = 0,

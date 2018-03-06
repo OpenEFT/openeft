@@ -16,16 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 
-#include "global.h"
-
-#include "config/config.h"
-#include "log.h"
+#include "config.h"
 
 
-uint32_t init_log(const CEftConfig &cfg)
-{
-  cfg.log_fp = fileno(stdout);
-  cfg.log_run_level = LOG_DEBUG;
+
+string CEftConfig::config_path = "";
   
-  return EFT_OK;
-}
+bool CEftConfig::ssh_enabled = false;
+uint16_t CEftConfig::ssh_port = 22;
+  
+  /* fd to collect the logs */
+uint32_t CEftConfig::log_fp = 0;
+uint32_t CEftConfig::log_run_level = LOG_DEBUG;
+

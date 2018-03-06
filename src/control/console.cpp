@@ -44,7 +44,7 @@ uint32_t CConsole::process()
 {
   uint32_t retval;
   fd_set cmd_fds;
-  char cmd[1024];
+  char cmd[32];
   
   struct timeval tmo;
   

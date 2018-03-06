@@ -21,6 +21,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "config/config.h"
 
 #define LOG_EMERG  0
 #define LOG_ALERT  1
@@ -41,8 +42,8 @@
 
 #define log(level, fmt, ...) \
         do { \
-          if (level <= log_run_level) \
-            dprintf(log_fp, "[%s][%d][%s()][%d][%d] [" fmt "]", \
+          if (level <= CEftConfig::log_run_level) \
+            dprintf(CEftConfig::log_fp, "[%s][%d][%s()][%d][%d] [" fmt "]", \
                                 __FILE__, \
                                 __LINE__, \
                                 __func__, \
