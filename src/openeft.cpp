@@ -31,8 +31,11 @@
 
 using namespace std;
 
+TRANSACT = true;
 
-uint32_t init_control(); /* Initialize all the consoles and control mechanisms */
+
+uint32_t init_control(); /* Initialize control machine */
+uint32_t init_console(); /* Initialize console */
 uint32_t init_blockchain(); /* Initialize the blockchains */
 uint32_t init_consensus(); /* Initialzie consensus state machine */
 uint32_t init_comms(); /* Initialize the network interfaces */
@@ -44,6 +47,7 @@ uint32_t init_kernel(); /* Initialize and boot the core eft protocol state machi
 uint32_t init_transaction_handlers(); /* Initialize the transaction messaging standard */
 uint32_t init_peer(); /* Initialze objects needed to process peer functionalities */
 uint32_t init_openeft(int argc, char* argv[]); /* Init openeft main object */
+uint32_t shutdown(); /* Graceful exit */
 
 void print_help();
 
@@ -97,7 +101,15 @@ uint32_t init_openeft(int argc, char* argv[])
 
   if(retcode = init_control() != EFT_OK)
     log(LOG_EMERG, "Control initialization failed [%d]\n", retcode);
+  
+  if(retcode = init_console() != EFT_OK)
+    log(LOG_EMERG, "Console initialization failed [%d]\n", retcode);
 
+  
+  while(TRANSACT) {
+  }
+  
+  shutdown();
   
   return EFT_OK;
 }

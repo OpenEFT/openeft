@@ -15,17 +15,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
-
+#include "global.h"
 #include "config.h"
 
 
-
+/* G E N E R A L */
 string CEftConfig::config_path = "";
-  
+
+/* S S H */
 bool CEftConfig::ssh_enabled = false;
 uint16_t CEftConfig::ssh_port = 22;
   
-  /* fd to collect the logs */
+/* L O G S */
 uint32_t CEftConfig::log_fp = 0;
 uint32_t CEftConfig::log_run_level = LOG_DEBUG;
 
+
+uint32_t init_config(const CEftConfig &cfg)
+{
+  return EFT_OK;
+}

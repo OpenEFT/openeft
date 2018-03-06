@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
-
+#include "global.h"
 #include "control.h"
 
 
@@ -75,4 +75,12 @@ uint32_t CControl::get_net_compliance_table(NetComplianceTable &ret)
 
 uint32_t CControl::get_net_transaction_table(NetTransactionTable &ret)
 {
+}
+
+
+
+
+uint32_t init_control()
+{
+  return EFT_OK;
 }

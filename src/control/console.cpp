@@ -20,24 +20,22 @@
 #include "console.h"
 
 
-
-
 CConsole::CConsole(uint32_t fdin, uint32_t fdout)
 {
   fdin = fdin;
   fdout = fdout;
   
-  cmd_array = [Cmd(EFT_HELP, "help"),
-                Cmd(EFT_CHECKUP, "checkup"),
-                  Cmd(EFT_HARD_RESET, "reset"),
-                Cmd(EFT_RELOAD_CFG, "reload"),
-                  Cmd(EFT_GET_TR_TABLE, "get_tr_report"),
-                Cmd(EFT_GET_COMPLIANCE_TABLE, "get_compliance_report"),
-                  Cmd(EFT_GET_OP_TABLE, "get_op_report"),
-                Cmd(EFT_GET_PEER_ADV_TABLE, "get_peer_adv_report"),
-                  Cmd(EFT_GET_NET_COMPLIANCE_TABLE, "get_net_compliance_report"),
-                Cmd(EFT_GET_NET_OP_TABLE, "get_net_op_report"),
-                  Cmd(EFT_GET_NET_TR_TABLE, "get_net_tr_report")];
+  cmd_list = {{EFT_HELP, "help"},
+                {EFT_CHECKUP, "checkup"},
+                {EFT_HARD_RESET, "reset"},
+                {EFT_RELOAD_CFG, "reload"},
+                {EFT_GET_TR_TABLE, "get_tr_report"},
+                {EFT_GET_COMPLIANCE_TABLE, "get_compliance_report"},
+                {EFT_GET_OP_TABLE, "get_op_report"},
+                {EFT_GET_PEER_ADV_TABLE, "get_peer_adv_report"},
+                {EFT_GET_NET_COMPLIANCE_TABLE, "get_net_compliance_report"},
+                {EFT_GET_NET_OP_TABLE, "get_net_op_report"},
+                {EFT_GET_NET_TR_TABLE, "get_net_tr_report"}};
 }
 
 uint32_t CConsole::process()
@@ -63,16 +61,22 @@ uint32_t CConsole::process()
       if(read(fdin, cmd, sizeof(cmd)) > 0) {
         cmd[strlen(cmd) - 1] = '\0';
         
-        int i = 0;
+        int i = 0;  
         int right_cmd = 0;
-        for (i = 0; i < cmd_array.size(); i++) {
-          if (!strcmp(cmd, cmd_array[i].cmd_str)) {
+        for (i = 0; i < cmd_list.size(); i++) {
+          if (!strcmp(cmd, cmd_list[i].name.c_str())) {
             right_cmd = 1;
           }
         }
-
       }
     }
   
   return 0;
 } 
+
+
+uint32_t init_console()
+{
+  
+  return EFT_OK;
+}

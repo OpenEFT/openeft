@@ -50,14 +50,11 @@ class CConsole : public CControl
     
     private:
       uint32_t fdin, fdout;
-      
-      struct Cmd
-      {
-        int cmd_id; /* Command ID from enum EFT_COMMANDS */
-        string cmd_str; /* Command string that the user types in the console. */
+      struct Command {
+        int id;
+        string name;
       };
-      
-      vector<Cmd> cmd_array;
+      vector<Command> cmd_list;
 };
 
 
