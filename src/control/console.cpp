@@ -92,11 +92,12 @@ uint32_t init_console()
     dup2(pipes[0][READ_FD], STDIN_FILENO);
     dup2(pipes[1][WRITE_FD], STDOUT_FILENO);
     
-    char command[20];
+    char command[100];
     memset(command, 0x00, sizeof(command));
     read(STDIN_FILENO, command, sizeof(command));
         
-    printf("Command is %s.\n", command);
+    printf("Redirecting the output of" ANSI_COLOR_GREEN "%s" ANSI_COLOR_RESET \
+            "command from the control process.\n", command);
   } else {
     char buffer[100];
     int count;
@@ -106,7 +107,7 @@ uint32_t init_console()
     close(pipes[1][WRITE_FD]);
  
     /* Write to child’s stdin */
-    write(pipes[0][WRITE_FD], "help", 4);
+    write(pipes[0][WRITE_FD], "EFT_GET_PEER_ADV_TABLE", 22);
   
     /* Read from child’s stdout */
     count = read(pipes[1][READ_FD], buffer, sizeof(buffer)-1);
@@ -117,7 +118,6 @@ uint32_t init_console()
         printf("IO Error\n");
     }
   }
-
   
   return EFT_OK;
 }

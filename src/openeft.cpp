@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 {
   uint32_t ret_code;
   if (ret_code = init_openeft(argc, argv) != EFT_OK) {
-    log(LOG_EMERG, "return code [%d]\n", ret_code);
+    log(LOG_EMERG, "return code [%d]", ret_code);
   }
   return 0;
 }
@@ -67,10 +67,7 @@ uint32_t init_openeft(int argc, char* argv[])
   uint32_t retcode;
   uint32_t c = 0;
   
-  if(argc == 1) {
-    print_help();
-    return EFT_OK;
-  }
+  cfg.config_path = "openeft.conf";
   
   /* check for revision before any system logics. */
   while ((c = getopt(argc, argv, "Vvc:")) != EOF) {
@@ -88,23 +85,19 @@ uint32_t init_openeft(int argc, char* argv[])
       default:
         /* in case of any other arguments */
         print_help();
-        
-        return EFT_ARG_ERR;
-        break;
+        exit(0);
     }
   }
   
   /* I N I T */
   if(retcode = init_config(cfg) != EFT_OK)
-    log(LOG_EMERG, "Configuration failed [%d]\n", retcode);
+    log(LOG_EMERG, "Configuration failed [%d]", retcode);
   
   if(retcode = init_console() != EFT_OK)
-    log(LOG_EMERG, "Console initialization failed [%d]\n", retcode);
+    log(LOG_EMERG, "Console initialization failed [%d]", retcode);
 
   
-  printf("Openeft initialization done\n");
-  while(TRANSACT) {
-  }
+  log(LOG_INFO, "Openeft initialization done");
   
   return EFT_OK;
 }

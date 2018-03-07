@@ -19,8 +19,7 @@
 #ifndef _OPENEFT_LOG_H
 #define _OPENEFT_LOG_H
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "global.h"
 #include "config/config.h"
 
 #define LOG_EMERG  0
@@ -43,13 +42,12 @@
 #define log(level, fmt, ...) \
         do { \
           if (level <= CEftConfig::log_run_level) \
-            dprintf(CEftConfig::log_fp, "[%s][%d][%s()][%d][%d] [" fmt "]", \
+            dprintf(CEftConfig::log_fp, "[%s][%d][%s()][%d]   [" fmt "]\n", \
                                 __FILE__, \
                                 __LINE__, \
                                 __func__, \
                                 getpid(), \
-                                boost::this_thread::get_id(), \
-                                __VA_ARGS__); \
+                                ## __VA_ARGS__); \
         } while (0)
 
 #endif
