@@ -56,5 +56,3 @@ enum EFT_ERROR_CODE {
 #endif
 
 #endif
-
-bool TRANSACT;

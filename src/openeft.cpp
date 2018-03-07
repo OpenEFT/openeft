@@ -31,10 +31,9 @@
 
 using namespace std;
 
-TRANSACT = true;
+bool TRANSACT = true;
 
 
-uint32_t init_control(); /* Initialize control machine */
 uint32_t init_console(); /* Initialize console */
 uint32_t init_blockchain(); /* Initialize the blockchains */
 uint32_t init_consensus(); /* Initialzie consensus state machine */
@@ -98,18 +97,14 @@ uint32_t init_openeft(int argc, char* argv[])
   /* I N I T */
   if(retcode = init_config(cfg) != EFT_OK)
     log(LOG_EMERG, "Configuration failed [%d]\n", retcode);
-
-  if(retcode = init_control() != EFT_OK)
-    log(LOG_EMERG, "Control initialization failed [%d]\n", retcode);
   
   if(retcode = init_console() != EFT_OK)
     log(LOG_EMERG, "Console initialization failed [%d]\n", retcode);
 
   
+  printf("Openeft initialization done\n");
   while(TRANSACT) {
   }
-  
-  shutdown();
   
   return EFT_OK;
 }

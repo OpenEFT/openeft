@@ -1,0 +1,64 @@
+#include <iostream>
+using namespace std:
+
+/*
+ ** Description Line
+ ** Description Line
+ */
+class OfSomeClass {
+  private:
+    byte          *data;
+    time_t         time;
+    vector<pair<double, double, double>> listOfPairs;
+
+    void					RequestResponse(void);
+  public:
+    struct entityFlags_s {
+      bool				condition; /* some comments */
+      int         importantVar;
+    } fl;
+
+    struct exitFlags_s {
+      static bool				condition     = false;	/* some comments */
+      static int        importantVar  = 1;
+    } fl;
+
+    void                Cleanup(time_t time, int param);
+  protected:
+};
+
+void OfSomeClass::RequestResponse(void) {
+  switch(variable) {
+    case a:
+      RunFunction();
+    break;
+    case b:
+      DoNothing();
+    default:
+    break;
+  }
+  return;
+}
+
+int OfSomeClass::Cleanup(time_t time, int param) {
+  if ( !file ) {
+    for(;;) {
+      break;
+    }
+    return OK;
+  }
+  return NOK;
+}
+
+namespace MySpace {
+  typedef enum {
+    EN_STATIC,
+    EN_CACHED,
+    EN_CONTINUOUS
+  } aModel_t;
+
+  #define EVENT_INTEGER				'd'
+  #define EVENT_FLOAT         'f'
+}
+
+/* Linux style file/directory names: codeing_convention consensus/ config.cpp dev_notes.txt */

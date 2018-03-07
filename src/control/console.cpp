@@ -77,6 +77,47 @@ uint32_t CConsole::process()
 
 uint32_t init_console()
 {
+  int pipes[2][2];
+  
+  /* always in a pipe[], pipe[0] is for read and 
+   pipe[1] is for write */
+#define READ_FD  0
+#define WRITE_FD 1
+
+  /* pipes for parent to write and read */
+  pipe(pipes[0]); /* write */
+  pipe(pipes[1]); /* read */
+  
+  if(!fork()) {
+    dup2(pipes[0][READ_FD], STDIN_FILENO);
+    dup2(pipes[1][WRITE_FD], STDOUT_FILENO);
+    
+    char command[20];
+    memset(command, 0x00, sizeof(command));
+    read(STDIN_FILENO, command, sizeof(command));
+        
+    printf("Command is %s.\n", command);
+  } else {
+    char buffer[100];
+    int count;
+ 
+    /* close fds not required by parent */       
+    close(pipes[0][READ_FD]);
+    close(pipes[1][WRITE_FD]);
+ 
+    /* Write to child’s stdin */
+    write(pipes[0][WRITE_FD], "help", 4);
+  
+    /* Read from child’s stdout */
+    count = read(pipes[1][READ_FD], buffer, sizeof(buffer)-1);
+    if (count >= 0) {
+        buffer[count] = 0;
+        printf("%s", buffer);
+    } else {
+        printf("IO Error\n");
+    }
+  }
+
   
   return EFT_OK;
 }
