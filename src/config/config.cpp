@@ -25,13 +25,11 @@ string CEftConfig::config_path = "";
 /* S S H */
 bool CEftConfig::ssh_enabled = false;
 uint16_t CEftConfig::ssh_port = 22;
-  
+
 /* L O G S */
 uint32_t CEftConfig::log_fp = 0;
 uint32_t CEftConfig::log_run_level = LOG_DEBUG;
 
-
-uint32_t init_config(const CEftConfig &cfg)
-{
+uint32_t init_config(const CEftConfig &cfg) {
   return EFT_OK;
 }

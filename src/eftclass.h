@@ -33,18 +33,18 @@ public:
   void* operator new(size_t);
   void* operator new[](size_t);
   
-	void operator delete(void *);
+  void operator delete(void *);
   void operator delete[](void *);
   
   void findUninitializedMem();
   
-	virtual ~eftClass();
+  virtual ~eftClass();
   
   
 private:
   /* Keep tracking of the memory usage */
   static uint32_t memused;
-	static uint32_t numobjects;
+  static uint32_t numobjects;
 };
 
 #endif /* EFTCLASS_H */

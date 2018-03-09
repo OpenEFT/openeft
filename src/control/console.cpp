@@ -19,33 +19,31 @@
 #include "control.h"
 #include "console.h"
 
-
-CConsole::CConsole(uint32_t fdin, uint32_t fdout)
-{
+CConsole::CConsole(uint32_t fdin, uint32_t fdout) {
   fdin = fdin;
   fdout = fdout;
-  
-  cmd_list = {{EFT_HELP, "help"},
-                {EFT_CHECKUP, "checkup"},
-                {EFT_HARD_RESET, "reset"},
-                {EFT_RELOAD_CFG, "reload"},
-                {EFT_GET_TR_TABLE, "get_tr_report"},
-                {EFT_GET_COMPLIANCE_TABLE, "get_compliance_report"},
-                {EFT_GET_OP_TABLE, "get_op_report"},
-                {EFT_GET_PEER_ADV_TABLE, "get_peer_adv_report"},
-                {EFT_GET_NET_COMPLIANCE_TABLE, "get_net_compliance_report"},
-                {EFT_GET_NET_OP_TABLE, "get_net_op_report"},
-                {EFT_GET_NET_TR_TABLE, "get_net_tr_report"}};
+
+  cmd_list = {
+    {EFT_HELP, "help"},
+    {EFT_CHECKUP, "checkup"},
+    {EFT_HARD_RESET, "reset"},
+    {EFT_RELOAD_CFG, "reload"},
+    {EFT_GET_TR_TABLE, "get_tr_report"},
+    {EFT_GET_COMPLIANCE_TABLE, "get_compliance_report"},
+    {EFT_GET_OP_TABLE, "get_op_report"},
+    {EFT_GET_PEER_ADV_TABLE, "get_peer_adv_report"},
+    {EFT_GET_NET_COMPLIANCE_TABLE, "get_net_compliance_report"},
+    {EFT_GET_NET_OP_TABLE, "get_net_op_report"},
+    {EFT_GET_NET_TR_TABLE, "get_net_tr_report"}};
 }
 
-uint32_t CConsole::process()
-{
+uint32_t CConsole::process() {
   uint32_t retval;
   fd_set cmd_fds;
   char cmd[32];
-  
+
   struct timeval tmo;
-  
+
   tmo.tv_sec = 0;
   tmo.tv_usec = 1000;
 
@@ -53,32 +51,30 @@ uint32_t CConsole::process()
   /* wait only 1 miliseconds for user input */
   FD_ZERO(&cmd_fds);
   FD_SET(fdin, &cmd_fds);
-  
-  memset(cmd, 0x00, sizeof(cmd));
-  
+
+  memset(cmd, 0x00, sizeof (cmd));
+
   retval = select(fdin + 1, &cmd_fds, NULL, NULL, &tmo);
-    if(retval > 0) {
-      if(read(fdin, cmd, sizeof(cmd)) > 0) {
-        cmd[strlen(cmd) - 1] = '\0';
-        
-        int i = 0;  
-        int right_cmd = 0;
-        for (i = 0; i < cmd_list.size(); i++) {
-          if (!strcmp(cmd, cmd_list[i].name.c_str())) {
-            right_cmd = 1;
-          }
+  if (retval > 0) {
+    if (read(fdin, cmd, sizeof (cmd)) > 0) {
+      cmd[strlen(cmd) - 1] = '\0';
+
+      int i = 0;
+      int right_cmd = 0;
+      for (i = 0; i < cmd_list.size(); i++) {
+        if (!strcmp(cmd, cmd_list[i].name.c_str())) {
+          right_cmd = 1;
         }
       }
     }
-  
+  }
+
   return 0;
-} 
+}
 
-
-uint32_t init_console()
-{
+uint32_t init_console() {
   int pipes[2][2];
-  
+
   /* always in a pipe[], pipe[0] is for read and 
    pipe[1] is for write */
 #define READ_FD  0
@@ -87,37 +83,37 @@ uint32_t init_console()
   /* pipes for parent to write and read */
   pipe(pipes[0]); /* write */
   pipe(pipes[1]); /* read */
-  
-  if(!fork()) {
+
+  if (!fork()) {
     dup2(pipes[0][READ_FD], STDIN_FILENO);
     dup2(pipes[1][WRITE_FD], STDOUT_FILENO);
-    
+
     char command[100];
-    memset(command, 0x00, sizeof(command));
-    read(STDIN_FILENO, command, sizeof(command));
-        
+    memset(command, 0x00, sizeof (command));
+    read(STDIN_FILENO, command, sizeof (command));
+
     printf("Redirecting the output of" ANSI_COLOR_GREEN "%s" ANSI_COLOR_RESET \
             "command from the control process.\n", command);
   } else {
     char buffer[100];
     int count;
- 
-    /* close fds not required by parent */       
+
+    /* close fds not required by parent */
     close(pipes[0][READ_FD]);
     close(pipes[1][WRITE_FD]);
- 
+
     /* Write to child’s stdin */
     write(pipes[0][WRITE_FD], "EFT_GET_PEER_ADV_TABLE", 22);
-  
+
     /* Read from child’s stdout */
-    count = read(pipes[1][READ_FD], buffer, sizeof(buffer)-1);
+    count = read(pipes[1][READ_FD], buffer, sizeof (buffer) - 1);
     if (count >= 0) {
-        buffer[count] = 0;
-        printf("%s", buffer);
+      buffer[count] = 0;
+      printf("%s", buffer);
     } else {
-        printf("IO Error\n");
+      printf("IO Error\n");
     }
   }
-  
+
   return EFT_OK;
 }

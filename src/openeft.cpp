@@ -52,8 +52,7 @@ uint32_t shutdown(); /* Graceful exit */
 
 void print_help();
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
   uint32_t ret_code;
   if (ret_code = init_openeft(argc, argv) != EFT_OK) {
     log(LOG_EMERG, "return code [%d]", ret_code);
@@ -61,16 +60,14 @@ int main(int argc, char* argv[])
   return 0;
 }
 
-
-uint32_t init_openeft(int argc, char* argv[])
-{
+uint32_t init_openeft(int argc, char* argv[]) {
   CEftConfig cfg;
-  
+
   uint32_t retcode;
   uint32_t c = 0;
-  
+
   cfg.config_path = "openeft.conf";
-  
+
   /* check for revision before any system logics. */
   while ((c = getopt(argc, argv, "Vvc:")) != EOF) {
     switch (c) {
@@ -90,32 +87,30 @@ uint32_t init_openeft(int argc, char* argv[])
         exit(0);
     }
   }
-  
+
   /* I N I T */
-  if(retcode = init_config(cfg) != EFT_OK)
+  if (retcode = init_config(cfg) != EFT_OK)
     log(LOG_EMERG, "Configuration failed [%d]", retcode);
-  
-  if(retcode = init_console() != EFT_OK)
+
+  if (retcode = init_console() != EFT_OK)
     log(LOG_EMERG, "Console initialization failed [%d]", retcode);
 
-  
+
   log(LOG_INFO, "Openeft initialization done");
-  
+
   return EFT_OK;
 }
 
-void print_help()
-{
+void print_help() {
   printf("Command line parameters:\n");
   printf("Vv" MOV_COL_RIGHT_CMD "print server version.\n");
   printf("c [config path] " MOV_COL_RIGHT_CMD "specify the configuration file path to use.\n");
-  
+
   return;
 }
 
-
 uint32_t getOSInfo() {
-  int *p = (int*)malloc(1);
+  int *p = (int*) malloc(1);
   unassignedMem = p;
 }
 

@@ -19,46 +19,46 @@
 #include "global.h"
 #include "eftclass.h"
 
-  
+
 uint32_t eftClass::memused = 0;
 uint32_t eftClass::numobjects = 0;
 
 void* eftClass::operator new(size_t s) {
   int *p;
-  
+
   /* Using the first memory location to store
    the size of the allocated memory for this object */
 
-	s += sizeof(int);
-	p = (int *)malloc(s);
-	*p = s;
-	memused += s;
-	numobjects++;
-  
-	return p + 1;
+  s += sizeof (int);
+  p = (int *) malloc(s);
+  *p = s;
+  memused += s;
+  numobjects++;
+
+  return p + 1;
 }
 
 void eftClass::operator delete(void *ptr) {
   int *p;
 
-	if (ptr) {
-		p = ((int *)ptr) - 1;
-		memused -= *p;
-		numobjects--;
+  if (ptr) {
+    p = ((int *) ptr) - 1;
+    memused -= *p;
+    numobjects--;
     free(p);
-	}
+  }
 }
 
 void eftClass::findUninitializedMem() {
 #ifdef DEBUG_UNINITIALIZED_MEMORY
-	unsigned long *ptr = ((unsigned long * )this ) - 1;
-	int size = *ptr;
-	assert((size & 3) == 0);
-	size >>= 2;
-	for (int i = 0; i < size; i++) {
-		if (ptr[i] == unassignedMem) {
-			log(LOG_DEBUG, "There is and uninitialized memory at offset %x in this object", ptr);
-		}
-	}
+  unsigned long *ptr = ((unsigned long *) this) - 1;
+  int size = *ptr;
+  assert((size & 3) == 0);
+  size >>= 2;
+  for (int i = 0; i < size; i++) {
+    if (ptr[i] == unassignedMem) {
+      log(LOG_DEBUG, "There is and uninitialized memory at offset %x in this object", ptr);
+    }
+  }
 #endif
 }

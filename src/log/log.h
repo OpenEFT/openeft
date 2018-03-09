@@ -35,9 +35,9 @@
 
 /*
  ** Log format
- ** [File Name][Line No][Function Name][PID][Thread ID] [Log Content...]
+ ** [File Name][Line No][Function Name][PID] [Log Content...]
  ** 
- */ 
+ */
 
 #define log(level, fmt, ...) \
         do { \
