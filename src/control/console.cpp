@@ -19,9 +19,7 @@
 #include "control.h"
 #include "console.h"
 
-CConsole::CConsole(uint32_t fdin, uint32_t fdout) {
-  fdin = fdin;
-  fdout = fdout;
+eftConsole::eftConsole() {
 
   cmd_list = {
     {EFT_HELP, "help"},
@@ -37,9 +35,11 @@ CConsole::CConsole(uint32_t fdin, uint32_t fdout) {
     {EFT_GET_NET_TR_TABLE, "get_net_tr_report"}};
 }
 
-uint32_t CConsole::process() {
+
+uint32_t eftConsole::process() {
   uint32_t retval;
   fd_set cmd_fds;
+  uint32_t fdin;
   char cmd[32];
 
   struct timeval tmo;
@@ -72,48 +72,10 @@ uint32_t CConsole::process() {
   return 0;
 }
 
-uint32_t init_console() {
-  int pipes[2][2];
-
-  /* always in a pipe[], pipe[0] is for read and 
-   pipe[1] is for write */
-#define READ_FD  0
-#define WRITE_FD 1
-
-  /* pipes for parent to write and read */
-  pipe(pipes[0]); /* write */
-  pipe(pipes[1]); /* read */
-
-  if (!fork()) {
-    dup2(pipes[0][READ_FD], STDIN_FILENO);
-    dup2(pipes[1][WRITE_FD], STDOUT_FILENO);
-
-    char command[100];
-    memset(command, 0x00, sizeof (command));
-    read(STDIN_FILENO, command, sizeof (command));
-
-    printf("Redirecting the output of" ANSI_COLOR_GREEN "%s" ANSI_COLOR_RESET \
-            "command from the control process.\n", command);
-  } else {
-    char buffer[100];
-    int count;
-
-    /* close fds not required by parent */
-    close(pipes[0][READ_FD]);
-    close(pipes[1][WRITE_FD]);
-
-    /* Write to child’s stdin */
-    write(pipes[0][WRITE_FD], "EFT_GET_PEER_ADV_TABLE", 22);
-
-    /* Read from child’s stdout */
-    count = read(pipes[1][READ_FD], buffer, sizeof (buffer) - 1);
-    if (count >= 0) {
-      buffer[count] = 0;
-      printf("%s", buffer);
-    } else {
-      printf("IO Error\n");
-    }
-  }
-
+uint32_t eftConsole::init_stdio(ForkPipes *pipes) {
+  pipe((int*) &fork_pipes.p0);
+  pipe((int*) &fork_pipes.p1);
+  
+  pipes = &fork_pipes;
   return EFT_OK;
 }

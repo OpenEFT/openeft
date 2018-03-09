@@ -15,40 +15,30 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
-#ifndef _OPENEFT_EFTCLASS_H
-#define _OPENEFT_EFTCLASS_H
+#ifndef _OPENEFT_OPENEFT_H
+#define _OPENEFT_OPENEFT_H
+
+#include "global.h"
+#include "eftclass.h"
+#include "log/log.h"
+#include "config/config.h"
+#include "control/console.h"
 
 /*
- ** Use OPENEFT_STD_CLASS to streamline type checking, class instanciation
- ** and runtime communications.
+ ** The main entry of this program.
  */
-#define OPENEFT_STD_CLASS(name_of_class)   		\
+class eftOpeneft : public eftClass {
 public:
-
-/*
- ** Everything is of type of eftClass. This abstraction aims to prevent
- ** memory problems and streamline the communications between objects and processes.
- */
-class eftClass {
-public:
-  OPENEFT_STD_CLASS(eftClass);
-
-  void* operator new(size_t);
-  void* operator new[](size_t);
+  ~eftOpeneft() {
+    delete console;
+  }
+  eftOpeneft() {
+    console = new eftConsole();
+  }
   
-  void operator delete(void *);
-  void operator delete[](void *);
-  
-  void find_uninitialized_mem();
-  
-  virtual ~eftClass();
-  
-  
-private:
-  /* Keep tracking of the memory usage */
-  static uint32_t mem_used;
-  static uint32_t num_objects;
+  eftConsole *console;
 };
 
-#endif /* EFTCLASS_H */
+
+#endif /* OPENEFT_H */
 

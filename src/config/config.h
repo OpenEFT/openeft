@@ -23,14 +23,13 @@
 #include "log/log.h"
 using namespace std;
 
-class CEftConfig
-{
+class eftConfig {
 public:
   static string config_path;
-  
+
   static bool ssh_enabled;
   static uint16_t ssh_port;
-  
+
   /* fd to collect the logs */
   static uint32_t log_fp;
   static uint32_t log_run_level;

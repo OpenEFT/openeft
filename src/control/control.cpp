@@ -18,7 +18,10 @@
 #include "global.h"
 #include "control.h"
 
-uint32_t CControl::help(HelpResult &ret) {
+eftControl::~eftControl() {
+}
+
+uint32_t eftControl::help(HelpResult &ret) {
   ret.eft_checkup = "Checkup the whole system and returns the latest status.";
   ret.eft_hard_reset = "Reset the configuration to default and reboot the eftnode daemon.";
   ret.eft_reload_cfg = "Reload and apply the latest configurations to the eftnode daemon without "
@@ -35,34 +38,34 @@ uint32_t CControl::help(HelpResult &ret) {
   return EFT_OK;
 }
 
-uint32_t CControl::checkup(CheckupResult &ret) {
+uint32_t eftControl::checkup(CheckupResult &ret) {
 }
 
-uint32_t CControl::reload_config(ReloadCfgResult &ret) {
+uint32_t eftControl::reload_config(ReloadCfgResult &ret) {
 }
 
-uint32_t CControl::hard_rest(HardResetResult &ret) {
+uint32_t eftControl::hard_rest(HardResetResult &ret) {
 }
 
-uint32_t CControl::get_op_table(OpTable &ret) {
+uint32_t eftControl::get_op_table(OpTable &ret) {
 }
 
-uint32_t CControl::get_compliance_table(ComplianceTable &ret) {
+uint32_t eftControl::get_compliance_table(ComplianceTable &ret) {
 }
 
-uint32_t CControl::get_transaction_table(TransactionTable &ret) {
+uint32_t eftControl::get_transaction_table(TransactionTable &ret) {
 }
 
-uint32_t CControl::get_peer_adv_table(PeerAdvTable &ret) {
+uint32_t eftControl::get_peer_adv_table(PeerAdvTable &ret) {
 }
 
-uint32_t CControl::get_net_op_table(NetOpTable &ret) {
+uint32_t eftControl::get_net_op_table(NetOpTable &ret) {
 }
 
-uint32_t CControl::get_net_compliance_table(NetComplianceTable &ret) {
+uint32_t eftControl::get_net_compliance_table(NetComplianceTable &ret) {
 }
 
-uint32_t CControl::get_net_transaction_table(NetTransactionTable &ret) {
+uint32_t eftControl::get_net_transaction_table(NetTransactionTable &ret) {
 }
 
 uint32_t init_control() {

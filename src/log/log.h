@@ -41,8 +41,8 @@
 
 #define log(level, fmt, ...) \
         do { \
-          if (level <= CEftConfig::log_run_level) \
-            dprintf(CEftConfig::log_fp, "[%s][%d][%s()][%d]   [" fmt "]\n", \
+          if (level <= eftConfig::log_run_level) \
+            dprintf(eftConfig::log_fp, "[%s][%d][%s()][%d]   [" fmt "]\n", \
                                 __FILE__, \
                                 __LINE__, \
                                 __func__, \

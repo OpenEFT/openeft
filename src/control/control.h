@@ -20,15 +20,19 @@
 #define _OPENEFT_CONTROL_H
 
 #include <string>
+#include "global.h"
+#include "eftclass.h"
 
 using namespace std;
 
 /* 
  * Keep track of the status and respond to control commands
  */
-class CControl
+class eftControl : public eftClass
 {
 public:
+  
+  virtual ~eftControl();
   
   enum EFT_COMMANDS
   {

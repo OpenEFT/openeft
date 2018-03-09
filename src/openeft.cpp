@@ -25,6 +25,7 @@
 #include <openssl/des.h>
 
 #include "openeft-version.h"
+#include "openeft.h"
 #include "log/log.h"
 #include "config/config.h"
 #include "control/console.h"
@@ -32,36 +33,44 @@
 using namespace std;
 
 bool TRANSACT = true;
-int* unassignedMem = NULL;
+int* unassigned_mem = NULL;
 
 
-uint32_t init_console(); /* Initialize console */
+uint32_t init_console(eftConsole* console); /* Initialize console */
 uint32_t init_blockchain(); /* Initialize the blockchains */
 uint32_t init_consensus(); /* Initialzie consensus state machine */
 uint32_t init_comms(); /* Initialize the network interfaces */
-uint32_t init_config(const CEftConfig &cfg); /* Read the configurations and apply them to the core OpenEFT deamon */
+uint32_t init_config(const eftConfig &cfg); /* Read and apply the configurations */
 uint32_t init_eftnode(); /* Init the eftnode properties if this deamon configured as an eftnode */
 uint32_t init_hsm(); /* Initialize the HSMs' connections and command base */
 uint32_t init_ssm(); /* Initialize the internal SSM */
 uint32_t init_kernel(); /* Initialize and boot the core eft protocol state machine */
 uint32_t init_transaction_handlers(); /* Initialize the transaction messaging standard */
 uint32_t init_peer(); /* Initialze objects needed to process peer functionalities */
-uint32_t init_openeft(int argc, char* argv[]); /* Init openeft main object */
-uint32_t getOSInfo(); /* Get information about the running host operating system. */
+uint32_t init_openeft(int argc, char* argv[], eftOpeneft *openeft); /* Init openeft main object */
+uint32_t get_os_info(); /* Get information about the running host operating system. */
 uint32_t shutdown(); /* Graceful exit */
+uint32_t tick();
 
 void print_help();
 
 int main(int argc, char* argv[]) {
   uint32_t ret_code;
-  if (ret_code = init_openeft(argc, argv) != EFT_OK) {
+  eftOpeneft *openeft = new eftOpeneft();
+  
+  if (ret_code = init_openeft(argc, argv, openeft) != EFT_OK) {
     log(LOG_EMERG, "return code [%d]", ret_code);
   }
+  
+  /* hear beat */
+  while(TRANSACT)
+    tick();
+  
   return 0;
 }
 
-uint32_t init_openeft(int argc, char* argv[]) {
-  CEftConfig cfg;
+uint32_t init_openeft(int argc, char* argv[], eftOpeneft* openeft) {
+  eftConfig cfg;
 
   uint32_t retcode;
   uint32_t c = 0;
@@ -92,9 +101,8 @@ uint32_t init_openeft(int argc, char* argv[]) {
   if (retcode = init_config(cfg) != EFT_OK)
     log(LOG_EMERG, "Configuration failed [%d]", retcode);
 
-  if (retcode = init_console() != EFT_OK)
+  if (retcode = init_console(openeft->console) != EFT_OK)
     log(LOG_EMERG, "Console initialization failed [%d]", retcode);
-
 
   log(LOG_INFO, "Openeft initialization done");
 
@@ -109,11 +117,54 @@ void print_help() {
   return;
 }
 
+
+uint32_t init_console(eftConsole* console) {
+  eftConsole::ForkPipes *pipes;
+  console->init_stdio(pipes);
+
+  if (!fork()) {
+    dup2(pipes->p0.child_in, STDIN_FILENO);
+    dup2(pipes->p1.child_out, STDOUT_FILENO);
+
+    char command[100];
+    memset(command, 0x00, sizeof (command));
+    read(STDIN_FILENO, command, sizeof (command));
+
+    printf("Redirecting the output of" ANSI_COLOR_GREEN "%s" ANSI_COLOR_RESET \
+            "command from the control process.\n", command);
+  } else {
+    char buffer[100];
+    int count;
+
+    /* close fds not required by parent */
+    close(pipes->p0.child_in);
+    close(pipes->p1.child_out);
+
+    /* Write to parent's out (child's in) */
+    write(pipes->p0.parent_out, "EFT_GET_PEER_ADV_TABLE", 22);
+
+    /* Read from parent's in (child's out) */
+    count = read(pipes->p1.parent_in, buffer, sizeof (buffer) - 1);
+    if (count >= 0) {
+      buffer[count] = 0;
+      printf("%s", buffer);
+    } else {
+      printf("IO Error\n");
+    }
+  }
+
+  return EFT_OK;
+}
+
 uint32_t getOSInfo() {
   int *p = (int*) malloc(1);
-  unassignedMem = p;
+  unassigned_mem = p;
 }
 
 uint32_t shutdown() {
-  free(unassignedMem);
+  free(unassigned_mem);
+}
+
+uint32_t tick() {
+  
 }

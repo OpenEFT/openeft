@@ -20,8 +20,11 @@
 #include "eftclass.h"
 
 
-uint32_t eftClass::memused = 0;
-uint32_t eftClass::numobjects = 0;
+uint32_t eftClass::mem_used = 0;
+uint32_t eftClass::num_objects = 0;
+
+eftClass::~eftClass() {
+}
 
 void* eftClass::operator new(size_t s) {
   int *p;
@@ -32,8 +35,8 @@ void* eftClass::operator new(size_t s) {
   s += sizeof (int);
   p = (int *) malloc(s);
   *p = s;
-  memused += s;
-  numobjects++;
+  mem_used += s;
+  num_objects++;
 
   return p + 1;
 }
@@ -43,20 +46,20 @@ void eftClass::operator delete(void *ptr) {
 
   if (ptr) {
     p = ((int *) ptr) - 1;
-    memused -= *p;
-    numobjects--;
+    mem_used -= *p;
+    num_objects--;
     free(p);
   }
 }
 
-void eftClass::findUninitializedMem() {
+void eftClass::find_uninitialized_mem() {
 #ifdef DEBUG_UNINITIALIZED_MEMORY
   unsigned long *ptr = ((unsigned long *) this) - 1;
   int size = *ptr;
   assert((size & 3) == 0);
   size >>= 2;
   for (int i = 0; i < size; i++) {
-    if (ptr[i] == unassignedMem) {
+    if (ptr[i] == unassigned_mem) {
       log(LOG_DEBUG, "There is and uninitialized memory at offset %x in this object", ptr);
     }
   }

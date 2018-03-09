@@ -25,22 +25,37 @@ using namespace std;
 
 /*
  * Listens to fdin and executes commands 
- */ 
-class CConsole : public CControl
-{
-  public:
-    /* Calling process can pipe and dup the in and out fds and make
-                 this object a child and leave her on her own */
-    CConsole(uint32_t fdin, uint32_t fdout);
-    virtual uint32_t process();
-    
-    private:
-      uint32_t fdin, fdout;
-      struct Command {
-        int id;
-        string name;
-      };
-      vector<Command> cmd_list;
+ */
+class eftConsole : public eftControl {
+public:
+  eftConsole();
+  virtual uint32_t process();
+  
+  struct ForkPipes {
+    /* pipe 0 */
+    struct pipe_0 {
+      int child_in;
+      int parent_out;
+    }p0;
+    /* pipe 1 */
+    struct pipe_1 {
+      int parent_in;
+      int child_out;
+    }p1;
+  } fork_pipes;
+
+  uint32_t init_stdio(ForkPipes *pipes);
+  uint32_t close_stdio();
+#define READ_FD  0
+#define WRITE_FD 1
+  
+private:
+
+  struct Command {
+    int id;
+    string name;
+  };
+  vector<Command> cmd_list;
 };
 
 
