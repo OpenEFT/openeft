@@ -70,4 +70,7 @@ enum EFT_ERROR_CODE {
 #    define THREAD_LOCAL __thread
 #endif
 
+
+#undef DEBUG_UNINITIALIZED_MEMORY
+
 #endif

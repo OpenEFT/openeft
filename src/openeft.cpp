@@ -32,6 +32,7 @@
 using namespace std;
 
 bool TRANSACT = true;
+int* unassignedMem = NULL;
 
 
 uint32_t init_console(); /* Initialize console */
@@ -46,6 +47,7 @@ uint32_t init_kernel(); /* Initialize and boot the core eft protocol state machi
 uint32_t init_transaction_handlers(); /* Initialize the transaction messaging standard */
 uint32_t init_peer(); /* Initialze objects needed to process peer functionalities */
 uint32_t init_openeft(int argc, char* argv[]); /* Init openeft main object */
+uint32_t getOSInfo(); /* Get information about the running host operating system. */
 uint32_t shutdown(); /* Graceful exit */
 
 void print_help();
@@ -109,4 +111,14 @@ void print_help()
   printf("c [config path] " MOV_COL_RIGHT_CMD "specify the configuration file path to use.\n");
   
   return;
+}
+
+
+uint32_t getOSInfo() {
+  int *p = (int*)malloc(1);
+  unassignedMem = p;
+}
+
+uint32_t shutdown() {
+  free(unassignedMem);
 }

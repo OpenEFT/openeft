@@ -22,9 +22,21 @@ if(OPTION_BUILD_TESTS)
     add_subdirectory(tests)
 endif()
 
+file(GLOB openeft_src
+    "*.h"
+    "*.cpp"
+    "config/*.h"
+    "config/*.cpp"
+    "control/*.h"
+    "control/*.cpp"
+    "log/*.h"
+    "log/*.cpp"
+)
+
+
 #  The main openeft executableRA
 add_executable( openeft
-    openeft.cpp config/config.cpp control/control.cpp control/console.cpp
+    ${openeft_src}
 )
 
 # 
