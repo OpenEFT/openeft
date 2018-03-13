@@ -14,12 +14,12 @@ C++ programming lanaguage is used in openeft development.
 
 ## Compile and build
 Run following commands in bash/console to build the project:
-    - cmake -H. -Bbuild
-    - cmake --build build -- -j3
+    * cmake -H. -Bbuild
+    * cmake --build build -- -j3
 
 ## IDE support
 OpenEFT can be imported to any IDEs that are capable of parsing cmake configuration files.
- * Import to Netbeans
+ * Import to Netbeans:
     - In the new project pane, choose C/C++ from existing source code and specify the project path.
     - Right-click on the openeft project in the project pane, click properties and change the working
         directory in Pre-Build and Make configurations to "build/" .
