@@ -22,7 +22,7 @@
  ** Use OPENEFT_STD_CLASS to streamline type checking, class instanciation
  ** and runtime communications.
  */
-#define OPENEFT_STD_CLASS(name_of_class)   		\
+#define OPENEFT_STD_CLASS(name_of_class)     \
 public:
 
 /*
@@ -35,15 +35,15 @@ public:
 
   void* operator new(size_t);
   void* operator new[](size_t);
-  
+
   void operator delete(void *);
   void operator delete[](void *);
-  
+
   void find_uninitialized_mem();
-  
+
   virtual ~eftClass();
-  
-  
+
+
 private:
   /* Keep tracking of the memory usage */
   static uint32_t mem_used;

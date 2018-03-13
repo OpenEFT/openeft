@@ -57,7 +57,7 @@ namespace MySpace {
     EN_CONTINUOUS
   } aModel_t;
 
-  #define EVENT_INTEGER				'd'
+  #define EVENT_INTEGER       'd'
   #define EVENT_FLOAT         'f'
 }
 

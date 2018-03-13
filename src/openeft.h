@@ -29,14 +29,14 @@
  */
 class eftOpeneft : public eftClass {
 public:
-  ~eftOpeneft() {
-    delete console;
-  }
-  eftOpeneft() {
-    console = new eftConsole();
-  }
-  
+  ~eftOpeneft();
+  eftOpeneft();
+
   eftConsole *console;
+  eftConfig cfg;
+
+public:
+  void tick();
 };
 
 

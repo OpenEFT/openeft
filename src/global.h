@@ -49,11 +49,11 @@ enum EFT_ERROR_CODE {
 #define ANSI_COLOR_MAGENTA "\x1b[35m "
 #define ANSI_COLOR_CYAN    "\x1b[36m "
 #define ANSI_COLOR_RESET   " \x1b[0m"
-#define MOV_COL_RIGHT_BOOT	"\033[70G"
-#define MOV_COL_RIGHT_CMD  	"\033[20G"
+#define MOV_COL_RIGHT_BOOT "\033[70G"
+#define MOV_COL_RIGHT_CMD   "\033[20G"
 
-#define BOOT_OK		MOV_COL_RIGHT_BOOT "[" ANSI_COLOR_GREEN "DONE" ANSI_COLOR_RESET "]" 
-#define BOOT_FAILED	MOV_COL_RIGHT_BOOT "[" ANSI_COLOR_RED "FAILED" ANSI_COLOR_RESET "]"
+#define BOOT_OK  MOV_COL_RIGHT_BOOT "[" ANSI_COLOR_GREEN "DONE" ANSI_COLOR_RESET "]" 
+#define BOOT_FAILED MOV_COL_RIGHT_BOOT "[" ANSI_COLOR_RED "FAILED" ANSI_COLOR_RESET "]"
 
 
 #define USE_THREAD_LOCAL
@@ -65,12 +65,13 @@ enum EFT_ERROR_CODE {
  ** and prevent Race conditions.
  */
 #ifdef USE_THREAD_LOCAL
-#    define THREAD_LOCAL thread_local
+#define THREAD_LOCAL thread_local
 #else
-#    define THREAD_LOCAL __thread
+#define THREAD_LOCAL __thread
 #endif
 
 
 #undef DEBUG_UNINITIALIZED_MEMORY
 
+#define OPENEFT_HEARTBEAT_MICROSEC 100
 #endif

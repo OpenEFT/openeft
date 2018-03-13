@@ -32,9 +32,9 @@ eftConsole::eftConsole() {
     {EFT_GET_PEER_ADV_TABLE, "get_peer_adv_report"},
     {EFT_GET_NET_COMPLIANCE_TABLE, "get_net_compliance_report"},
     {EFT_GET_NET_OP_TABLE, "get_net_op_report"},
-    {EFT_GET_NET_TR_TABLE, "get_net_tr_report"}};
+    {EFT_GET_NET_TR_TABLE, "get_net_tr_report"}
+  };
 }
-
 
 uint32_t eftConsole::process() {
   uint32_t retval;
@@ -75,7 +75,7 @@ uint32_t eftConsole::process() {
 uint32_t eftConsole::init_stdio(ForkPipes *pipes) {
   pipe((int*) &fork_pipes.p0);
   pipe((int*) &fork_pipes.p1);
-  
+
   pipes = &fork_pipes;
   return EFT_OK;
 }

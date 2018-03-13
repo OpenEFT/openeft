@@ -28,19 +28,17 @@ using namespace std;
 /* 
  * Keep track of the status and respond to control commands
  */
-class eftControl : public eftClass
-{
+class eftControl : public eftClass {
 public:
-  
+
   virtual ~eftControl();
-  
-  enum EFT_COMMANDS
-  {
+
+  enum EFT_COMMANDS {
     EFT_HELP = 0,
     EFT_CHECKUP,
     EFT_RELOAD_CFG,
     EFT_HARD_RESET,
- 
+
     /* I add a set of MIBs here. Hope somewhen in the 
     future we would have standard MIBs for blockchains. */
 
@@ -53,9 +51,8 @@ public:
     EFT_GET_NET_TR_TABLE,
     EFT_COMMANDS_LAST
   };
-  
-  struct HelpResult
-  {
+
+  struct HelpResult {
     string eft_checkup;
     string eft_reload_cfg;
     string eft_hard_reset;
@@ -67,61 +64,44 @@ public:
     string eft_get_net_compliance_table;
     string eft_get_net_tr_table;
   };
-  
-  struct CheckupResult
-  {
+
+  struct CheckupResult {
   };
-  
-  struct ReloadCfgResult
-  {
+
+  struct ReloadCfgResult {
   };
-  
-  struct HardResetResult
-  {
+
+  struct HardResetResult {
   };
-  
-  struct OpTable
-  {
-    
+
+  struct OpTable {
   };
-  
-  struct ComplianceTable
-  {
-    
+
+  struct ComplianceTable {
   };
-  
-  struct TransactionTable
-  {
-    
+
+  struct TransactionTable {
   };
-  
-  struct PeerAdvTable
-  {
-    
+
+  struct PeerAdvTable {
   };
-  
-  struct NetOpTable
-  {
-    
+
+  struct NetOpTable {
   };
-  
-  struct NetComplianceTable
-  {
-    
+
+  struct NetComplianceTable {
   };
-  
-  struct NetTransactionTable
-  {
-    
+
+  struct NetTransactionTable {
   };
 
   virtual uint32_t process() = 0;
-  
+
 protected:
-  
+
   uint32_t help(HelpResult &ret);
   uint32_t checkup(CheckupResult &ret);
-  uint32_t reload_config(ReloadCfgResult &ret);  
+  uint32_t reload_config(ReloadCfgResult &ret);
   uint32_t hard_rest(HardResetResult &ret);
   uint32_t get_op_table(OpTable &ret);
   uint32_t get_compliance_table(ComplianceTable &ret);
@@ -130,7 +110,7 @@ protected:
   uint32_t get_net_op_table(NetOpTable &ret);
   uint32_t get_net_compliance_table(NetComplianceTable &ret);
   uint32_t get_net_transaction_table(NetTransactionTable &ret);
-  
+
 };
 
 #endif /* CONTROL_H */
