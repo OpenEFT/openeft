@@ -14,8 +14,8 @@ C++ programming lanaguage is used in openeft development.
 
 ## Compile and build
 Run following commands in bash/console to build the project:
-    * cmake -H. -Bbuild
-    * cmake --build build -- -j3
+  * "cmake -H. -Bbuild"
+  * "cmake --build build -- -j3"
 
 ## IDE support
 OpenEFT can be imported to any IDEs that are capable of parsing cmake configuration files.
