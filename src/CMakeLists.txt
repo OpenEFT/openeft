@@ -38,14 +38,19 @@ set(Boost_USE_STATIC_LIBS        ON) # only find static libs
 set(Boost_USE_MULTITHREADED      ON)
 set(Boost_USE_STATIC_RUNTIME    OFF)
 find_package(Boost 1.58.0 REQUIRED date_time filesystem system)
+find_package(OpenSSL REQUIRED)
+if(OPENSSL_FOUND)
+    include_directories(${OPENSSL_INCLUDE_DIRS})
+endif()
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
-    #  The main openeft executableRA
-    add_executable(openeft
-        ${openeft_src}
-        )
-    target_link_libraries(openeft ${Boost_LIBRARIES})
 endif()
+
+#  The main openeft executable
+add_executable(openeft
+    ${openeft_src}
+    )
+target_link_libraries(openeft ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES})
 
 # 
 # Deployment
