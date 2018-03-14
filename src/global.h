@@ -22,15 +22,18 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdint.h>
-#include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <thread>
 
+#include <boost/bind.hpp>
+#include <boost/asio.hpp>
+#include <boost/asio/ssl.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
 
