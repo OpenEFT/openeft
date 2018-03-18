@@ -68,6 +68,6 @@ uint32_t eftControl::get_net_compliance_table(NetComplianceTable &ret) {
 uint32_t eftControl::get_net_transaction_table(NetTransactionTable &ret) {
 }
 
-uint32_t init_control() {
-  return EFT_OK;
+void eftControl::tick() {
+  
 }

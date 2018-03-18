@@ -29,25 +29,9 @@ using namespace std;
 class eftConsole : public eftControl {
 public:
   eftConsole();
-  virtual uint32_t process();
   
-  struct ForkPipes {
-    /* pipe 0 */
-    struct pipe_0 {
-      int child_in;
-      int parent_out;
-    }p0;
-    /* pipe 1 */
-    struct pipe_1 {
-      int parent_in;
-      int child_out;
-    }p1;
-  } fork_pipes;
-
-  uint32_t init_stdio(ForkPipes *pipes);
-  uint32_t close_stdio();
-#define READ_FD  0
-#define WRITE_FD 1
+  virtual ~eftConsole();
+  virtual void tick();
   
 private:
 

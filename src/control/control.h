@@ -32,6 +32,7 @@ class eftControl : public eftClass {
 public:
 
   virtual ~eftControl();
+  virtual void tick();
 
   enum EFT_COMMANDS {
     EFT_HELP = 0,
@@ -94,8 +95,6 @@ public:
 
   struct NetTransactionTable {
   };
-
-  virtual uint32_t process() = 0;
 
 protected:
 

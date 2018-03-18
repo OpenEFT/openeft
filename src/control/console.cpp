@@ -18,6 +18,7 @@
 #include "global.h"
 #include "control.h"
 #include "console.h"
+#include "log/log.h"
 
 eftConsole::eftConsole() {
 
@@ -36,46 +37,11 @@ eftConsole::eftConsole() {
   };
 }
 
-uint32_t eftConsole::process() {
-  uint32_t retval;
-  fd_set cmd_fds;
-  uint32_t fdin;
-  char cmd[32];
-
-  struct timeval tmo;
-
-  tmo.tv_sec = 0;
-  tmo.tv_usec = 1000;
-
-
-  /* wait only 1 miliseconds for user input */
-  FD_ZERO(&cmd_fds);
-  FD_SET(fdin, &cmd_fds);
-
-  memset(cmd, 0x00, sizeof (cmd));
-
-  retval = select(fdin + 1, &cmd_fds, NULL, NULL, &tmo);
-  if (retval > 0) {
-    if (read(fdin, cmd, sizeof (cmd)) > 0) {
-      cmd[strlen(cmd) - 1] = '\0';
-
-      int i = 0;
-      int right_cmd = 0;
-      for (i = 0; i < cmd_list.size(); i++) {
-        if (!strcmp(cmd, cmd_list[i].name.c_str())) {
-          right_cmd = 1;
-        }
-      }
-    }
-  }
-
-  return 0;
+eftConsole::~eftConsole() {
+  
 }
 
-uint32_t eftConsole::init_stdio(ForkPipes *pipes) {
-  pipe((int*) &fork_pipes.p0);
-  pipe((int*) &fork_pipes.p1);
-
-  pipes = &fork_pipes;
-  return EFT_OK;
+void eftConsole::tick() {
+  usleep(OPENEFT_HEARTBEAT_MICROSEC);
+  log(LOG_DEBUG, "Beating");
 }

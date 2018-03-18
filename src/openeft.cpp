@@ -32,7 +32,7 @@
 
 using namespace std;
 
-bool TRANSACT = true;
+bool transact = true;
 int* unassigned_mem = NULL;
 
 
@@ -49,10 +49,13 @@ uint32_t init_transaction_handlers(); /* Initialize the transaction messaging st
 uint32_t init_peer(); /* Initialze objects needed to process peer functionalities */
 uint32_t init_openeft(eftOpeneft *openeft); /* Init openeft main object */
 uint32_t get_os_info(); /* Get information about the running host operating system. */
-uint32_t shutdown(); /* Graceful exit */
+uint32_t shutdown(eftOpeneft *openeft); /* Graceful exit */
 
 void print_help();
 void do_optlong(int argc, char* argv[], eftConfig &cfg);
+
+
+EFTOBJ_TICK_INIT(eftConsole);
 
 int main(int argc, char* argv[]) {
   uint32_t ret_code;
@@ -64,9 +67,13 @@ int main(int argc, char* argv[]) {
     log(LOG_EMERG, "return code [%d]", ret_code);
   }
 
-  /* tick on */
-  openeft->tick();
+  while (transact) {
+    usleep(OPENEFT_HEARTBEAT_MICROSEC);
 
+
+  }
+  
+  shutdown(openeft);
   return 0;
 }
 
@@ -157,8 +164,7 @@ void print_help() {
 }
 
 uint32_t init_console(eftConsole* console) {
-  eftConsole::ForkPipes *pipes;
-  console->init_stdio(pipes);
+  EFTOBJ_TICK_ON(eftConsole, console);
   return EFT_OK;
 }
 
@@ -167,9 +173,6 @@ uint32_t getOSInfo() {
   unassigned_mem = p;
 }
 
-uint32_t shutdown() {
-  free(unassigned_mem);
-}
 
 eftOpeneft::~eftOpeneft() {
   delete console;
@@ -180,10 +183,12 @@ eftOpeneft::eftOpeneft() {
 }
 
 void eftOpeneft::tick() {
-  while (true) {
-    usleep(OPENEFT_HEARTBEAT_MICROSEC);
+  
+}
 
 
-  }
-
+uint32_t shutdown(eftOpeneft *openeft) {
+  
+  EFTOBJ_TICK_OFF(eftConsole, openeft->console);
+  free(unassigned_mem);
 }

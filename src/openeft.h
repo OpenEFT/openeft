@@ -31,12 +31,11 @@ class eftOpeneft : public eftClass {
 public:
   ~eftOpeneft();
   eftOpeneft();
+  
+  void tick();
 
   eftConsole *console;
   eftConfig cfg;
-
-public:
-  void tick();
 };
 
 

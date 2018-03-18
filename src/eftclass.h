@@ -18,6 +18,9 @@
 #ifndef _OPENEFT_EFTCLASS_H
 #define _OPENEFT_EFTCLASS_H
 
+
+
+
 /*
  ** Use OPENEFT_STD_CLASS to streamline type checking, class instanciation
  ** and runtime communications.
@@ -43,7 +46,7 @@ public:
 
   virtual ~eftClass();
 
-
+  virtual void tick() = 0;
 private:
   /* Keep tracking of the memory usage */
   static uint32_t mem_used;

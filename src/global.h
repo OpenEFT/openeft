@@ -36,6 +36,7 @@
 #include <boost/asio/ssl.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
+#include <boost/bind.hpp>
 
 enum EFT_ERROR_CODE {
   EFT_OK = 0,
@@ -72,6 +73,19 @@ enum EFT_ERROR_CODE {
 #else
 #define THREAD_LOCAL __thread
 #endif
+
+
+#define EFTOBJ_TICK_INIT(name_of_class) \
+    boost::thread* trd_##name_of_class;
+
+#define EFTOBJ_TICK_ON(name_of_class, eftObj) \
+    log(LOG_DEBUG, "A thread assigned to " #name_of_class "::tick"); \
+    trd_##name_of_class = new boost::thread(boost::bind(&name_of_class::tick, eftObj));
+
+#define EFTOBJ_TICK_OFF(name_of_class, eftObj) \
+    log(LOG_DEBUG, "Waiting for " #name_of_class "::tick to join"); \
+    trd_##name_of_class->join(); \
+    delete trd_##name_of_class;
 
 
 #undef DEBUG_UNINITIALIZED_MEMORY
