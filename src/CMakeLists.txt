@@ -31,13 +31,15 @@ file(GLOB openeft_src
     "control/*.cpp"
     "log/*.h"
     "log/*.cpp"
+    "utils/*.cpp"
+    "utils/*.h"
 )
 
 
 set(Boost_USE_STATIC_LIBS        ON) # only find static libs
 set(Boost_USE_MULTITHREADED      ON)
 set(Boost_USE_STATIC_RUNTIME    OFF)
-find_package(Boost 1.58.0 REQUIRED date_time filesystem thread system)
+find_package(Boost 1.66.0 REQUIRED date_time filesystem thread system)
 find_package(OpenSSL REQUIRED)
 if(OPENSSL_FOUND)
     include_directories(${OPENSSL_INCLUDE_DIRS})

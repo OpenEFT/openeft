@@ -35,27 +35,9 @@ using namespace std;
 bool transact = true;
 int* unassigned_mem = NULL;
 
-
-uint32_t init_console(eftConsole* console); /* Initialize console */
-uint32_t init_blockchain(); /* Initialize the blockchains */
-uint32_t init_consensus(); /* Initialzie consensus state machine */
-uint32_t init_comms(); /* Initialize the network interfaces */
-uint32_t init_config(const eftConfig &cfg); /* Read and apply the configurations */
-uint32_t init_eftnode(); /* Init the eftnode properties if this deamon configured as an eftnode */
-uint32_t init_hsm(); /* Initialize the HSMs' connections and command base */
-uint32_t init_ssm(); /* Initialize the internal SSM */
-uint32_t init_kernel(); /* Initialize and boot the core eft protocol state machine */
-uint32_t init_transaction_handlers(); /* Initialize the transaction messaging standard */
-uint32_t init_peer(); /* Initialze objects needed to process peer functionalities */
-uint32_t init_openeft(eftOpeneft *openeft); /* Init openeft main object */
-uint32_t get_os_info(); /* Get information about the running host operating system. */
-uint32_t shutdown(eftOpeneft *openeft); /* Graceful exit */
-
 void print_help();
 void do_optlong(int argc, char* argv[], eftConfig &cfg);
-
-
-EFTOBJ_TICK_INIT(eftConsole);
+void get_os_info();
 
 int main(int argc, char* argv[]) {
   uint32_t ret_code;
@@ -63,37 +45,16 @@ int main(int argc, char* argv[]) {
 
   do_optlong(argc, argv, openeft->cfg);
 
-  if (ret_code = init_openeft(openeft) != EFT_OK) {
+  if (ret_code = openeft->init() != EFT_OK) {
     log(LOG_EMERG, "return code [%d]", ret_code);
   }
 
-  while (transact) {
-    usleep(OPENEFT_HEARTBEAT_MICROSEC);
-
-
-  }
+  openeft->tick();
   
-  shutdown(openeft);
+  openeft->shutdown();
+  delete openeft;
+
   return 0;
-}
-
-uint32_t init_config(const eftConfig &cfg) {
-  return EFT_OK;
-}
-
-uint32_t init_openeft(eftOpeneft* openeft) {
-  uint32_t retcode;
-
-  /* I N I T */
-  if (retcode = init_config(openeft->cfg) != EFT_OK)
-    log(LOG_EMERG, "Configuration failed [%d]", retcode);
-
-  if (retcode = init_console(openeft->console) != EFT_OK)
-    log(LOG_EMERG, "Console initialization failed [%d]", retcode);
-
-  log(LOG_INFO, "Openeft initialization done");
-
-  return EFT_OK;
 }
 
 void do_optlong(int argc, char* argv[], eftConfig &cfg) {
@@ -163,16 +124,10 @@ void print_help() {
   return;
 }
 
-uint32_t init_console(eftConsole* console) {
-  EFTOBJ_TICK_ON(eftConsole, console);
-  return EFT_OK;
-}
-
-uint32_t getOSInfo() {
+void getOSInfo() {
   int *p = (int*) malloc(1);
   unassigned_mem = p;
 }
-
 
 eftOpeneft::~eftOpeneft() {
   delete console;
@@ -182,13 +137,40 @@ eftOpeneft::eftOpeneft() {
   console = new eftConsole();
 }
 
-void eftOpeneft::tick() {
-  
+uint32_t eftOpeneft::init() {
+  uint32_t retcode;
+
+  /* I N I T */
+  if (retcode = init_config() != EFT_OK)
+    log(LOG_EMERG, "Configuration failed [%d]", retcode);
+
+  if (retcode = init_console() != EFT_OK)
+    log(LOG_EMERG, "Console initialization failed [%d]", retcode);
+
+  log(LOG_INFO, "Openeft initialization done");
+
+  return EFT_OK;
 }
 
+uint32_t eftOpeneft::init_config() {
+  return EFT_OK;
+}
 
-uint32_t shutdown(eftOpeneft *openeft) {
-  
-  EFTOBJ_TICK_OFF(eftConsole, openeft->console);
+uint32_t eftOpeneft::init_console() {
+  EFTOBJ_TICK_ON(eftConsole, console);
+  return EFT_OK;
+}
+
+uint32_t eftOpeneft::shutdown() {
+
+  EFTOBJ_TICK_OFF(eftConsole, console);
   free(unassigned_mem);
+}
+
+void eftOpeneft::tick() {
+  while (transact) {
+    usleep(OPENEFT_HEARTBEAT_MICROSEC);
+    log(LOG_EMERG, "Ticking");
+
+  }
 }

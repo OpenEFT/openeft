@@ -16,42 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 
-#ifndef _OPENEFT_LOG_H
-#define _OPENEFT_LOG_H
+#ifndef _OPENEFT_UTILS_H
+#define _OPENEFT_UTILS_H
 
 #include "global.h"
-#include "utils/utils.h"
-#include "config/config.h"
 
-#define LOG_EMERG  0
-#define LOG_ALERT  1
-#define LOG_CRIT   2 
-#define LOG_ERR    3
-#define LOG_WARNING  4
-#define LOG_NOTICE   5
-#define LOG_INFO     6
-#define LOG_DEBUG    7
-#define LOG_DEFAULT  d
-#define LOG_CONT     c
+uint32_t get_thread_id();
+uint32_t get_process_id();
 
-/*
- ** Log format
- ** [File Name][Line No][Function Name][PID] [Log Content...]
- ** 
- */
-
-#define log(level, fmt, ...) \
-        do { \
-          if (level <= eftConfig::log_run_level) \
-            dprintf(eftConfig::log_fp, "[%s][%d][%s()][%u:%u]""\033[90G""[" fmt "]\n", \
-                                __FILE__, \
-                                __LINE__, \
-                                __func__, \
-                                get_process_id(), \
-                                get_thread_id(), \
-                                ## __VA_ARGS__); \
-        } while (0)
-
-#endif
-
+#endif /* UTILS_H */
 

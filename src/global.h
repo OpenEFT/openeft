@@ -35,7 +35,9 @@
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
+#include <boost/process.hpp>
 #include <boost/bind.hpp>
 
 enum EFT_ERROR_CODE {
@@ -54,27 +56,16 @@ enum EFT_ERROR_CODE {
 #define ANSI_COLOR_CYAN    "\x1b[36m "
 #define ANSI_COLOR_RESET   " \x1b[0m"
 #define MOV_COL_RIGHT_BOOT "\033[70G"
-#define MOV_COL_RIGHT_CMD   "\033[20G"
+#define MOV_COL_RIGHT_CMD  "\033[20G"
 
 #define BOOT_OK  MOV_COL_RIGHT_BOOT "[" ANSI_COLOR_GREEN "DONE" ANSI_COLOR_RESET "]" 
 #define BOOT_FAILED MOV_COL_RIGHT_BOOT "[" ANSI_COLOR_RED "FAILED" ANSI_COLOR_RESET "]"
 
 
-#define USE_THREAD_LOCAL
-
 /* 
- ** I will keep openeft single-threaded as much as I can but
- ** if in turned out that we need to play with threads, we
- ** need to make sure to thread-safe global variables properly
- ** and prevent Race conditions.
+ ** With these global macros I aim to keep threading works out of the class design.
+ ** Having to deal with threads in a class hierarchy is a pitfall IMO.
  */
-#ifdef USE_THREAD_LOCAL
-#define THREAD_LOCAL thread_local
-#else
-#define THREAD_LOCAL __thread
-#endif
-
-
 #define EFTOBJ_TICK_INIT(name_of_class) \
     boost::thread* trd_##name_of_class;
 

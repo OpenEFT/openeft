@@ -18,7 +18,7 @@
 #ifndef _OPENEFT_EFTCLASS_H
 #define _OPENEFT_EFTCLASS_H
 
-
+#include "global.h"
 
 
 /*

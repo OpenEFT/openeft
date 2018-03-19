@@ -15,35 +15,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
-#include "global.h"
-#include "control.h"
-#include "console.h"
-#include "log/log.h"
+#include "utils.h"
 
-eftConsole::eftConsole() {
-
-  cmd_list = {
-    {EFT_HELP, "help"},
-    {EFT_CHECKUP, "checkup"},
-    {EFT_HARD_RESET, "reset"},
-    {EFT_RELOAD_CFG, "reload"},
-    {EFT_GET_TR_TABLE, "get_tr_report"},
-    {EFT_GET_COMPLIANCE_TABLE, "get_compliance_report"},
-    {EFT_GET_OP_TABLE, "get_op_report"},
-    {EFT_GET_PEER_ADV_TABLE, "get_peer_adv_report"},
-    {EFT_GET_NET_COMPLIANCE_TABLE, "get_net_compliance_report"},
-    {EFT_GET_NET_OP_TABLE, "get_net_op_report"},
-    {EFT_GET_NET_TR_TABLE, "get_net_tr_report"}
-  };
+uint32_t get_thread_id() {
+  std::string thread_id = boost::lexical_cast<std::string>(boost::this_thread::get_id());
+  uint32_t thread_no = 0;
+  sscanf(thread_id.c_str(), "%x", &thread_no);
+  return thread_no;
 }
 
-eftConsole::~eftConsole() {
-  
-}
-
-void eftConsole::tick() {
-  while (true) {
-    usleep(OPENEFT_HEARTBEAT_MICROSEC);
-    log(LOG_DEBUG, "Ticking");
-  }
+uint32_t get_process_id() {
+  std::string proc_id = boost::lexical_cast<std::string>(boost::this_process::get_id());
+  uint32_t proc_no = 0;
+  sscanf(proc_id.c_str(), "%x", &proc_no);
+  return proc_no;
 }
