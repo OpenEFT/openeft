@@ -33,13 +33,30 @@ public:
   virtual ~eftConsole();
   virtual void tick();
   
+  uint32_t handle_command(string cmd);
+  
 private:
-
   struct Command {
     int id;
     string name;
+    uint32_t (eftConsole::*command_fptr)();
+    string dump() {
+      return "id [" + to_string(id) + "] " + name;
+    }
   };
   vector<Command> cmd_list;
+
+  uint32_t help_cmd();
+  uint32_t checkup_cmd();
+  uint32_t hard_reset_cmd();
+  uint32_t reload_cfg_cmd();
+  uint32_t get_tr_table_cmd();
+  uint32_t get_compliance_table_cmd();
+  uint32_t get_op_table_cmd();
+  uint32_t get_peer_adv_table_cmd();
+  uint32_t get_net_compliance_table_cmd();
+  uint32_t get_net_op_table_cmd();
+  uint32_t get_net_tr_table_cmd();    
 };
 
 

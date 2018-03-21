@@ -48,13 +48,13 @@ enum EFT_ERROR_CODE {
 };
 
 
-#define ANSI_COLOR_RED     "\x1b[31m "
-#define ANSI_COLOR_GREEN   "\x1b[32m "
-#define ANSI_COLOR_YELLOW  "\x1b[33m "
-#define ANSI_COLOR_BLUE    "\x1b[34m "
-#define ANSI_COLOR_MAGENTA "\x1b[35m "
-#define ANSI_COLOR_CYAN    "\x1b[36m "
-#define ANSI_COLOR_RESET   " \x1b[0m"
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET    "\x1b[0m"
 #define MOV_COL_RIGHT_BOOT "\033[70G"
 #define MOV_COL_RIGHT_CMD  "\033[20G"
 
@@ -82,4 +82,9 @@ enum EFT_ERROR_CODE {
 #undef DEBUG_UNINITIALIZED_MEMORY
 
 #define OPENEFT_HEARTBEAT_MICROSEC 100
+
+
+#define CALL_MEMBER_FN(object, pointer_to_member_function) \
+   (object->*(pointer_to_member_function))
+
 #endif

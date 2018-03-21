@@ -170,7 +170,5 @@ uint32_t eftOpeneft::shutdown() {
 void eftOpeneft::tick() {
   while (transact) {
     usleep(OPENEFT_HEARTBEAT_MICROSEC);
-    log(LOG_EMERG, "Ticking");
-
   }
 }

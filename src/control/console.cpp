@@ -23,17 +23,17 @@
 eftConsole::eftConsole() {
 
   cmd_list = {
-    {EFT_HELP, "help"},
-    {EFT_CHECKUP, "checkup"},
-    {EFT_HARD_RESET, "reset"},
-    {EFT_RELOAD_CFG, "reload"},
-    {EFT_GET_TR_TABLE, "get_tr_report"},
-    {EFT_GET_COMPLIANCE_TABLE, "get_compliance_report"},
-    {EFT_GET_OP_TABLE, "get_op_report"},
-    {EFT_GET_PEER_ADV_TABLE, "get_peer_adv_report"},
-    {EFT_GET_NET_COMPLIANCE_TABLE, "get_net_compliance_report"},
-    {EFT_GET_NET_OP_TABLE, "get_net_op_report"},
-    {EFT_GET_NET_TR_TABLE, "get_net_tr_report"}
+    {EFT_HELP, "help", &eftConsole::help_cmd},
+    {EFT_CHECKUP, "checkup", &eftConsole::checkup_cmd},
+    {EFT_HARD_RESET, "reset", &eftConsole::hard_reset_cmd},
+    {EFT_RELOAD_CFG, "reload", &eftConsole::reload_cfg_cmd},
+    {EFT_GET_TR_TABLE, "get_tr_report", &eftConsole::get_tr_table_cmd},
+    {EFT_GET_COMPLIANCE_TABLE, "get_compliance_report", &eftConsole::get_compliance_table_cmd},
+    {EFT_GET_OP_TABLE, "get_op_report", &eftConsole::get_op_table_cmd},
+    {EFT_GET_PEER_ADV_TABLE, "get_peer_adv_report", &eftConsole::get_peer_adv_table_cmd},
+    {EFT_GET_NET_COMPLIANCE_TABLE, "get_net_compliance_report", &eftConsole::get_net_compliance_table_cmd},
+    {EFT_GET_NET_OP_TABLE, "get_net_op_report", &eftConsole::get_net_op_table_cmd},
+    {EFT_GET_NET_TR_TABLE, "get_net_tr_report", &eftConsole::get_net_tr_table_cmd}
   };
 }
 
@@ -42,8 +42,82 @@ eftConsole::~eftConsole() {
 }
 
 void eftConsole::tick() {
+  bool console_active = false;
+  string cmd = "";
+
   while (true) {
     usleep(OPENEFT_HEARTBEAT_MICROSEC);
-    log(LOG_DEBUG, "Ticking");
+
+    std::getline(std::cin, cmd);
+
+    if (console_active == false && cmd.empty()) {
+      console_active = true;
+      eftConfig::log_enabled = false;
+      log(LOG_CONSOLE, "Console activated");
+    }
+
+    if (console_active == true) 
+      if (cmd == "exit") {
+        console_active = false;
+        eftConfig::log_enabled = true;
+        log(LOG_CONSOLE, "Console deactivated");
+        continue;
+      }     
+    
+    handle_command(cmd);
   }
+}
+
+uint32_t eftConsole::handle_command(string cmd) {
+  uint32_t ret = EFT_OK;
+  
+  log(LOG_DEBUG, "Command [%s] received", cmd.c_str());
+  
+  for(vector<Command>::iterator it = cmd_list.begin();
+            it != cmd_list.end();
+              it++) {
+    Command *command = &(*it);
+
+    if(command->name == cmd) {
+      log(LOG_DEBUG, "%s", command->dump().c_str());
+      CALL_MEMBER_FN(this, command->command_fptr)();
+    }
+  }
+  
+  return ret;
+}
+
+uint32_t eftConsole::help_cmd() {
+  
+}
+
+uint32_t eftConsole::checkup_cmd() {
+  
+}
+uint32_t eftConsole::hard_reset_cmd() {
+  
+}
+uint32_t eftConsole::reload_cfg_cmd() {
+  
+}
+uint32_t eftConsole::get_tr_table_cmd() {
+  
+}
+uint32_t eftConsole::get_compliance_table_cmd() {
+  
+}
+uint32_t eftConsole::get_op_table_cmd() {
+  
+}
+uint32_t eftConsole::get_peer_adv_table_cmd() {
+  
+}
+uint32_t eftConsole::get_net_compliance_table_cmd() {
+  
+}
+uint32_t eftConsole::get_net_op_table_cmd() {
+  
+}
+uint32_t eftConsole::get_net_tr_table_cmd() {
+  
 }

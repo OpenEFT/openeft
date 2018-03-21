@@ -23,16 +23,22 @@
 #include "utils/utils.h"
 #include "config/config.h"
 
-#define LOG_EMERG  0
-#define LOG_ALERT  1
-#define LOG_CRIT   2 
-#define LOG_ERR    3
+#define LOG_EMERG    0
+#define LOG_ALERT    1
+#define LOG_CRIT     2
+#define LOG_ERR      3
 #define LOG_WARNING  4
 #define LOG_NOTICE   5
 #define LOG_INFO     6
 #define LOG_DEBUG    7
-#define LOG_DEFAULT  d
-#define LOG_CONT     c
+#define LOG_TRACE    8
+#define LOG_DEFAULT  9
+#define LOG_CONT     10
+
+#define LOG_CONSOLE  11
+
+
+void dumpb(const uint8_t *buffer, uint32_t len);
 
 /*
  ** Log format
@@ -42,16 +48,35 @@
 
 #define log(level, fmt, ...) \
         do { \
-          if (level <= eftConfig::log_run_level) \
-            dprintf(eftConfig::log_fp, "[%s][%d][%s()][%u:%u]""\033[90G""[" fmt "]\n", \
-                                __FILE__, \
-                                __LINE__, \
-                                __func__, \
-                                get_process_id(), \
-                                get_thread_id(), \
-                                ## __VA_ARGS__); \
+          if (level == LOG_CONSOLE) \
+            dprintf(eftConfig::log_fp, ANSI_COLOR_BLUE fmt ANSI_COLOR_RESET"\n", \
+                                  ## __VA_ARGS__); \
+          if(eftConfig::log_enabled) \
+            if (level <= eftConfig::log_run_level) \
+              dprintf(eftConfig::log_fp, "[%s][%d][%s()][%u:%u]""\033[100G" fmt "\n", \
+                                  __FILE__, \
+                                  __LINE__, \
+                                  __func__, \
+                                  get_process_id(), \
+                                  get_thread_id(), \
+                                  ## __VA_ARGS__); \
         } while (0)
 
+#define logb(level, string, buf, len) \
+        do { \
+          if(eftConfig::log_enabled) \
+            if (level <= eftConfig::log_run_level) \
+              dprintf(eftConfig::log_fp, "[%s][%d][%s()][%u:%u]\033[90G%s:\n", \
+                                  __FILE__, \
+                                  __LINE__, \
+                                  __func__, \
+                                  get_process_id(), \
+                                  get_thread_id(), \
+                                  string); \
+              dprintf(eftConfig::log_fp, "\n"); \
+              dumpb(buf, len); \
+              dprintf(eftConfig::log_fp, "\n"); \
+        } while (0)
+
+
 #endif
-
-

@@ -33,6 +33,7 @@ public:
   /* fd to collect the logs */
   static uint32_t log_fp;
   static uint32_t log_run_level;
+  static bool log_enabled;
 };
 
 #endif /* CONFIG_H */
