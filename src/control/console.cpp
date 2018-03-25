@@ -53,7 +53,7 @@ void eftConsole::tick() {
 
     if (console_active == false && cmd.empty()) {
       console_active = true;
-      //eftConfig::log_enabled = false;
+      eftConfig::log_enabled = false;
       log(LOG_CONSOLE, "Console activated");
     }
 
@@ -128,7 +128,8 @@ uint32_t eftConsole::banchmark_comms_cmd() {
   log(LOG_CONSOLE, "Communication benchmark information:");
   log(LOG_CONSOLE, "Number of connections: [%d]", benchmark.no_connections);
   log(LOG_CONSOLE, "Number of messages: [%d]", benchmark.no_messages);
-  log(LOG_CONSOLE, "Total volume transferred: [%d]Mb", benchmark.volume);
-  log(LOG_CONSOLE, "Duration: [%d]s", benchmark.duration);
+  log(LOG_CONSOLE, "Total volume transferred: [%d]MB", benchmark.volume);
+  log(LOG_CONSOLE, "Duration: [%d]ms", benchmark.duration);
+  log(LOG_CONSOLE, "Rate: [%d]Mbs", benchmark.rate);
   return EFT_OK;
 }

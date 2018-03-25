@@ -4,7 +4,7 @@
  ** Description Line
  ** Description Line
  */
-class OfSomeClass {
+class eftComseClass {
   private:
     byte          *data;
     time_t         time;

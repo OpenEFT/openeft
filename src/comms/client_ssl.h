@@ -21,20 +21,20 @@
 
 #include "eftclass.h"
 
-class ClientConnection : public eftClass {
+class eftClientCon : public eftClass {
 public:
-    ClientConnection(asio::io_service &ioService,
-        asio::ip::tcp::resolver::iterator iterator, std::size_t messageSize);
+  eftClientCon(asio::io_service &io_srv,
+    asio::ip::tcp::resolver::iterator iterator, uint32_t msg_size);
 
-    virtual ~ClientConnection();
-    virtual void tick();
-    
-    void asyncSend(std::size_t messages);
+  virtual ~eftClientCon();
+  virtual void tick();
+
+  void async_send(uint32_t messages);
 
 private:
-    asio::ssl::context m_context;
-    asio::ssl::stream<asio::ip::tcp::socket> m_socket;
-    std::vector<char> m_buffer;
+  asio::ssl::context context;
+  asio::ssl::stream<asio::ip::tcp::socket> socket;
+  std::vector<char> buffer;
 };
 
 

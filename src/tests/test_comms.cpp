@@ -25,73 +25,71 @@
 
 
 eftTestComms::eftTestComms(uint32_t threads_no,
-            uint32_t no_connections,
-            uint32_t no_messages,
-            uint32_t message_size)
-            : conx(no_connections)
-            , msg_no(no_messages)
-            , msg_size(message_size)
-            , ioServices(threads_no)
-            , server{ioServices, conx, msg_no, msg_size} {
-  log(LOG_DEBUG, " ");
-  clients = createClients(ioServices, msg_size, conx);
+        uint32_t no_connections,
+        uint32_t no_messages,
+        uint32_t message_size)
+: io_services(threads_no)
+, server{io_services, no_connections, no_messages, message_size}
+{
+
+  conx = no_connections;
+  msg_no = no_messages;
+  msg_size = message_size;
+
+  clients = create_clients(io_services, msg_size, conx);
 }
 
 eftTestComms::~eftTestComms() {
-  
+
 }
 
 void eftTestComms::tick() {
-  
+
 }
 
-std::vector<std::shared_ptr<ClientConnection>> eftTestComms::createClients(
-        IoServices &ioServices, std::size_t messageSize, std::size_t number) {
-  asio::ip::tcp::resolver resolver{ioServices.get()};
-log(LOG_DEBUG, " ");
-  auto iterator = 
-      resolver.resolve({eftConfig::ssl_ipaddr, to_string(eftConfig::ssl_port)});
-log(LOG_DEBUG, " ");
-  std::vector<std::shared_ptr < ClientConnection>> clients;
-  log(LOG_DEBUG, " ");
+std::vector<std::shared_ptr<eftClientCon>> eftTestComms::create_clients(
+        eftIoService &io_srvs, uint32_t msg_size, uint32_t number) {
+  asio::ip::tcp::resolver resolver{io_srvs.get()};
+  auto iterator =
+          resolver.resolve({eftConfig::ssl_ipaddr, to_string(eftConfig::ssl_port)});
+  std::vector<std::shared_ptr < eftClientCon>> clients;
   std::generate_n(std::back_inserter(clients), number, [&] {
-    return std::make_shared<ClientConnection>(
-            ioServices.get(), iterator, messageSize);
+    return std::make_shared<eftClientCon>(
+            io_services.get(), iterator, msg_size);
   });
 
   return clients;
 }
 
-std::chrono::milliseconds eftTestComms::measureTransferTime(
-    std::vector<std::shared_ptr<ClientConnection>> &clients,
-    std::size_t messages)
-{
-    auto startTime = std::chrono::steady_clock::now();
-log(LOG_DEBUG, " ");
-    for (auto &client : clients) {
-      log(LOG_DEBUG, " ");
-        client->asyncSend(messages);
-    }
-    while (ServerConnection::runningConnections() != 0) {
-      log(LOG_DEBUG, " ");
-        std::this_thread::sleep_for(std::chrono::milliseconds{10});
-    }
-log(LOG_DEBUG, " ");
-    auto stopTime = std::chrono::steady_clock::now();
-log(LOG_DEBUG, " ");
-    return std::chrono::duration_cast<std::chrono::milliseconds>(
-        stopTime - startTime);
+std::chrono::milliseconds eftTestComms::measure_transfer_time(
+        std::vector<std::shared_ptr<eftClientCon>> &clients,
+        uint32_t messages) {
+  auto start_time = std::chrono::steady_clock::now();
+
+  for (auto &client : clients) {
+    client->async_send(messages);
+  }
+  while (eftCommSession::running_connections() != 0) {
+    std::this_thread::sleep_for(std::chrono::milliseconds{10});
+  }
+
+  auto stop_time = std::chrono::steady_clock::now();
+
+  return std::chrono::duration_cast<std::chrono::milliseconds>(
+          stop_time - start_time);
 }
 
 void eftTestComms::stop(TestResult& result) {
-  auto duration = measureTransferTime(clients, msg_no);
-  result.seconds = static_cast<double> (duration.count()) / 1000;  
-  
+
+  auto duration = measure_transfer_time(clients, msg_no);
+
+  result.milli_seconds = static_cast<double> (duration.count());
+
   result.conx = conx;
   result.msg_no = msg_no;
   result.msg_size = msg_size;
-  
+
   last_test_result = result;
-  
-  ioServices.stop();
+
+  io_services.stop();
 }

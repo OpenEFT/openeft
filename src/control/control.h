@@ -104,7 +104,8 @@ public:
     uint32_t no_connections;
     uint32_t no_messages;
     uint32_t volume;
-    uint32_t duration;
+    uint32_t duration; /* millisecond */
+    uint32_t rate; /* Mbs */
   };
 
 protected:

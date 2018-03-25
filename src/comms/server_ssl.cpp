@@ -23,120 +23,99 @@
 #include "config/config.h"
 
 
-std::atomic<std::size_t> ServerConnection::s_runningConnections {
+std::atomic<uint32_t> eftCommSession::running_conx {
   0
 };
 
-ServerConnection::ServerConnection(asio::io_service &ioService, asio::ssl::context &context,
-        std::size_t messageSize)
-: m_socket{ioService, context}
+eftCommSession::eftCommSession(asio::io_service &io_srv, asio::ssl::context &context,
+        uint32_t msg_size)
+: socket{io_srv, context}
 
-, m_buffer(messageSize) {
-log(LOG_DEBUG, " ");
-  ++s_runningConnections;
+, buffer(msg_size) {
+  ++running_conx;
 }
 
-ServerConnection::~ServerConnection() {
-  log(LOG_DEBUG, " ");
-  --s_runningConnections;
+eftCommSession::~eftCommSession() {
+  --running_conx;
 }
 
-asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& ServerConnection::socket() {
-  log(LOG_DEBUG, " ");
-  return m_socket.lowest_layer();
+asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type& eftCommSession::get_socket() {
+  return socket.lowest_layer();
 }
 
-void ServerConnection::start(std::shared_ptr<ServerConnection> self, std::size_t messages) {
-  log(LOG_DEBUG, " ");
-  m_socket.async_handshake(asio::ssl::stream_base::server,
-          [ = ](const system::error_code &){asyncRead(self, messages);});
+void eftCommSession::start(std::shared_ptr<eftCommSession> self, uint32_t no_messages) {
+  socket.async_handshake(asio::ssl::stream_base::server,
+          [ = ](const system::error_code &){async_read(self, no_messages);});
 }
 
-std::size_t ServerConnection::runningConnections() {
-  log(LOG_DEBUG, " ");
-  return s_runningConnections;
+uint32_t eftCommSession::running_connections() {
+  return running_conx;
 }
 
-void ServerConnection::asyncRead(std::shared_ptr<ServerConnection> self, size_t messages) {
-  log(LOG_DEBUG, " ");
-  asio::async_read(m_socket, boost::asio::buffer(m_buffer),
-          [ = ](const system::error_code &, std::size_t){
-            log(LOG_DEBUG, " ");
-    if (messages > 1) {
-      log(LOG_DEBUG, " ");
-            asyncRead(self, messages - 1);
+void eftCommSession::async_read(std::shared_ptr<eftCommSession> self, uint32_t no_messages) {
+  asio::async_read(socket, boost::asio::buffer(buffer),
+          [ = ](const system::error_code &, uint32_t){
+    if (no_messages > 1) {
+            async_read(self, no_messages - 1);
     }
     });
 }
 
-IoServices::IoServices(std::size_t number)
-: m_ioServices(number) {
-  log(LOG_DEBUG, " ");
-  for (auto &ioService : m_ioServices) {
-    log(LOG_DEBUG, " ");
-    m_idleWorks.emplace_back(ioService);
-    m_threads.emplace_back([&] {
-      ioService.run(); });
+eftIoService::eftIoService(uint32_t number)
+: io_services(number) {
+  for (auto &io_srv : io_services) {
+    idle_works.emplace_back(io_srv);
+    threads.emplace_back([&] {
+      io_srv.run(); });
   }
 }
 
-void IoServices::stop() {
-  log(LOG_DEBUG, " ");
-  for (auto &ioService : m_ioServices)
-    ioService.stop();
-log(LOG_DEBUG, " ");
-  for (auto &thread : m_threads)
+void eftIoService::stop() {
+  for (auto &io_srv : io_services)
+    io_srv.stop();
+  for (auto &thread : threads)
     if (thread.joinable())
       thread.join();
 }
 
-IoServices::~IoServices() {
-  log(LOG_DEBUG, " ");
+eftIoService::~eftIoService() {
   stop();
 }
 
-asio::io_service& IoServices::get() {
-  return m_ioServices[(m_nextService++ % m_ioServices.size())];
+asio::io_service& eftIoService::get() {
+  return io_services[(next_service++ % io_services.size())];
 }
 
-Server::Server(IoServices &ioServices, std::size_t connections,
-        std::size_t messages, std::size_t messageSize)
-: m_context{asio::ssl::context::tlsv12_server}
+eftServer::eftServer(eftIoService &io_srvs, uint32_t connections,
+        uint32_t no_msgs, uint32_t msg_size)
+: context{asio::ssl::context::tlsv12_server}
 
-, m_acceptor{m_ioServices.get(), {
+, acceptor{io_srvs.get(), {
     asio::ip::tcp::v4(), eftConfig::ssl_port
   }}
-, m_ioServices{ioServices}
-, m_messages{messages}
-, m_messageSize{messageSize}
+, io_services{io_srvs}
+, no_messages{no_msgs}
+, message_size{msg_size}
 {
-  log(LOG_DEBUG, " ");
-  m_context.use_certificate_chain_file(eftConfig::ssl_cert);
-  m_context.use_private_key_file(eftConfig::ssl_key, asio::ssl::context::pem);
-  asyncAccept(connections);
+  context.use_certificate_chain_file(eftConfig::ssl_cert);
+  context.use_private_key_file(eftConfig::ssl_key, asio::ssl::context::pem);
+  async_accept(connections);
 }
 
-Server::~Server() {
-
-}
-
-void Server::tick() {
+eftServer::~eftServer() {
 
 }
 
-void Server::asyncAccept(std::size_t connections) {
-  log(LOG_DEBUG, " ");
-  auto conn = std::make_shared<ServerConnection>(
-          m_ioServices.get(), m_context, m_messageSize);
-  log(LOG_DEBUG, " ");
-  m_acceptor.async_accept(conn->socket(), [ = ](const system::error_code &){
-    log(LOG_DEBUG, " ");
-    conn->start(conn, m_messages);
-    log(LOG_DEBUG, " ");
+void eftServer::tick() {}
+
+void eftServer::async_accept(uint32_t connections) {
+  auto conn = std::make_shared<eftCommSession>(
+          io_services.get(), context, message_size);
+  acceptor.async_accept(conn->get_socket(), [ = ](const system::error_code &){
+    conn->start(conn, no_messages);
     if (connections > 1) {
-      log(LOG_DEBUG, " ");
-            asyncAccept(connections - 1);
+      async_accept(connections - 1);
     }
-    });
+  });
 }
 

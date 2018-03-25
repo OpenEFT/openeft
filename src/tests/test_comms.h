@@ -36,23 +36,23 @@ public:
     uint32_t conx;
     uint32_t msg_no;
     uint32_t msg_size;
-    uint32_t seconds;
+    uint32_t milli_seconds;
   };
 
   
   void stop(TestResult& result);
  
 private:
-  std::vector<std::shared_ptr<ClientConnection>> createClients(
-    IoServices &ioServices, std::size_t messageSize, std::size_t number);
+  std::vector<std::shared_ptr<eftClientCon>> create_clients(
+    eftIoService &io_srvs, uint32_t msg_size, uint32_t number);
 
-  std::chrono::milliseconds measureTransferTime(
-    std::vector<std::shared_ptr<ClientConnection>> &clients,
-    std::size_t messages);
+  std::chrono::milliseconds measure_transfer_time(
+    std::vector<std::shared_ptr<eftClientCon>> &clients,
+    uint32_t messages);
 
-  IoServices ioServices;
-  Server server;
-  std::vector<std::shared_ptr<ClientConnection>> clients;
+  eftIoService io_services;
+  eftServer server;
+  std::vector<std::shared_ptr<eftClientCon>> clients;
 
   uint32_t conx;
   uint32_t msg_no;

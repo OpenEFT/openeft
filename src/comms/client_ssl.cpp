@@ -20,34 +20,27 @@
 #include "client_ssl.h"
 
 
-ClientConnection::ClientConnection(asio::io_service &ioService,
-        asio::ip::tcp::resolver::iterator iterator, std::size_t messageSize)
-        : m_context{asio::ssl::context::tlsv12_client}
-        , m_socket{ioService, m_context}
-        , m_buffer(messageSize) {
-  log(LOG_DEBUG, " ");
-  asio::connect(m_socket.lowest_layer(), iterator);
-  log(LOG_DEBUG, " ");
-  m_socket.handshake(asio::ssl::stream_base::client);
-  log(LOG_DEBUG, " ");
-}
-        
-ClientConnection::~ClientConnection() {
-
+eftClientCon::eftClientCon(asio::io_service &io_srv,
+        asio::ip::tcp::resolver::iterator iterator, uint32_t msg_size)
+: context{asio::ssl::context::tlsv12_client}
+, socket{io_srv, context}
+, buffer(msg_size) {
+  asio::connect(socket.lowest_layer(), iterator);
+  socket.handshake(asio::ssl::stream_base::client);
 }
 
-void ClientConnection::tick() {
-
+eftClientCon::~eftClientCon() {
 }
 
+void eftClientCon::tick() {
+}
 
-void ClientConnection::asyncSend(std::size_t messages) {
-log(LOG_DEBUG, " ");
-  asio::async_write(m_socket, asio::buffer(m_buffer),
-          [ = ](const system::error_code &, std::size_t){
+void eftClientCon::async_send(uint32_t messages) {
+  asio::async_write(socket, asio::buffer(buffer),
+          [ = ](const system::error_code &, uint32_t){
     if (messages > 1) {
-      log(LOG_DEBUG, " ");
-            asyncSend(messages - 1);
+      async_send(messages - 1);
     }
-    });
+  });
+
 }

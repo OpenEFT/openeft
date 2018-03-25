@@ -71,21 +71,18 @@ uint32_t eftControl::get_net_transaction_table(NetTransactionTable &ret) {
 }
 
 uint32_t eftControl::get_comms_benchmak(CommsBenchmarkTable &benchmark) {
-log(LOG_DEBUG, " ");  
   eftTestComms::TestResult result;
-  log(LOG_DEBUG, " ");
   eftTestComms* t = new eftTestComms(eftConfig::comms_no_threads,
                                         eftConfig::comms_no_conx,
                                         1,
-                                        1024 * 1204); 
+                                        256 * 3);
   t->stop(result);
-  log(LOG_DEBUG, " ");
-  benchmark.duration = result.seconds;
+  benchmark.duration = result.milli_seconds;
   benchmark.no_connections = result.conx;
   benchmark.no_messages = result.msg_no;
   benchmark.volume =  
           static_cast<double>(result.conx * result.msg_no * result.msg_size) / 1024 / 1024;
-  
+  benchmark.rate = ((benchmark.volume * 8) * 1000) / result.milli_seconds;
   delete t;
 }
 

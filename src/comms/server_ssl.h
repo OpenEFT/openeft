@@ -19,61 +19,59 @@
 #ifndef _OPENEFT_SERVER_SSL_H
 #define _OPENEFT_SERVER_SSL_H
 
-
-class IoServices {
+class eftIoService {
 public:
 
-  IoServices(size_t number);
-  ~IoServices();
-  
+  eftIoService(uint32_t number);
+  ~eftIoService();
+
   void stop();
-  
+
   asio::io_service &get();
 
 private:
-  std::atomic<size_t> m_nextService{0};
-  vector<asio::io_service> m_ioServices;
-  vector<asio::io_service::work> m_idleWorks;
-  vector<std::thread> m_threads;
+  std::atomic<size_t> next_service{0};
+  vector<asio::io_service> io_services;
+  vector<asio::io_service::work> idle_works;
+  vector<std::thread> threads;
 };
 
-class ServerConnection {
+class eftCommSession {
 public:
-  ServerConnection(asio::io_service &ioService, asio::ssl::context &context,
-    size_t messageSize);
-  ~ServerConnection();
+  eftCommSession(asio::io_service &io_srv, asio::ssl::context &context,
+    uint32_t msg_size);
+  ~eftCommSession();
 
-  asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type &socket();
-  void start(std::shared_ptr<ServerConnection> self, size_t messages);
-  static size_t runningConnections();
+  asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type &get_socket();
+  void start(std::shared_ptr<eftCommSession> self, uint32_t no_messages);
+  static uint32_t running_connections();
 
 private:
-  void asyncRead(std::shared_ptr<ServerConnection> self, size_t messages);
+  void async_read(std::shared_ptr<eftCommSession> self, uint32_t no_messages);
 
-  static std::atomic<std::size_t> s_runningConnections;
-  asio::ssl::stream<asio::ip::tcp::socket> m_socket;
-  vector<char> m_buffer;
+  static std::atomic<uint32_t> running_conx;
+  asio::ssl::stream<asio::ip::tcp::socket> socket;
+  vector<char> buffer;
 };
 
-class Server : public eftClass {
+class eftServer : public eftClass {
 public:
-  Server(IoServices &ioServices, size_t connections,
-    size_t messages, size_t messageSize);
-  
-  virtual ~Server();
-  
+  eftServer(eftIoService &io_srv, uint32_t connections,
+    uint32_t no_msgs, uint32_t msg_size);
+
+  virtual ~eftServer();
   virtual void tick();
 
 private:
 
-  void asyncAccept(size_t connections);
+  void async_accept(uint32_t connections);
 
-  IoServices &m_ioServices;
-  size_t m_messages;
-  size_t m_messageSize;
+  eftIoService &io_services;
+  uint32_t no_messages;
+  uint32_t message_size;
 
-  asio::ssl::context m_context;
-  asio::ip::tcp::acceptor m_acceptor;
+  asio::ssl::context context;
+  asio::ip::tcp::acceptor acceptor;
 };
 
 
