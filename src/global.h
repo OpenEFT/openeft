@@ -30,7 +30,13 @@
 #include <string>
 #include <vector>
 #include <thread>
+#include <algorithm>
+#include <atomic>
+#include <memory>
+#include <ctime>
+#include <cstdlib>
 
+#include <boost/atomic.hpp>
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
@@ -39,6 +45,9 @@
 #include <boost/thread.hpp>
 #include <boost/process.hpp>
 #include <boost/bind.hpp>
+
+using namespace std;
+using namespace boost;
 
 enum EFT_ERROR_CODE {
   EFT_OK = 0,

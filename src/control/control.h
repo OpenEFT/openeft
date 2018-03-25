@@ -23,7 +23,6 @@
 #include "global.h"
 #include "eftclass.h"
 
-using namespace std;
 
 /* 
  * Keep track of the status and respond to control commands
@@ -50,6 +49,10 @@ public:
     EFT_GET_NET_OP_TABLE,
     EFT_GET_NET_COMPLIANCE_TABLE,
     EFT_GET_NET_TR_TABLE,
+
+    /* Some generic commands */
+    EFT_GET_COMMS_BENCHMARK,
+
     EFT_COMMANDS_LAST
   };
 
@@ -64,6 +67,7 @@ public:
     string eft_get_net_op_table;
     string eft_get_net_compliance_table;
     string eft_get_net_tr_table;
+    string eft_get_comms_benchmark;
   };
 
   struct CheckupResult {
@@ -95,6 +99,13 @@ public:
 
   struct NetTransactionTable {
   };
+  
+  struct CommsBenchmarkTable {
+    uint32_t no_connections;
+    uint32_t no_messages;
+    uint32_t volume;
+    uint32_t duration;
+  };
 
 protected:
 
@@ -109,7 +120,7 @@ protected:
   uint32_t get_net_op_table(NetOpTable &ret);
   uint32_t get_net_compliance_table(NetComplianceTable &ret);
   uint32_t get_net_transaction_table(NetTransactionTable &ret);
-
+  uint32_t get_comms_benchmak(CommsBenchmarkTable &benchmark);
 };
 
 #endif /* CONTROL_H */

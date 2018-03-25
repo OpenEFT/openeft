@@ -16,5 +16,38 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 #include "global.h"
-#include "eftclass.h"
+#include "log/log.h"
+#include "client_ssl.h"
 
+
+ClientConnection::ClientConnection(asio::io_service &ioService,
+        asio::ip::tcp::resolver::iterator iterator, std::size_t messageSize)
+        : m_context{asio::ssl::context::tlsv12_client}
+        , m_socket{ioService, m_context}
+        , m_buffer(messageSize) {
+  log(LOG_DEBUG, " ");
+  asio::connect(m_socket.lowest_layer(), iterator);
+  log(LOG_DEBUG, " ");
+  m_socket.handshake(asio::ssl::stream_base::client);
+  log(LOG_DEBUG, " ");
+}
+        
+ClientConnection::~ClientConnection() {
+
+}
+
+void ClientConnection::tick() {
+
+}
+
+
+void ClientConnection::asyncSend(std::size_t messages) {
+log(LOG_DEBUG, " ");
+  asio::async_write(m_socket, asio::buffer(m_buffer),
+          [ = ](const system::error_code &, std::size_t){
+    if (messages > 1) {
+      log(LOG_DEBUG, " ");
+            asyncSend(messages - 1);
+    }
+    });
+}

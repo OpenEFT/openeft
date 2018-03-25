@@ -19,6 +19,23 @@
 #ifndef _OPENEFT_CLIENT_SSL_H
 #define _OPENEFT_CLIENT_SSL_H
 
+#include "eftclass.h"
+
+class ClientConnection : public eftClass {
+public:
+    ClientConnection(asio::io_service &ioService,
+        asio::ip::tcp::resolver::iterator iterator, std::size_t messageSize);
+
+    virtual ~ClientConnection();
+    virtual void tick();
+    
+    void asyncSend(std::size_t messages);
+
+private:
+    asio::ssl::context m_context;
+    asio::ssl::stream<asio::ip::tcp::socket> m_socket;
+    std::vector<char> m_buffer;
+};
 
 
 #endif /* CLIENT_SSL_H */

@@ -33,7 +33,8 @@ eftConsole::eftConsole() {
     {EFT_GET_PEER_ADV_TABLE, "get_peer_adv_report", &eftConsole::get_peer_adv_table_cmd},
     {EFT_GET_NET_COMPLIANCE_TABLE, "get_net_compliance_report", &eftConsole::get_net_compliance_table_cmd},
     {EFT_GET_NET_OP_TABLE, "get_net_op_report", &eftConsole::get_net_op_table_cmd},
-    {EFT_GET_NET_TR_TABLE, "get_net_tr_report", &eftConsole::get_net_tr_table_cmd}
+    {EFT_GET_NET_TR_TABLE, "get_net_tr_report", &eftConsole::get_net_tr_table_cmd},
+    {EFT_GET_COMMS_BENCHMARK, "get_comms_benchmark", &eftConsole::banchmark_comms_cmd} 
   };
 }
 
@@ -52,7 +53,7 @@ void eftConsole::tick() {
 
     if (console_active == false && cmd.empty()) {
       console_active = true;
-      eftConfig::log_enabled = false;
+      //eftConfig::log_enabled = false;
       log(LOG_CONSOLE, "Console activated");
     }
 
@@ -120,4 +121,14 @@ uint32_t eftConsole::get_net_op_table_cmd() {
 }
 uint32_t eftConsole::get_net_tr_table_cmd() {
   
+}
+uint32_t eftConsole::banchmark_comms_cmd() {
+  CommsBenchmarkTable benchmark;
+  get_comms_benchmak(benchmark);
+  log(LOG_CONSOLE, "Communication benchmark information:");
+  log(LOG_CONSOLE, "Number of connections: [%d]", benchmark.no_connections);
+  log(LOG_CONSOLE, "Number of messages: [%d]", benchmark.no_messages);
+  log(LOG_CONSOLE, "Total volume transferred: [%d]Mb", benchmark.volume);
+  log(LOG_CONSOLE, "Duration: [%d]s", benchmark.duration);
+  return EFT_OK;
 }

@@ -21,19 +21,25 @@
 
 #include <string>
 #include "log/log.h"
-using namespace std;
 
 class eftConfig {
 public:
   static string config_path;
+  
+  /* configuing comms async IO pool */
+  static uint32_t comms_no_conx;
+  static uint32_t comms_no_threads;
 
-  static bool ssh_enabled;
-  static uint16_t ssh_port;
+  static uint16_t ssl_port;
+  static string ssl_ipaddr;
+  static string ssl_cert;
+  static string ssl_key;
 
   /* fd to collect the logs */
   static uint32_t log_fp;
   static uint32_t log_run_level;
   static bool log_enabled;
+  
 };
 
 #endif /* CONFIG_H */

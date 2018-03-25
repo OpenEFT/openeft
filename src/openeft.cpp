@@ -30,7 +30,6 @@
 #include "config/config.h"
 #include "control/console.h"
 
-using namespace std;
 
 bool transact = true;
 int* unassigned_mem = NULL;

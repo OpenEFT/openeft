@@ -20,6 +20,62 @@
 #define _OPENEFT_SERVER_SSL_H
 
 
+class IoServices {
+public:
+
+  IoServices(size_t number);
+  ~IoServices();
+  
+  void stop();
+  
+  asio::io_service &get();
+
+private:
+  std::atomic<size_t> m_nextService{0};
+  vector<asio::io_service> m_ioServices;
+  vector<asio::io_service::work> m_idleWorks;
+  vector<std::thread> m_threads;
+};
+
+class ServerConnection {
+public:
+  ServerConnection(asio::io_service &ioService, asio::ssl::context &context,
+    size_t messageSize);
+  ~ServerConnection();
+
+  asio::ssl::stream<asio::ip::tcp::socket>::lowest_layer_type &socket();
+  void start(std::shared_ptr<ServerConnection> self, size_t messages);
+  static size_t runningConnections();
+
+private:
+  void asyncRead(std::shared_ptr<ServerConnection> self, size_t messages);
+
+  static std::atomic<std::size_t> s_runningConnections;
+  asio::ssl::stream<asio::ip::tcp::socket> m_socket;
+  vector<char> m_buffer;
+};
+
+class Server : public eftClass {
+public:
+  Server(IoServices &ioServices, size_t connections,
+    size_t messages, size_t messageSize);
+  
+  virtual ~Server();
+  
+  virtual void tick();
+
+private:
+
+  void asyncAccept(size_t connections);
+
+  IoServices &m_ioServices;
+  size_t m_messages;
+  size_t m_messageSize;
+
+  asio::ssl::context m_context;
+  asio::ip::tcp::acceptor m_acceptor;
+};
+
 
 #endif /* SERVER_SSL_H */
 

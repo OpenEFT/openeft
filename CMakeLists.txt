@@ -133,6 +133,7 @@ if(UNIX AND SYSTEM_DIR_INSTALL)
     set(INSTALL_CMAKE     "share/${project}/cmake") # /usr/[local]/share/<project>/cmake
     set(INSTALL_EXAMPLES  "share/${project}")       # /usr/[local]/share/<project>
     set(INSTALL_DATA      "share/${project}")       # /usr/[local]/share/<project>
+    set(INSTALL_CERT      "share/${project}")       # /usr/[local]/share/<project>
     set(INSTALL_BIN       "bin")                    # /usr/[local]/bin
     set(INSTALL_SHARED    "lib")                    # /usr/[local]/lib
     set(INSTALL_LIB       "lib")                    # /usr/[local]/lib
@@ -148,6 +149,7 @@ else()
     set(INSTALL_CMAKE     "${PROJECT_SOURCE_DIR}/install/cmake")                  # ./cmake
     set(INSTALL_EXAMPLES  "${PROJECT_SOURCE_DIR}/install/.")                      # ./
     set(INSTALL_DATA      "${PROJECT_SOURCE_DIR}/install/.")                      # ./
+    set(INSTALL_CERT      "${PROJECT_SOURCE_DIR}/install/.")                      # ./
     set(INSTALL_BIN       "${PROJECT_SOURCE_DIR}/install/.")                      # ./
     set(INSTALL_SHARED    "${PROJECT_SOURCE_DIR}/install/.")                      # ./lib
     set(INSTALL_LIB       "${PROJECT_SOURCE_DIR}/install/.")                      # ./lib
@@ -183,8 +185,17 @@ add_subdirectory(src)
 add_subdirectory(docs)
 
 # 
-# Deployment (global project files)
-# 
+# Build file system
+#
+file(COPY ${PROJECT_SOURCE_DIR}/certroot DESTINATION ${PROJECT_BINARY_DIR}/)
+file(COPY ${PROJECT_SOURCE_DIR}/data DESTINATION ${PROJECT_BINARY_DIR}/)
+
+
+# Deployment
+
+# Install certificates
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/certroot DESTINATION ${INSTALL_CERT})
+ 
 install (FILES ${PROJECT_BINARY_DIR}/${META_PROJECT_NAME} DESTINATION ${INSTALL_BIN} COMPONENT runtime)
 
 # Install version file
@@ -199,4 +210,4 @@ install(FILES LICENSE   DESTINATION ${INSTALL_ROOT} COMPONENT runtime)
 install(FILES README.md DESTINATION ${INSTALL_ROOT} COMPONENT runtime)
 
 # Install runtime data
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/data DESTINATION ${INSTALL_DATA} COMPONENT runtime)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/data DESTINATION ${INSTALL_DATA})

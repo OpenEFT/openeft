@@ -16,7 +16,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 #include "global.h"
+#include "config/config.h"
 #include "control.h"
+#include "tests/test_comms.h"
 
 eftControl::~eftControl() {
 }
@@ -34,7 +36,7 @@ uint32_t eftControl::help(HelpResult &ret) {
   ret.eft_get_net_tr_table = "Get the latest transaction reports for the whole EFT network. "
           "Search criteria applied.";
   ret.eft_get_net_compliance_table = "Get the latest compliancy report for the whole EFT network.";
-
+  ret.eft_get_comms_benchmark = "Get the latest network interface performance benchmarks.";
   return EFT_OK;
 }
 
@@ -66,6 +68,25 @@ uint32_t eftControl::get_net_compliance_table(NetComplianceTable &ret) {
 }
 
 uint32_t eftControl::get_net_transaction_table(NetTransactionTable &ret) {
+}
+
+uint32_t eftControl::get_comms_benchmak(CommsBenchmarkTable &benchmark) {
+log(LOG_DEBUG, " ");  
+  eftTestComms::TestResult result;
+  log(LOG_DEBUG, " ");
+  eftTestComms* t = new eftTestComms(eftConfig::comms_no_threads,
+                                        eftConfig::comms_no_conx,
+                                        1,
+                                        1024 * 1204); 
+  t->stop(result);
+  log(LOG_DEBUG, " ");
+  benchmark.duration = result.seconds;
+  benchmark.no_connections = result.conx;
+  benchmark.no_messages = result.msg_no;
+  benchmark.volume =  
+          static_cast<double>(result.conx * result.msg_no * result.msg_size) / 1024 / 1024;
+  
+  delete t;
 }
 
 void eftControl::tick() {

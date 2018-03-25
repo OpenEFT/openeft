@@ -21,7 +21,6 @@
 
 #include "control.h"
 
-using namespace std;
 
 /*
  * Listens to fdin and executes commands 
@@ -56,7 +55,10 @@ private:
   uint32_t get_peer_adv_table_cmd();
   uint32_t get_net_compliance_table_cmd();
   uint32_t get_net_op_table_cmd();
-  uint32_t get_net_tr_table_cmd();    
+  uint32_t get_net_tr_table_cmd();
+  
+  /* Benchmarks */
+  uint32_t banchmark_comms_cmd();
 };
 
 
