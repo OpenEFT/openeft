@@ -57,8 +57,8 @@ void dumpb(const uint8_t *buffer, uint32_t len);
                                   __FILE__, \
                                   __LINE__, \
                                   __func__, \
-                                  get_process_id(), \
-                                  get_thread_id(), \
+                                  eft::get_process_id(), \
+                                  eft::get_thread_id(), \
                                   ## __VA_ARGS__); \
         } while (0)
 
@@ -70,8 +70,8 @@ void dumpb(const uint8_t *buffer, uint32_t len);
                                   __FILE__, \
                                   __LINE__, \
                                   __func__, \
-                                  get_process_id(), \
-                                  get_thread_id(), \
+                                  eft::get_process_id(), \
+                                  eft::get_thread_id(), \
                                   string); \
               dprintf(eftConfig::log_fp, "\n"); \
               dumpb(buf, len); \

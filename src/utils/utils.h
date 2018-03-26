@@ -21,8 +21,17 @@
 
 #include "global.h"
 
-uint32_t get_thread_id();
-uint32_t get_process_id();
+
+namespace eft {
+
+  uint32_t get_thread_id();
+  uint32_t get_process_id();
+  void sha_256(string str, uint8_t outputBuffer[SHA256_DIGEST_LENGTH * 2 + 1]);
+  uint32_t sha256_file(uint8_t *path, uint8_t outputBuffer[SHA256_DIGEST_LENGTH * 2 + 1]);
+  void sha_512(string str, uint8_t outputBuffer[SHA512_DIGEST_LENGTH * 2 + 1]);
+  uint32_t sha512_file(uint8_t *path, uint8_t outputBuffer[SHA512_DIGEST_LENGTH * 2 + 1]);
+
+}
 
 #endif /* UTILS_H */
 
