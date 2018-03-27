@@ -36,6 +36,10 @@
 #include <ctime>
 #include <cstdlib>
 
+#include <openssl/evp.h>
+#include <openssl/ec.h>
+#include <openssl/pem.h>
+
 #include <boost/atomic.hpp>
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>

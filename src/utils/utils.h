@@ -24,13 +24,23 @@
 
 namespace eft {
 
+  /* boost toolbox */
   uint32_t get_thread_id();
   uint32_t get_process_id();
+
+  /* openssl toolbox */
   void sha_256(string str, uint8_t outputBuffer[SHA256_DIGEST_LENGTH * 2 + 1]);
-  uint32_t sha256_file(uint8_t *path, uint8_t outputBuffer[SHA256_DIGEST_LENGTH * 2 + 1]);
   void sha_512(string str, uint8_t outputBuffer[SHA512_DIGEST_LENGTH * 2 + 1]);
+
+  uint32_t sha256_file(uint8_t *path, uint8_t outputBuffer[SHA256_DIGEST_LENGTH * 2 + 1]);
   uint32_t sha512_file(uint8_t *path, uint8_t outputBuffer[SHA512_DIGEST_LENGTH * 2 + 1]);
 
+  
+  uint32_t ecdh_gen_keypair(uint32_t nid, EC_KEY* eckey, char* public_key);
+
+  /* Elliptic Curve Diffie Hellman shared secret key generation */
+  uint32_t ecdh_derive_secret(EC_KEY* eckey, uint32_t nid, char* peer_key,
+                unsigned char* secret, uint32_t* secret_len);
 }
 
 #endif /* UTILS_H */

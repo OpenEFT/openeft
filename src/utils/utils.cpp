@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 #include "utils.h"
+#include "log/log.h"
 
 namespace eft {
 
@@ -115,6 +116,64 @@ namespace eft {
 
     fclose(file);
     free(buffer);
+
+    return EFT_OK;
+  }
+
+  uint32_t ecdh_gen_keypair(uint32_t nid,
+          EC_KEY* eckey,
+          char* public_key) {
+
+    if (NULL == (eckey = EC_KEY_new_by_curve_name(nid))) {
+      log(LOG_ERR, "Failed to set the DH curve name.");
+      return EFT_NOK;
+    }
+
+    if (1 != EC_KEY_generate_key(eckey)) {
+      log(LOG_ERR, "Failed to generate a key pair.");
+      return EFT_NOK;
+    }
+
+    public_key =
+            EC_POINT_point2hex(EC_KEY_get0_group(eckey),
+            EC_KEY_get0_public_key(eckey),
+            POINT_CONVERSION_COMPRESSED,
+            NULL);
+
+    log(LOG_DEBUG, "Public key:\n %s", public_key);
+    log(LOG_DEBUG, "Private key:\n %s", BN_bn2hex(EC_KEY_get0_private_key(eckey)));
+
+    return EFT_OK;
+  }
+
+  uint32_t ecdh_derive_secret(EC_KEY* eckey,
+          uint32_t nid,
+          char* peer_key,
+          unsigned char* secret,
+          uint32_t* secret_len) {
+    EC_KEY* peer_pub_eckey;
+    EC_POINT* pub = NULL;
+
+    uint32_t field_size =
+            EC_GROUP_get_degree(EC_KEY_get0_group(eckey));
+    *secret_len = (field_size + 7) / 8;
+
+    if (NULL == (secret = (uint8_t*) OPENSSL_malloc(*secret_len))) {
+      log(LOG_ERR, "Failed to allocate openssl object.");
+      return EFT_NOK;
+    }
+
+    peer_pub_eckey = EC_KEY_new_by_curve_name(nid);
+    pub = EC_POINT_hex2point(EC_KEY_get0_group(eckey), peer_key, pub, NULL);
+    EC_KEY_set_public_key(peer_pub_eckey, pub);
+
+    /* Derive the shared secret */
+    *secret_len = ECDH_compute_key(secret,
+            *secret_len,
+            EC_KEY_get0_public_key(peer_pub_eckey),
+            eckey,
+            NULL);
+
 
     return EFT_OK;
   }
