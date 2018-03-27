@@ -37,6 +37,7 @@ uint32_t eftControl::help(HelpResult &ret) {
           "Search criteria applied.";
   ret.eft_get_net_compliance_table = "Get the latest compliancy report for the whole EFT network.";
   ret.eft_get_comms_benchmark = "Get the latest network interface performance benchmarks.";
+  ret.eft_get_ecdh_benchmark = "Get the Elliptic-curve Diffie–Hellman (ECDH) performance benchmarks.";
   return EFT_OK;
 }
 
@@ -84,6 +85,10 @@ uint32_t eftControl::get_comms_benchmak(CommsBenchmarkTable &benchmark) {
           static_cast<double>(result.conx * result.msg_no * result.msg_size) / 1024 / 1024;
   benchmark.rate = ((benchmark.volume * 8) * 1000) / result.milli_seconds;
   delete t;
+}
+
+uint32_t eftControl::get_ecdh_benchmak(EcdhBenchmarkTable &benchmark) {
+  
 }
 
 void eftControl::tick() {
