@@ -1,7 +1,3 @@
-
-#include "eftclass.h"
-#include "test_ecdh.h"
-
 //----------------------------------------------------------------------
 // Copyright (C) 2018  openeft.org
 // Copyright (C) Reza Schadmani <reza.schadmani@openeft.org>
@@ -20,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 
+#include "eftclass.h"
 #include "test_ecdh.h"
 
 eftTestEcdh::eftTestEcdh() {
