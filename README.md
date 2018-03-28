@@ -5,9 +5,9 @@ EFT protocol.
 
 OpenEFT daemon provides following features:
  * Cross Platform
-  - Linux
-  - Mac
-  - Windows
+    - Linux
+    - Mac
+    - Windows
  * Crypyo-asset driven
  * Smart contract
 
