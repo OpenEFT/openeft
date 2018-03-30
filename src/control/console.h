@@ -59,6 +59,7 @@ private:
   
   /* Benchmarks */
   uint32_t banchmark_comms_cmd();
+  uint32_t benchmark_ecdh_cmd();
 };
 
 

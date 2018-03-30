@@ -35,13 +35,31 @@ uint32_t eftTestEcdh::run() {
   EC_KEY* key;
   char* public_key;
   char* peer_pub_key;
-  unsigned char* secret;
-  uint32_t* secret_len;
+  char* secret;
+  
+  auto start_time = std::chrono::steady_clock::now();
+
   eft::ecdh_gen_keypair(NID_X9_62_c2pnb163v1, key, public_key);
-  
+
   /* exchange the public key with peer(s) */
-  
+
   eft::ecdh_derive_secret(key, NID_X9_62_c2pnb163v1,
-                      peer_pub_key, secret, secret_len);
+          peer_pub_key, secret);
+  
+  auto stop_time = std::chrono::steady_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+          stop_time - start_time);
+  cur_test_result.duration = static_cast<double> (duration.count());
+  cur_test_result.nid = NID_X9_62_c2pnb163v1;
+  cur_test_result.secret_no = 1;
+  cur_test_result.rate = 1;
+
+  return EFT_OK;
 }
 
+uint32_t eftTestEcdh::stop(TestResult& result) {
+  last_test_result = cur_test_result;
+  result = cur_test_result;
+  
+  return EFT_OK;
+}

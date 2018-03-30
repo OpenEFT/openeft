@@ -149,16 +149,17 @@ namespace eft {
   uint32_t ecdh_derive_secret(EC_KEY* eckey,
           uint32_t nid,
           char* peer_key,
-          unsigned char* secret,
-          uint32_t* secret_len) {
+          char* secret) {
     EC_KEY* peer_pub_eckey;
     EC_POINT* pub = NULL;
+    unsigned char* sec;
+    unsigned int sec_len;
 
     uint32_t field_size =
             EC_GROUP_get_degree(EC_KEY_get0_group(eckey));
-    *secret_len = (field_size + 7) / 8;
+    sec_len = (field_size + 7) / 8;
 
-    if (NULL == (secret = (uint8_t*) OPENSSL_malloc(*secret_len))) {
+    if (NULL == (sec = (unsigned char*) OPENSSL_malloc(sec_len))) {
       log(LOG_ERR, "Failed to allocate openssl object.");
       return EFT_NOK;
     }
@@ -168,14 +169,63 @@ namespace eft {
     EC_KEY_set_public_key(peer_pub_eckey, pub);
 
     /* Derive the shared secret */
-    *secret_len = ECDH_compute_key(secret,
-            *secret_len,
+    sec_len = ECDH_compute_key(sec,
+            sec_len,
             EC_KEY_get0_public_key(peer_pub_eckey),
             eckey,
             NULL);
-
+    
+    strcpy(secret, bytes_to_hex(sec, sec_len).c_str());
+    
+    OPENSSL_free(sec);
 
     return EFT_OK;
+  }
+
+  void hex_to_bytes(const std::string& hex, unsigned char* buffer) {
+    std::vector<unsigned char> bytes;
+
+    for (unsigned int i = 0; i < hex.length(); i += 2) {
+      std::string byteString = hex.substr(i, 2);
+      unsigned char byte = (char) strtol(byteString.c_str(), NULL, 16);
+      bytes.push_back(byte);
+    }
+    
+    std::copy(bytes.begin(), bytes.end(), buffer);
+
+    return;
+  }
+
+  std::string bytes_to_hex(const unsigned char* buffer, uint32_t size) {
+    std::stringstream str;
+    str.setf(std::ios_base::hex, std::ios::basefield);
+    str.setf(std::ios_base::uppercase);
+    str.fill('0');
+
+    for (uint32_t i = 0; i < size; ++i) {
+      str << std::setw(2) << (unsigned short) (unsigned char) buffer[i];
+    }
+    return str.str();
+  }
+
+  template< typename T > std::array< unsigned char, sizeof (T) > to_bytes(const T& object) {
+    std::array< unsigned char, sizeof (T) > bytes;
+
+    const unsigned char* begin = reinterpret_cast<const unsigned char*> (std::addressof(object));
+    const unsigned char* end = begin + sizeof (T);
+    std::copy(begin, end, std::begin(bytes));
+
+    return bytes;
+  }
+
+  template< typename T >
+  T& from_bytes(const std::array< unsigned char, sizeof (T) >& bytes, T& object) {
+    static_assert(std::is_trivially_copyable<T>::value, "not a TriviallyCopyable type");
+
+    unsigned char* begin_object = reinterpret_cast<unsigned char*> (std::addressof(object));
+    std::copy(std::begin(bytes), std::end(bytes), begin_object);
+
+    return object;
   }
 
 }

@@ -27,20 +27,23 @@ class eftTestEcdh : public eftClass {
 public:
   eftTestEcdh();
   ~eftTestEcdh();
-  
-  uint32_t run();
-
-  virtual void tick();
 
   struct TestResult {
     uint32_t nid;
     uint32_t secret_no;
-    uint32_t secret_len;
     uint32_t rate; /* secret per second */
+    uint32_t duration;
   };
 
+  
+  uint32_t run();
+  virtual void tick();
+  
+  uint32_t stop(TestResult& result);
+  
 private:
-  TestResult last_test_result;
+  TestResult last_test_result, cur_test_result;
+  
 };
 
 #endif /* TEST_ECDH_H */

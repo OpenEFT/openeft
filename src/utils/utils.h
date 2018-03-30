@@ -39,8 +39,17 @@ namespace eft {
   uint32_t ecdh_gen_keypair(uint32_t nid, EC_KEY* eckey, char* public_key);
 
   /* Elliptic Curve Diffie Hellman shared secret key generation */
-  uint32_t ecdh_derive_secret(EC_KEY* eckey, uint32_t nid, char* peer_key,
-                unsigned char* secret, uint32_t* secret_len);
+  uint32_t ecdh_derive_secret(EC_KEY* eckey,
+    uint32_t nid,
+    char* peer_key,
+    char* secret);
+
+  void hex_to_bytes(const std::string& hex, unsigned char* buffer);
+  std::string bytes_to_hex(const unsigned char* buffer, uint32_t size);
+
+  template<typename T> std::array<unsigned char, sizeof (T)> to_bytes(const T& object);
+  template<typename T>
+  T& from_bytes(const std::array<unsigned char, sizeof (T)>& bytes, T& object);
 }
 
 #endif /* UTILS_H */

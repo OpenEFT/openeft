@@ -19,6 +19,7 @@
 #include "config/config.h"
 #include "control.h"
 #include "tests/test_comms.h"
+#include "tests/test_ecdh.h"
 
 eftControl::~eftControl() {
 }
@@ -88,7 +89,14 @@ uint32_t eftControl::get_comms_benchmak(CommsBenchmarkTable &benchmark) {
 }
 
 uint32_t eftControl::get_ecdh_benchmak(EcdhBenchmarkTable &benchmark) {
-  
+  eftTestEcdh::TestResult result;
+  eftTestEcdh* t = new eftTestEcdh();
+  t->run();
+  t->stop(result);
+  benchmark.duration = result.duration;
+  benchmark.no_secrets = result.secret_no;
+  benchmark.rate = result.rate;
+
 }
 
 void eftControl::tick() {

@@ -34,12 +34,13 @@ eftConsole::eftConsole() {
     {EFT_GET_NET_COMPLIANCE_TABLE, "get_net_compliance_report", &eftConsole::get_net_compliance_table_cmd},
     {EFT_GET_NET_OP_TABLE, "get_net_op_report", &eftConsole::get_net_op_table_cmd},
     {EFT_GET_NET_TR_TABLE, "get_net_tr_report", &eftConsole::get_net_tr_table_cmd},
-    {EFT_GET_COMMS_BENCHMARK, "get_comms_benchmark", &eftConsole::banchmark_comms_cmd} 
+    {EFT_GET_COMMS_BENCHMARK, "get_comms_benchmark", &eftConsole::banchmark_comms_cmd},
+    {EFT_GET_ECDH_BENCHMARK, "get_ecdh_benchmark", &eftConsole::eftConsole::benchmark_ecdh_cmd}
   };
 }
 
 eftConsole::~eftConsole() {
-  
+
 }
 
 void eftConsole::tick() {
@@ -57,71 +58,81 @@ void eftConsole::tick() {
       log(LOG_CONSOLE, "Console activated");
     }
 
-    if (console_active == true) 
+    if (console_active == true)
       if (cmd == "exit") {
         console_active = false;
         eftConfig::log_enabled = true;
         log(LOG_CONSOLE, "Console deactivated");
         continue;
-      }     
-    
+      }
+
     handle_command(cmd);
   }
 }
 
 uint32_t eftConsole::handle_command(string cmd) {
   uint32_t ret = EFT_OK;
-  
+
   log(LOG_DEBUG, "Command [%s] received", cmd.c_str());
-  
-  for(vector<Command>::iterator it = cmd_list.begin();
-            it != cmd_list.end();
-              it++) {
+
+  for (vector<Command>::iterator it = cmd_list.begin();
+          it != cmd_list.end();
+          it++) {
     Command *command = &(*it);
 
-    if(command->name == cmd) {
+    if (command->name == cmd) {
       log(LOG_DEBUG, "%s", command->dump().c_str());
       CALL_MEMBER_FN(this, command->command_fptr)();
     }
   }
-  
+
   return ret;
 }
 
 uint32_t eftConsole::help_cmd() {
-  
+
 }
 
 uint32_t eftConsole::checkup_cmd() {
-  
+
 }
+
 uint32_t eftConsole::hard_reset_cmd() {
-  
+
 }
+
 uint32_t eftConsole::reload_cfg_cmd() {
-  
+
 }
+
 uint32_t eftConsole::get_tr_table_cmd() {
-  
+
 }
+
 uint32_t eftConsole::get_compliance_table_cmd() {
-  
+
 }
+
 uint32_t eftConsole::get_op_table_cmd() {
-  
+
 }
+
 uint32_t eftConsole::get_peer_adv_table_cmd() {
-  
+
 }
+
 uint32_t eftConsole::get_net_compliance_table_cmd() {
-  
+
 }
+
 uint32_t eftConsole::get_net_op_table_cmd() {
-  
+
 }
+
 uint32_t eftConsole::get_net_tr_table_cmd() {
-  
+
 }
+
 uint32_t eftConsole::banchmark_comms_cmd() {
   CommsBenchmarkTable benchmark;
   get_comms_benchmak(benchmark);
@@ -129,6 +140,16 @@ uint32_t eftConsole::banchmark_comms_cmd() {
   log(LOG_CONSOLE, "Number of connections: [%d]", benchmark.no_connections);
   log(LOG_CONSOLE, "Number of messages: [%d]", benchmark.no_messages);
   log(LOG_CONSOLE, "Total volume transferred: [%d]MB", benchmark.volume);
+  log(LOG_CONSOLE, "Duration: [%d]ms", benchmark.duration);
+  log(LOG_CONSOLE, "Rate: [%d]Mbs", benchmark.rate);
+  return EFT_OK;
+}
+
+uint32_t eftConsole::benchmark_ecdh_cmd() {
+  EcdhBenchmarkTable benchmark;
+  get_ecdh_benchmak(benchmark);
+  log(LOG_CONSOLE, "Elliptic-curve Diffie–Hellman benchmark information:");
+  log(LOG_CONSOLE, "Number of secrets: [%d]", benchmark.no_secrets);
   log(LOG_CONSOLE, "Duration: [%d]ms", benchmark.duration);
   log(LOG_CONSOLE, "Rate: [%d]Mbs", benchmark.rate);
   return EFT_OK;
