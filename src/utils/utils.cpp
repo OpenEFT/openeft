@@ -208,8 +208,8 @@ namespace eft {
     return str.str();
   }
 
-  template< typename T > std::array< unsigned char, sizeof (T) > to_bytes(const T& object) {
-    std::array< unsigned char, sizeof (T) > bytes;
+  template<typename T> std::array<unsigned char, sizeof (T)> to_bytes(const T& object) {
+    std::array<unsigned char, sizeof (T)> bytes;
 
     const unsigned char* begin = reinterpret_cast<const unsigned char*> (std::addressof(object));
     const unsigned char* end = begin + sizeof (T);
@@ -218,14 +218,40 @@ namespace eft {
     return bytes;
   }
 
-  template< typename T >
-  T& from_bytes(const std::array< unsigned char, sizeof (T) >& bytes, T& object) {
+  template<typename T>
+  T& from_bytes(const std::array<unsigned char, sizeof (T)>& bytes, T& object) {
     static_assert(std::is_trivially_copyable<T>::value, "not a TriviallyCopyable type");
 
     unsigned char* begin_object = reinterpret_cast<unsigned char*> (std::addressof(object));
     std::copy(std::begin(bytes), std::end(bytes), begin_object);
 
     return object;
+  }
+
+  uint32_t enc_base64(const std::string &data_str, std::string &base64_str) {
+    typedef insert_linebreaks<base64_from_binary
+        <transform_width<string::const_iterator, 6, 8> >, 72> it_base64_t;
+
+    unsigned int write_pad_char = (3 - data_str.length() % 3) % 3;
+    std::string str(it_base64_t(data_str.begin()),it_base64_t(data_str.end()));
+    str.append(write_pad_char,'=');
+    base64_str = str;
+    
+    return EFT_OK;
+  }
+  
+  uint32_t dec_base64(const std::string& base64_str, std::string &data_str) {
+    typedef transform_width< binary_from_base64
+        <remove_whitespace<string::const_iterator> >, 8, 6> it_binary_t;
+    
+    std::string base64_input = base64_str;
+    unsigned int padded_char = count(base64_input.begin(), base64_input.end(), '=');
+    std::replace(base64_input.begin(), base64_input.end(), '=', 'A');
+    std::string str(it_binary_t(base64_str.begin()), it_binary_t(base64_str.end()));
+    str.erase(str.end() - padded_char, str.end());
+    data_str = str;
+  
+    return EFT_OK;
   }
 
 }

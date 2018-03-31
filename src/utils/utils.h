@@ -50,6 +50,10 @@ namespace eft {
   template<typename T> std::array<unsigned char, sizeof (T)> to_bytes(const T& object);
   template<typename T>
   T& from_bytes(const std::array<unsigned char, sizeof (T)>& bytes, T& object);
+  
+  uint32_t enc_base64(const unsigned char* data, uint32_t data_len, std::string &str);
+  uint32_t dec_base64(const std::string& str, unsigned char* data, uint32_t& data_len);
+
 }
 
 #endif /* UTILS_H */

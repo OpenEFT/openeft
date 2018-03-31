@@ -49,9 +49,15 @@
 #include <boost/thread.hpp>
 #include <boost/process.hpp>
 #include <boost/bind.hpp>
+#include <boost/archive/iterators/base64_from_binary.hpp>
+#include <boost/archive/iterators/binary_from_base64.hpp>
+#include <boost/archive/iterators/transform_width.hpp>
+#include <boost/archive/iterators/insert_linebreaks.hpp>
+#include <boost/archive/iterators/remove_whitespace.hpp>
 
 using namespace std;
 using namespace boost;
+using namespace boost::archive::iterators;
 
 enum EFT_ERROR_CODE {
   EFT_OK = 0,
