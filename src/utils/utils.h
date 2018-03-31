@@ -23,6 +23,9 @@
 
 
 namespace eft {
+  
+  uint32_t split_str(const std::string &txt,
+                  std::vector<std::string> &strs, char ch);
 
   /* boost toolbox */
   uint32_t get_thread_id();
@@ -35,8 +38,8 @@ namespace eft {
   uint32_t sha256_file(uint8_t *path, uint8_t outputBuffer[SHA256_DIGEST_LENGTH * 2 + 1]);
   uint32_t sha512_file(uint8_t *path, uint8_t outputBuffer[SHA512_DIGEST_LENGTH * 2 + 1]);
 
-  
-  uint32_t ecdh_gen_keypair(uint32_t nid, EC_KEY* eckey, char* public_key);
+  /* Elliptic Curve keypair generation */
+  uint32_t ec_gen_keypair(uint32_t nid, EC_KEY* eckey, char* public_key);
 
   /* Elliptic Curve Diffie Hellman shared secret key generation */
   uint32_t ecdh_derive_secret(EC_KEY* eckey,
@@ -51,9 +54,8 @@ namespace eft {
   template<typename T>
   T& from_bytes(const std::array<unsigned char, sizeof (T)>& bytes, T& object);
   
-  uint32_t enc_base64(const unsigned char* data, uint32_t data_len, std::string &str);
-  uint32_t dec_base64(const std::string& str, unsigned char* data, uint32_t& data_len);
-
+  uint32_t enc_base64(const std::string &data_str, std::string &base64_str);
+  uint32_t dec_base64(const std::string& base64_str, std::string &data_str);
 }
 
 #endif /* UTILS_H */

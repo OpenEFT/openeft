@@ -17,47 +17,40 @@
 //----------------------------------------------------------------------
 
 #include "eftclass.h"
-#include "test_ecdh.h"
+#include "test_ec.h"
 
-eftTestEcdh::eftTestEcdh() {
+eftTestEc::eftTestEc() {
   
 }
 
-eftTestEcdh::~eftTestEcdh() {
+eftTestEc::~eftTestEc() {
   
 }
 
-void eftTestEcdh::tick() {
+void eftTestEc::tick() {
   
 }
 
-uint32_t eftTestEcdh::run() {
+uint32_t eftTestEc::run() {
   EC_KEY* key;
   char* public_key;
-  char* peer_pub_key;
-  char* secret;
   
   auto start_time = std::chrono::steady_clock::now();
 
-  eft::ec_gen_keypair(NID_X9_62_c2pnb163v1, key, public_key);
-
-  /* exchange the public key with peer(s) */
-
-  eft::ecdh_derive_secret(key, NID_X9_62_c2pnb163v1,
-          peer_pub_key, secret);
+  eft::ec_gen_keypair(NID_secp256k1, key, public_key);
   
   auto stop_time = std::chrono::steady_clock::now();
   auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
           stop_time - start_time);
   cur_test_result.duration = static_cast<double> (duration.count());
-  cur_test_result.nid = NID_X9_62_c2pnb163v1;
-  cur_test_result.secret_no = 1;
+  cur_test_result.nid = NID_secp256k1;
+  cur_test_result.keypair_no = 1;
   cur_test_result.rate = 1;
 
   return EFT_OK;
 }
 
-uint32_t eftTestEcdh::stop(TestResult& result) {
+uint32_t eftTestEc::stop(TestResult& result) {
   last_test_result = cur_test_result;
   result = cur_test_result;
   

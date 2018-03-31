@@ -38,28 +38,33 @@ private:
   struct Command {
     int id;
     string name;
-    uint32_t (eftConsole::*command_fptr)();
+    uint32_t (eftConsole::*command_fptr)(std::vector<std::string> &);
     string dump() {
       return "id [" + to_string(id) + "] " + name;
     }
   };
   vector<Command> cmd_list;
 
-  uint32_t help_cmd();
-  uint32_t checkup_cmd();
-  uint32_t hard_reset_cmd();
-  uint32_t reload_cfg_cmd();
-  uint32_t get_tr_table_cmd();
-  uint32_t get_compliance_table_cmd();
-  uint32_t get_op_table_cmd();
-  uint32_t get_peer_adv_table_cmd();
-  uint32_t get_net_compliance_table_cmd();
-  uint32_t get_net_op_table_cmd();
-  uint32_t get_net_tr_table_cmd();
+  uint32_t help_cmd(std::vector<std::string>& args);
+  uint32_t checkup_cmd(std::vector<std::string>& args);
+  uint32_t hard_reset_cmd(std::vector<std::string>& args);
+  uint32_t reload_cfg_cmd(std::vector<std::string>& args);
+  uint32_t get_tr_table_cmd(std::vector<std::string>& args);
+  uint32_t get_compliance_table_cmd(std::vector<std::string>& args);
+  uint32_t get_op_table_cmd(std::vector<std::string>& args);
+  uint32_t get_peer_adv_table_cmd(std::vector<std::string>& args);
+  uint32_t get_net_compliance_table_cmd(std::vector<std::string>& args);
+  uint32_t get_net_op_table_cmd(std::vector<std::string>& args);
+  uint32_t get_net_tr_table_cmd(std::vector<std::string>& args);
   
   /* Benchmarks */
-  uint32_t banchmark_comms_cmd();
-  uint32_t benchmark_ecdh_cmd();
+  uint32_t banchmark_comms_cmd(std::vector<std::string>& args);
+  uint32_t benchmark_ec_cmd(std::vector<std::string>& args);
+  uint32_t benchmark_ecdh_cmd(std::vector<std::string>& args);
+  
+  
+  /* Other commands */
+  uint32_t console_log_cmd(std::vector<std::string>& args);
 };
 
 

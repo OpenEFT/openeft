@@ -20,6 +20,23 @@
 
 namespace eft {
 
+  uint32_t split_str(const std::string &txt, std::vector<std::string> &strs, char ch) {
+    size_t pos = txt.find(ch);
+    size_t initialPos = 0;
+    strs.clear();
+
+    while (pos != std::string::npos) {
+      strs.push_back(txt.substr(initialPos, pos - initialPos));
+      initialPos = pos + 1;
+
+      pos = txt.find(ch, initialPos);
+    }
+
+    strs.push_back(txt.substr(initialPos, std::min(pos, txt.size()) - initialPos + 1));
+
+    return (uint32_t)strs.size();
+  }
+
   uint32_t get_thread_id() {
     std::string thread_id = boost::lexical_cast<std::string>(boost::this_thread::get_id());
     uint32_t thread_no = 0;
@@ -120,7 +137,7 @@ namespace eft {
     return EFT_OK;
   }
 
-  uint32_t ecdh_gen_keypair(uint32_t nid,
+  uint32_t ec_gen_keypair(uint32_t nid,
           EC_KEY* eckey,
           char* public_key) {
 
@@ -139,9 +156,13 @@ namespace eft {
             EC_KEY_get0_public_key(eckey),
             POINT_CONVERSION_COMPRESSED,
             NULL);
+    
+    std::string pub_base64;
+    enc_base64(std::string(public_key), pub_base64);
 
-    log(LOG_DEBUG, "Public key:\n %s", public_key);
-    log(LOG_DEBUG, "Private key:\n %s", BN_bn2hex(EC_KEY_get0_private_key(eckey)));
+    log(LOG_DEBUG, "Public key:\n[%s]", public_key);
+    log(LOG_DEBUG, "Public key base64:\n[%s]", pub_base64.c_str());
+    log(LOG_DEBUG, "Private key:\n[%s]", BN_bn2hex(EC_KEY_get0_private_key(eckey)));
 
     return EFT_OK;
   }
@@ -230,7 +251,7 @@ namespace eft {
 
   uint32_t enc_base64(const std::string &data_str, std::string &base64_str) {
     typedef insert_linebreaks<base64_from_binary
-        <transform_width<string::const_iterator, 6, 8> >, 72> it_base64_t;
+        <transform_width<string::const_iterator, 6, 8> >, 96> it_base64_t;
 
     unsigned int write_pad_char = (3 - data_str.length() % 3) % 3;
     std::string str(it_base64_t(data_str.begin()),it_base64_t(data_str.end()));

@@ -52,8 +52,10 @@ public:
 
     /* Some generic commands */
     EFT_GET_COMMS_BENCHMARK,
+    EFT_GET_EC_BENCHMARK,
     EFT_GET_ECDH_BENCHMARK,
-
+    
+    EFT_COMMANDS_NOID,
     EFT_COMMANDS_LAST
   };
 
@@ -69,6 +71,7 @@ public:
     string eft_get_net_compliance_table;
     string eft_get_net_tr_table;
     string eft_get_comms_benchmark;
+    string eft_get_ec_benchmark;
     string eft_get_ecdh_benchmark;
   };
 
@@ -110,6 +113,12 @@ public:
     uint32_t rate; /* Mbs */
   };
   
+  struct EcBenchmarkTable {
+    uint32_t no_keypair;
+    uint32_t duration;
+    uint32_t rate; /* keypair per seconds */
+  };
+  
   struct EcdhBenchmarkTable {
     uint32_t no_secrets;
     uint32_t duration;
@@ -130,6 +139,7 @@ protected:
   uint32_t get_net_compliance_table(NetComplianceTable &ret);
   uint32_t get_net_transaction_table(NetTransactionTable &ret);
   uint32_t get_comms_benchmak(CommsBenchmarkTable &benchmark);
+  uint32_t get_ec_benchmark(EcBenchmarkTable &benchmark);
   uint32_t get_ecdh_benchmak(EcdhBenchmarkTable &benchmark);
 };
 

@@ -35,7 +35,9 @@ eftConsole::eftConsole() {
     {EFT_GET_NET_OP_TABLE, "get_net_op_report", &eftConsole::get_net_op_table_cmd},
     {EFT_GET_NET_TR_TABLE, "get_net_tr_report", &eftConsole::get_net_tr_table_cmd},
     {EFT_GET_COMMS_BENCHMARK, "get_comms_benchmark", &eftConsole::banchmark_comms_cmd},
-    {EFT_GET_ECDH_BENCHMARK, "get_ecdh_benchmark", &eftConsole::eftConsole::benchmark_ecdh_cmd}
+    {EFT_GET_EC_BENCHMARK, "get_ec_benchmark", &eftConsole::benchmark_ec_cmd},
+    {EFT_GET_ECDH_BENCHMARK, "get_ecdh_benchmark", &eftConsole::benchmark_ecdh_cmd},
+    {EFT_COMMANDS_NOID, "console_log", &eftConsole::console_log_cmd}
   };
 }
 
@@ -66,74 +68,89 @@ void eftConsole::tick() {
         continue;
       }
 
-    handle_command(cmd);
+    if (!cmd.empty())
+      handle_command(cmd);
   }
 }
 
 uint32_t eftConsole::handle_command(string cmd) {
   uint32_t ret = EFT_OK;
-
-  log(LOG_DEBUG, "Command [%s] received", cmd.c_str());
-
+  uint32_t i = 0;
+  bool cmd_recognized = false;
+  std::vector<std::string> strs;
+  vector<string>::iterator it;
+  
+  eft::split_str(cmd, strs, ' ');
+  
+  for (it = strs.begin(); it != strs.end(); it++, i++) {
+    boost::algorithm::to_lower(*it);
+    if(i == 0)
+      log(LOG_DEBUG, "Command [%s] received", (*it).c_str());
+  }
+ 
   for (vector<Command>::iterator it = cmd_list.begin();
           it != cmd_list.end();
           it++) {
     Command *command = &(*it);
 
-    if (command->name == cmd) {
+    if (command->name == strs[0]) {
+      cmd_recognized = true;
       log(LOG_DEBUG, "%s", command->dump().c_str());
-      CALL_MEMBER_FN(this, command->command_fptr)();
+      CALL_MEMBER_FN(this, command->command_fptr)(strs);
     }
   }
+  
+  if (cmd_recognized == false)
+    log(LOG_CONSOLE, "Command [%s] not recognized.", strs[0].c_str());
 
   return ret;
 }
 
-uint32_t eftConsole::help_cmd() {
+uint32_t eftConsole::help_cmd(std::vector<std::string>& args) {
 
 }
 
-uint32_t eftConsole::checkup_cmd() {
+uint32_t eftConsole::checkup_cmd(std::vector<std::string>& args) {
 
 }
 
-uint32_t eftConsole::hard_reset_cmd() {
+uint32_t eftConsole::hard_reset_cmd(std::vector<std::string>& args) {
 
 }
 
-uint32_t eftConsole::reload_cfg_cmd() {
+uint32_t eftConsole::reload_cfg_cmd(std::vector<std::string>& args) {
 
 }
 
-uint32_t eftConsole::get_tr_table_cmd() {
+uint32_t eftConsole::get_tr_table_cmd(std::vector<std::string>& args) {
 
 }
 
-uint32_t eftConsole::get_compliance_table_cmd() {
+uint32_t eftConsole::get_compliance_table_cmd(std::vector<std::string>& args) {
 
 }
 
-uint32_t eftConsole::get_op_table_cmd() {
+uint32_t eftConsole::get_op_table_cmd(std::vector<std::string>& args) {
 
 }
 
-uint32_t eftConsole::get_peer_adv_table_cmd() {
+uint32_t eftConsole::get_peer_adv_table_cmd(std::vector<std::string>& args) {
 
 }
 
-uint32_t eftConsole::get_net_compliance_table_cmd() {
+uint32_t eftConsole::get_net_compliance_table_cmd(std::vector<std::string>& args) {
 
 }
 
-uint32_t eftConsole::get_net_op_table_cmd() {
+uint32_t eftConsole::get_net_op_table_cmd(std::vector<std::string>& args) {
 
 }
 
-uint32_t eftConsole::get_net_tr_table_cmd() {
+uint32_t eftConsole::get_net_tr_table_cmd(std::vector<std::string>& args) {
 
 }
 
-uint32_t eftConsole::banchmark_comms_cmd() {
+uint32_t eftConsole::banchmark_comms_cmd(std::vector<std::string>& args) {
   CommsBenchmarkTable benchmark;
   get_comms_benchmak(benchmark);
   log(LOG_CONSOLE, "Communication benchmark information:");
@@ -145,12 +162,45 @@ uint32_t eftConsole::banchmark_comms_cmd() {
   return EFT_OK;
 }
 
-uint32_t eftConsole::benchmark_ecdh_cmd() {
+uint32_t eftConsole::benchmark_ec_cmd(std::vector<std::string>& args) {
+  EcBenchmarkTable benchmark;
+  get_ec_benchmark(benchmark);
+  log(LOG_CONSOLE, "Elliptic-curve keypair generation benchmark information:");
+  log(LOG_CONSOLE, "Number of keypairs: [%d]", benchmark.no_keypair);
+  log(LOG_CONSOLE, "Duration: [%d]ms", benchmark.duration);
+  log(LOG_CONSOLE, "Rate: [%d]kps", benchmark.rate);
+  return EFT_OK;
+}
+
+uint32_t eftConsole::benchmark_ecdh_cmd(std::vector<std::string>& args) {
   EcdhBenchmarkTable benchmark;
   get_ecdh_benchmak(benchmark);
   log(LOG_CONSOLE, "Elliptic-curve Diffie–Hellman benchmark information:");
   log(LOG_CONSOLE, "Number of secrets: [%d]", benchmark.no_secrets);
   log(LOG_CONSOLE, "Duration: [%d]ms", benchmark.duration);
-  log(LOG_CONSOLE, "Rate: [%d]Mbs", benchmark.rate);
+  log(LOG_CONSOLE, "Rate: [%d]kps", benchmark.rate);
+  return EFT_OK;
+}
+
+uint32_t eftConsole::console_log_cmd(std::vector<std::string>& args) {
+  
+  if(args.size() == 1) {
+    log(LOG_CONSOLE, "Parameter missed.");
+    return EFT_NOK;
+  }
+  
+  if(args[1] == "on") {
+    eftConfig::log_enabled = true;
+    log(LOG_CONSOLE, "Console log enabled. Application log disabled.");
+  }
+  else if(args[1] == "off") {
+    log(LOG_CONSOLE, "Console log disabled. Application log reset to [%d]",
+                  eftConfig::log_run_level);
+    eftConfig::log_enabled = false;
+  }
+  else {
+    log(LOG_CONSOLE, "Parameter [%s] not recognized.", args[1].c_str());
+  }
+
   return EFT_OK;
 }
