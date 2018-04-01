@@ -23,14 +23,14 @@
 
 
 namespace eft {
-  
+
   uint32_t split_str(const std::string &txt,
-                  std::vector<std::string> &strs, char ch);
+    std::vector<std::string> &strs, char ch);
 
   /* boost toolbox */
   uint32_t get_thread_id();
   uint32_t get_process_id();
-  
+
   std::string random_string(uint32_t length);
 
   /* openssl toolbox */
@@ -42,32 +42,32 @@ namespace eft {
 
   /* Elliptic Curve keypair generation */
   uint32_t ec_gen_keypair(uint32_t nid, EC_KEY** ec_keypair, char* public_key);
-  
+
   uint32_t ec_to_raw_pp(const EC_KEY* ec_keypair,
-                          unsigned char **pubkey, int& pubkey_len,
-                          unsigned char **privkey, int& privkey_len);
-  
+    unsigned char **pubkey, int& pubkey_len,
+    unsigned char **privkey, int& privkey_len);
+
   /* get public key from the input private key */
   uint32_t ec_get_pubkey(unsigned char *raw_privkey, int privkey_len,
-            unsigned char **pubkey, int& pubkey_len);
-  
+    unsigned char **pubkey, int& pubkey_len);
+
   /* Elliptic Curve Diffie Hellman shared secret key generation */
   uint32_t ecdh_derive_secret(EC_KEY* eckey,
     uint32_t nid,
     char* peer_key,
-    char* secret);
-  
+    char** secret);
+
   uint32_t ecdsa_signature(EC_KEY* eckey, std::string hash, ECDSA_SIG** sig);
   uint32_t ecdsa_verify(EC_KEY* eckey, std::string hash,
-                          const ECDSA_SIG* sig, uint32_t& verified);
-  
+    const ECDSA_SIG* sig, uint32_t& verified);
+
   void hex_to_bytes(const std::string& hex, unsigned char* buffer);
   std::string bytes_to_hex(const unsigned char* buffer, uint32_t size);
 
-  template<typename T> std::array<unsigned char, sizeof (T)> to_bytes(const T& object);
+  template<typename T> std::array<unsigned char, sizeof (T) > to_bytes(const T& object);
   template<typename T>
   T& from_bytes(const std::array<unsigned char, sizeof (T)>& bytes, T& object);
-  
+
   uint32_t enc_base64(const std::string &data_str, std::string &base64_str);
   uint32_t dec_base64(const std::string& base64_str, std::string &data_str);
 }

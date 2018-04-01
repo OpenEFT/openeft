@@ -178,44 +178,44 @@ namespace eft {
     *ec_keypair = ec_key;
     return EFT_OK;
   }
-  
+
   uint32_t ec_to_raw_pp(const EC_KEY* ec_keypair,
-                          unsigned char **public_key, int& pubkey_len,
-                          unsigned char **private_key, int& privkey_len) {
+          unsigned char **public_key, int& pubkey_len,
+          unsigned char **private_key, int& privkey_len) {
     const EC_POINT* pub_point = NULL;
     const BIGNUM *priv_bn = NULL;
     unsigned char *pubkey = NULL, *privkey = NULL;
     const EC_GROUP *ec_group = NULL;
     size_t pubkey_hex_size, privkey_hex_size;
-    
+
     ec_group = EC_KEY_get0_group(ec_keypair);
-    
+
     pub_point = EC_KEY_get0_public_key(ec_keypair);
     priv_bn = EC_KEY_get0_private_key(ec_keypair);
-    
-    pubkey_hex_size = 
+
+    pubkey_hex_size =
             EC_POINT_point2oct(ec_group, pub_point, POINT_CONVERSION_COMPRESSED, 0, 0, 0);
-    pubkey = (unsigned char*)OPENSSL_malloc(pubkey_hex_size);
-    
-    EC_POINT_point2oct(ec_group, pub_point, POINT_CONVERSION_COMPRESSED, 
-                      pubkey, pubkey_hex_size, 0);
-    
-    
+    pubkey = (unsigned char*) OPENSSL_malloc(pubkey_hex_size);
+
+    EC_POINT_point2oct(ec_group, pub_point, POINT_CONVERSION_COMPRESSED,
+            pubkey, pubkey_hex_size, 0);
+
+
     privkey_hex_size = BN_num_bytes(priv_bn);
-    privkey = (unsigned char*)OPENSSL_malloc(privkey_hex_size);
+    privkey = (unsigned char*) OPENSSL_malloc(privkey_hex_size);
     BN_bn2bin(priv_bn, privkey);
-    
+
     pubkey_len = pubkey_hex_size;
     privkey_len = privkey_hex_size;
-    
+
     *public_key = pubkey;
-    *private_key = privkey;  
-    
+    *private_key = privkey;
+
     return EFT_OK;
   }
 
   uint32_t ec_get_pubkey(unsigned char *raw_privkey, int privkey_len,
-            unsigned char **pubkey, int& pubkey_len) {
+          unsigned char **pubkey, int& pubkey_len) {
     BN_CTX *ctx;
     EC_KEY *privkey;
     const EC_GROUP *group;
@@ -228,28 +228,28 @@ namespace eft {
     group = EC_KEY_get0_group(privkey);
     pubkey_point = EC_POINT_new(group);
     EC_KEY_set_private_key(privkey, bn_privkey);
-    
+
     ctx = BN_CTX_new();
     bn_pubkey = BN_new();
-    
+
     EC_POINT_mul(group, pubkey_point, bn_privkey, NULL, NULL, ctx);
     bn_pubkey = EC_POINT_point2bn(group, pubkey_point,
             POINT_CONVERSION_COMPRESSED, bn_pubkey, ctx);
-    
+
     *pubkey = (unsigned char *) malloc(sizeof (unsigned char) * (BN_num_bytes(bn_pubkey) + 1));
     pubkey_len = BN_num_bytes(bn_pubkey);
-    
+
     BN_free(bn_pubkey);
     EC_POINT_free(pubkey_point);
     EC_KEY_free(privkey);
     BN_CTX_free(ctx);
     return EFT_OK;
   }
-  
+
   uint32_t ecdh_derive_secret(EC_KEY* eckey,
           uint32_t nid,
           char* peer_key,
-          char* secret) {
+          char** secret) {
     EC_KEY* peer_pub_eckey;
     EC_POINT* pub = NULL;
     unsigned char* sec;
@@ -258,7 +258,6 @@ namespace eft {
     uint32_t field_size =
             EC_GROUP_get_degree(EC_KEY_get0_group(eckey));
     sec_len = (field_size + 7) / 8;
-
     if (NULL == (sec = (unsigned char*) OPENSSL_malloc(sec_len))) {
       log(LOG_ERR, "Failed to allocate openssl object.");
       return EFT_NOK;
@@ -275,10 +274,9 @@ namespace eft {
             eckey,
             NULL);
 
-    strcpy(secret, bytes_to_hex(sec, sec_len).c_str());
-
+    *secret = (char*) malloc(sec_len * 2 + 1);
+    sprintf(*secret, "%s", bytes_to_hex(sec, sec_len).c_str());
     OPENSSL_free(sec);
-
     return EFT_OK;
   }
 

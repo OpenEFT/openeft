@@ -17,49 +17,52 @@
 //----------------------------------------------------------------------
 
 #include "eftclass.h"
+#include "log/log.h"
 #include "test_ecdh.h"
 
 eftTestEcdh::eftTestEcdh() {
-  
+
 }
 
 eftTestEcdh::~eftTestEcdh() {
-  
+
 }
 
 void eftTestEcdh::tick() {
-  
+
 }
 
 uint32_t eftTestEcdh::run() {
   EC_KEY* key = NULL;
   char* public_key;
-  char* peer_pub_key;
+  char peer_pub_key[] = "031DEDEB5EB7D0F95BCB4E8268ABD4BE9D0667965017E7B72D28E05940CF543325";
   char* secret;
-  
-  auto start_time = std::chrono::steady_clock::now();
 
-  eft::ec_gen_keypair(NID_X9_62_c2pnb163v1, &key, public_key);
+  auto start_time = std::chrono::steady_clock::now();
+  eft::ec_gen_keypair(NID_secp256k1, &key, public_key);
 
   /* exchange the public key with peer(s) */
 
-  eft::ecdh_derive_secret(key, NID_X9_62_c2pnb163v1,
-          peer_pub_key, secret);
+  eft::ecdh_derive_secret(key, NID_secp256k1,
+          peer_pub_key, &secret);
   
+  log(LOG_DEBUG, "Shared secret key:\n[%s]", secret);
+
   auto stop_time = std::chrono::steady_clock::now();
   auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
           stop_time - start_time);
   cur_test_result.duration = static_cast<double> (duration.count());
-  cur_test_result.nid = NID_X9_62_c2pnb163v1;
+  cur_test_result.nid = NID_secp256k1;
   cur_test_result.secret_no = 1;
   cur_test_result.rate = 1;
 
+  free(secret);
   return EFT_OK;
 }
 
 uint32_t eftTestEcdh::stop(TestResult& result) {
   last_test_result = cur_test_result;
   result = cur_test_result;
-  
+
   return EFT_OK;
 }

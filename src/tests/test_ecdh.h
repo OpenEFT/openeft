@@ -35,15 +35,15 @@ public:
     uint32_t duration;
   };
 
-  
+
   uint32_t run();
   virtual void tick();
-  
+
   uint32_t stop(TestResult& result);
-  
+
 private:
   TestResult last_test_result, cur_test_result;
-  
+
 };
 
 #endif /* TEST_ECDH_H */
