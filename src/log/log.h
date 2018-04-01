@@ -66,7 +66,7 @@ void dumpb(const uint8_t *buffer, uint32_t len);
         do { \
           if(eftConfig::log_enabled) \
             if (level <= eftConfig::log_run_level) \
-              dprintf(eftConfig::log_fp, "[%s][%d][%s()][%u:%u]\033[90G%s:\n", \
+              dprintf(eftConfig::log_fp, "[%s][%d][%s()][%u:%u]\033[100G%s\n", \
                                   __FILE__, \
                                   __LINE__, \
                                   __func__, \

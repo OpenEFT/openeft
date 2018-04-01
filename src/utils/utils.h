@@ -30,23 +30,37 @@ namespace eft {
   /* boost toolbox */
   uint32_t get_thread_id();
   uint32_t get_process_id();
+  
+  std::string random_string(uint32_t length);
 
   /* openssl toolbox */
-  void sha_256(string str, uint8_t outputBuffer[SHA256_DIGEST_LENGTH * 2 + 1]);
-  void sha_512(string str, uint8_t outputBuffer[SHA512_DIGEST_LENGTH * 2 + 1]);
+  void sha_256(const char *str, uint8_t hash_out[SHA256_DIGEST_LENGTH * 2 + 1]);
+  void sha_512(const char *str, uint8_t hash_out[SHA512_DIGEST_LENGTH * 2 + 1]);
 
-  uint32_t sha256_file(uint8_t *path, uint8_t outputBuffer[SHA256_DIGEST_LENGTH * 2 + 1]);
-  uint32_t sha512_file(uint8_t *path, uint8_t outputBuffer[SHA512_DIGEST_LENGTH * 2 + 1]);
+  uint32_t sha256_file(uint8_t *path, uint8_t hash_out[SHA256_DIGEST_LENGTH * 2 + 1]);
+  uint32_t sha512_file(uint8_t *path, uint8_t hash_out[SHA512_DIGEST_LENGTH * 2 + 1]);
 
   /* Elliptic Curve keypair generation */
-  uint32_t ec_gen_keypair(uint32_t nid, EC_KEY* eckey, char* public_key);
-
+  uint32_t ec_gen_keypair(uint32_t nid, EC_KEY** ec_keypair, char* public_key);
+  
+  uint32_t ec_to_raw_pp(const EC_KEY* ec_keypair,
+                          unsigned char **pubkey, int& pubkey_len,
+                          unsigned char **privkey, int& privkey_len);
+  
+  /* get public key from the input private key */
+  uint32_t ec_get_pubkey(unsigned char *raw_privkey, int privkey_len,
+            unsigned char **pubkey, int& pubkey_len);
+  
   /* Elliptic Curve Diffie Hellman shared secret key generation */
   uint32_t ecdh_derive_secret(EC_KEY* eckey,
     uint32_t nid,
     char* peer_key,
     char* secret);
-
+  
+  uint32_t ecdsa_signature(EC_KEY* eckey, std::string hash, ECDSA_SIG** sig);
+  uint32_t ecdsa_verify(EC_KEY* eckey, std::string hash,
+                          const ECDSA_SIG* sig, uint32_t& verified);
+  
   void hex_to_bytes(const std::string& hex, unsigned char* buffer);
   std::string bytes_to_hex(const unsigned char* buffer, uint32_t size);
 

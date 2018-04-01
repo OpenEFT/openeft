@@ -16,43 +16,35 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 
+#ifndef _OPENEFT_TEST_VERIFY_SIG_H
+#define _OPENEFT_TEST_VERIFY_SIG_H
+
+#include "global.h"
 #include "eftclass.h"
-#include "test_ec.h"
+#include "utils/utils.h"
 
-eftTestEc::eftTestEc() {
+class eftTestVerifySig : public eftClass {
+public:
+  eftTestVerifySig();
+  ~eftTestVerifySig();
+
+  struct TestResult {
+    uint32_t nid;
+    uint32_t verify_no;
+    uint32_t rate; /* verify per second */
+    uint32_t duration;
+  };
+
   
-}
-
-eftTestEc::~eftTestEc() {
+  uint32_t run();
+  virtual void tick();
   
-}
-
-void eftTestEc::tick() {
+  uint32_t stop(TestResult& result);
   
-}
-
-uint32_t eftTestEc::run() {
-  EC_KEY* key;
-  char* public_key;
+private:
+  TestResult last_test_result, cur_test_result;
   
-  auto start_time = std::chrono::steady_clock::now();
+};
 
-  eft::ec_gen_keypair(NID_secp256k1, &key, public_key);
-  
-  auto stop_time = std::chrono::steady_clock::now();
-  auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-          stop_time - start_time);
-  cur_test_result.duration = static_cast<double> (duration.count());
-  cur_test_result.nid = NID_secp256k1;
-  cur_test_result.keypair_no = 1;
-  cur_test_result.rate = 1;
+#endif /* TEST_VERIFY_SIG_H */
 
-  return EFT_OK;
-}
-
-uint32_t eftTestEc::stop(TestResult& result) {
-  last_test_result = cur_test_result;
-  result = cur_test_result;
-  
-  return EFT_OK;
-}

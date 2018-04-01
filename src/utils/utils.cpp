@@ -34,7 +34,7 @@ namespace eft {
 
     strs.push_back(txt.substr(initialPos, std::min(pos, txt.size()) - initialPos + 1));
 
-    return (uint32_t)strs.size();
+    return (uint32_t) strs.size();
   }
 
   uint32_t get_thread_id() {
@@ -51,7 +51,21 @@ namespace eft {
     return proc_no;
   }
 
-  void sha_256(const char *str, char outputBuffer[SHA256_DIGEST_LENGTH * 2 + 1]) {
+  std::string random_string(uint32_t length) {
+    auto randchar = []() -> char {
+      const char charset[] =
+              "0123456789"
+              "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+              "abcdefghijklmnopqrstuvwxyz";
+      const size_t max_index = (sizeof (charset) - 1);
+      return charset[ rand() % max_index ];
+    };
+    std::string str(length, 0);
+    std::generate_n(str.begin(), length, randchar);
+    return str;
+  }
+
+  void sha_256(const char *str, uint8_t hash_out[SHA256_DIGEST_LENGTH * 2 + 1]) {
     uint8_t hash[SHA256_DIGEST_LENGTH];
     SHA256_CTX sha256;
     SHA256_Init(&sha256);
@@ -59,13 +73,13 @@ namespace eft {
     SHA256_Final(hash, &sha256);
 
     for (uint32_t i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-      sprintf(outputBuffer + (i * 2), "%02x", hash[i]);
+      sprintf((char*) hash_out + (i * 2), "%02x", hash[i]);
     }
 
     return;
   }
 
-  uint32_t sha256_file(const char *path, char outputBuffer[SHA256_DIGEST_LENGTH * 2 + 1]) {
+  uint32_t sha256_file(const char *path, uint8_t hash_out[SHA256_DIGEST_LENGTH * 2 + 1]) {
     FILE *file = fopen(path, "rb");
     if (!file)
       return EFT_NOK;
@@ -85,7 +99,7 @@ namespace eft {
     SHA256_Final(hash, &sha256);
 
     for (uint32_t i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-      sprintf(outputBuffer + (i * 2), "%02x", hash[i]);
+      sprintf((char*) hash_out + (i * 2), "%02x", hash[i]);
     }
 
     fclose(file);
@@ -94,7 +108,7 @@ namespace eft {
     return EFT_OK;
   }
 
-  void sha_512(const char *str, char outputBuffer[SHA512_DIGEST_LENGTH * 2 + 1]) {
+  void sha_512(const char *str, uint8_t hash_out[SHA512_DIGEST_LENGTH * 2 + 1]) {
     uint8_t hash[SHA512_DIGEST_LENGTH];
     SHA512_CTX sha512;
     SHA512_Init(&sha512);
@@ -102,13 +116,13 @@ namespace eft {
     SHA512_Final(hash, &sha512);
 
     for (uint32_t i = 0; i < SHA512_DIGEST_LENGTH; i++) {
-      sprintf(outputBuffer + (i * 2), "%02x", hash[i]);
+      sprintf((char*) hash_out + (i * 2), "%02x", hash[i]);
     }
 
     return;
   }
 
-  uint32_t sha512_file(const char *path, char outputBuffer[SHA512_DIGEST_LENGTH * 2 + 1]) {
+  uint32_t sha512_file(const char *path, uint8_t hash_out[SHA512_DIGEST_LENGTH * 2 + 1]) {
     FILE *file = fopen(path, "rb");
     if (!file)
       return EFT_NOK;
@@ -128,7 +142,7 @@ namespace eft {
     SHA512_Final(hash, &sha512);
 
     for (uint32_t i = 0; i < SHA512_DIGEST_LENGTH; i++) {
-      sprintf(outputBuffer + (i * 2), "%02x", hash[i]);
+      sprintf((char*) hash_out + (i * 2), "%02x", hash[i]);
     }
 
     fclose(file);
@@ -138,35 +152,100 @@ namespace eft {
   }
 
   uint32_t ec_gen_keypair(uint32_t nid,
-          EC_KEY* eckey,
+          EC_KEY** ec_keypair,
           char* public_key) {
 
-    if (NULL == (eckey = EC_KEY_new_by_curve_name(nid))) {
+    EC_KEY* ec_key = NULL;
+    if (NULL == (ec_key = EC_KEY_new_by_curve_name(nid))) {
       log(LOG_ERR, "Failed to set the DH curve name.");
       return EFT_NOK;
     }
 
-    if (1 != EC_KEY_generate_key(eckey)) {
+    if (1 != EC_KEY_generate_key(ec_key)) {
       log(LOG_ERR, "Failed to generate a key pair.");
       return EFT_NOK;
     }
 
     public_key =
-            EC_POINT_point2hex(EC_KEY_get0_group(eckey),
-            EC_KEY_get0_public_key(eckey),
+            EC_POINT_point2hex(EC_KEY_get0_group(ec_key),
+            EC_KEY_get0_public_key(ec_key),
             POINT_CONVERSION_COMPRESSED,
             NULL);
-    
-    std::string pub_base64;
-    enc_base64(std::string(public_key), pub_base64);
 
     log(LOG_DEBUG, "Public key:\n[%s]", public_key);
-    log(LOG_DEBUG, "Public key base64:\n[%s]", pub_base64.c_str());
-    log(LOG_DEBUG, "Private key:\n[%s]", BN_bn2hex(EC_KEY_get0_private_key(eckey)));
+    log(LOG_DEBUG, "Private key:\n[%s]", BN_bn2hex(EC_KEY_get0_private_key(ec_key)));
 
+    *ec_keypair = ec_key;
+    return EFT_OK;
+  }
+  
+  uint32_t ec_to_raw_pp(const EC_KEY* ec_keypair,
+                          unsigned char **public_key, int& pubkey_len,
+                          unsigned char **private_key, int& privkey_len) {
+    const EC_POINT* pub_point = NULL;
+    const BIGNUM *priv_bn = NULL;
+    unsigned char *pubkey = NULL, *privkey = NULL;
+    const EC_GROUP *ec_group = NULL;
+    size_t pubkey_hex_size, privkey_hex_size;
+    
+    ec_group = EC_KEY_get0_group(ec_keypair);
+    
+    pub_point = EC_KEY_get0_public_key(ec_keypair);
+    priv_bn = EC_KEY_get0_private_key(ec_keypair);
+    
+    pubkey_hex_size = 
+            EC_POINT_point2oct(ec_group, pub_point, POINT_CONVERSION_COMPRESSED, 0, 0, 0);
+    pubkey = (unsigned char*)OPENSSL_malloc(pubkey_hex_size);
+    
+    EC_POINT_point2oct(ec_group, pub_point, POINT_CONVERSION_COMPRESSED, 
+                      pubkey, pubkey_hex_size, 0);
+    
+    
+    privkey_hex_size = BN_num_bytes(priv_bn);
+    privkey = (unsigned char*)OPENSSL_malloc(privkey_hex_size);
+    BN_bn2bin(priv_bn, privkey);
+    
+    pubkey_len = pubkey_hex_size;
+    privkey_len = privkey_hex_size;
+    
+    *public_key = pubkey;
+    *private_key = privkey;  
+    
     return EFT_OK;
   }
 
+  uint32_t ec_get_pubkey(unsigned char *raw_privkey, int privkey_len,
+            unsigned char **pubkey, int& pubkey_len) {
+    BN_CTX *ctx;
+    EC_KEY *privkey;
+    const EC_GROUP *group;
+    EC_POINT *pubkey_point;
+    BIGNUM *bn_privkey, *bn_pubkey;
+
+    bn_privkey = BN_bin2bn(raw_privkey, privkey_len, NULL);
+
+    privkey = EC_KEY_new_by_curve_name(NID_secp256k1);
+    group = EC_KEY_get0_group(privkey);
+    pubkey_point = EC_POINT_new(group);
+    EC_KEY_set_private_key(privkey, bn_privkey);
+    
+    ctx = BN_CTX_new();
+    bn_pubkey = BN_new();
+    
+    EC_POINT_mul(group, pubkey_point, bn_privkey, NULL, NULL, ctx);
+    bn_pubkey = EC_POINT_point2bn(group, pubkey_point,
+            POINT_CONVERSION_COMPRESSED, bn_pubkey, ctx);
+    
+    *pubkey = (unsigned char *) malloc(sizeof (unsigned char) * (BN_num_bytes(bn_pubkey) + 1));
+    pubkey_len = BN_num_bytes(bn_pubkey);
+    
+    BN_free(bn_pubkey);
+    EC_POINT_free(pubkey_point);
+    EC_KEY_free(privkey);
+    BN_CTX_free(ctx);
+    return EFT_OK;
+  }
+  
   uint32_t ecdh_derive_secret(EC_KEY* eckey,
           uint32_t nid,
           char* peer_key,
@@ -195,10 +274,49 @@ namespace eft {
             EC_KEY_get0_public_key(peer_pub_eckey),
             eckey,
             NULL);
-    
+
     strcpy(secret, bytes_to_hex(sec, sec_len).c_str());
-    
+
     OPENSSL_free(sec);
+
+    return EFT_OK;
+  }
+
+  uint32_t ecdsa_signature(EC_KEY* eckey, std::string hash, ECDSA_SIG** sig) {
+    uint32_t len = 0;
+    ECDSA_SIG* signature = NULL;
+    do {
+      signature = ECDSA_do_sign((const uint8_t*) hash.c_str(), hash.length(), eckey);
+      if (NULL == signature) {
+        log(LOG_ERR, "Failed to generate ECDSA signature.");
+        return EFT_NOK;
+      }
+
+      len = i2d_ECDSA_SIG(signature, NULL);
+    } while (len != 0x48);
+
+    uint8_t *der, *der_copy;
+    uint32_t der_sig_len;
+    der = (uint8_t*) OPENSSL_malloc(len);
+    der_copy = der;
+    der_sig_len = i2d_ECDSA_SIG(signature, &der_copy);
+
+    logb(LOG_DEBUG, "ECDSA signature:", der, len);
+
+    OPENSSL_free(der);
+
+    *sig = signature;
+    return EFT_OK;
+  }
+
+  uint32_t ecdsa_verify(EC_KEY* eckey, std::string hash, const ECDSA_SIG* sig, uint32_t& verified) {
+    uint32_t verify_status = ECDSA_do_verify((const uint8_t*) hash.c_str(), hash.length(), sig, eckey);
+    if (verify_status == -1) {
+      log(LOG_ERR, "Error in signature verification process.");
+      return EFT_NOK;
+    }
+
+    verified = verify_status;
 
     return EFT_OK;
   }
@@ -211,7 +329,7 @@ namespace eft {
       unsigned char byte = (char) strtol(byteString.c_str(), NULL, 16);
       bytes.push_back(byte);
     }
-    
+
     std::copy(bytes.begin(), bytes.end(), buffer);
 
     return;
@@ -229,8 +347,8 @@ namespace eft {
     return str.str();
   }
 
-  template<typename T> std::array<unsigned char, sizeof (T)> to_bytes(const T& object) {
-    std::array<unsigned char, sizeof (T)> bytes;
+  template<typename T> std::array<unsigned char, sizeof (T) > to_bytes(const T& object) {
+    std::array<unsigned char, sizeof (T) > bytes;
 
     const unsigned char* begin = reinterpret_cast<const unsigned char*> (std::addressof(object));
     const unsigned char* end = begin + sizeof (T);
@@ -251,27 +369,27 @@ namespace eft {
 
   uint32_t enc_base64(const std::string &data_str, std::string &base64_str) {
     typedef insert_linebreaks<base64_from_binary
-        <transform_width<string::const_iterator, 6, 8> >, 96> it_base64_t;
+            <transform_width<string::const_iterator, 6, 8> >, 96> it_base64_t;
 
     unsigned int write_pad_char = (3 - data_str.length() % 3) % 3;
-    std::string str(it_base64_t(data_str.begin()),it_base64_t(data_str.end()));
-    str.append(write_pad_char,'=');
+    std::string str(it_base64_t(data_str.begin()), it_base64_t(data_str.end()));
+    str.append(write_pad_char, '=');
     base64_str = str;
-    
+
     return EFT_OK;
   }
-  
+
   uint32_t dec_base64(const std::string& base64_str, std::string &data_str) {
     typedef transform_width< binary_from_base64
-        <remove_whitespace<string::const_iterator> >, 8, 6> it_binary_t;
-    
+            <remove_whitespace<string::const_iterator> >, 8, 6> it_binary_t;
+
     std::string base64_input = base64_str;
     unsigned int padded_char = count(base64_input.begin(), base64_input.end(), '=');
     std::replace(base64_input.begin(), base64_input.end(), '=', 'A');
     std::string str(it_binary_t(base64_str.begin()), it_binary_t(base64_str.end()));
     str.erase(str.end() - padded_char, str.end());
     data_str = str;
-  
+
     return EFT_OK;
   }
 

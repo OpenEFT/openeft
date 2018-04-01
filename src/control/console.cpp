@@ -37,6 +37,7 @@ eftConsole::eftConsole() {
     {EFT_GET_COMMS_BENCHMARK, "get_comms_benchmark", &eftConsole::banchmark_comms_cmd},
     {EFT_GET_EC_BENCHMARK, "get_ec_benchmark", &eftConsole::benchmark_ec_cmd},
     {EFT_GET_ECDH_BENCHMARK, "get_ecdh_benchmark", &eftConsole::benchmark_ecdh_cmd},
+    {EFT_GET_DSA_BENCHMARK, "get_dsa_benchmark", &eftConsole::benchmark_dsa_cmd},
     {EFT_COMMANDS_NOID, "console_log", &eftConsole::console_log_cmd}
   };
 }
@@ -202,5 +203,15 @@ uint32_t eftConsole::console_log_cmd(std::vector<std::string>& args) {
     log(LOG_CONSOLE, "Parameter [%s] not recognized.", args[1].c_str());
   }
 
+  return EFT_OK;
+}
+
+uint32_t eftConsole::benchmark_dsa_cmd(std::vector<std::string>& args) {
+  DsaBenchmarkTable benchmark;
+  get_dsa_benchmark(benchmark);
+  log(LOG_CONSOLE, "Elliptic-curve DSA benchmark information:");
+  log(LOG_CONSOLE, "Number of verifies: [%d]", benchmark.no_verify);
+  log(LOG_CONSOLE, "Duration: [%d]ms", benchmark.duration);
+  log(LOG_CONSOLE, "Rate: [%d]kps", benchmark.rate);
   return EFT_OK;
 }

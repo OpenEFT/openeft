@@ -21,6 +21,7 @@
 #include "tests/test_comms.h"
 #include "tests/test_ec.h"
 #include "tests/test_ecdh.h"
+#include "tests/test_verify_sig.h"
 
 eftControl::~eftControl() {
 }
@@ -41,6 +42,7 @@ uint32_t eftControl::help(HelpResult &ret) {
   ret.eft_get_comms_benchmark = "Get the latest network interface performance benchmarks.";
   ret.eft_get_ec_benchmark = "Get the Elliptic-curve keypair generation benchmark.";
   ret.eft_get_ecdh_benchmark = "Get the Elliptic-curve Diffie–Hellman (ECDH) performance benchmarks.";
+  ret.eft_get_dsa_benchmark = "Get the Digital Signature Algorithm performance benchmark";
   return EFT_OK;
 }
 
@@ -109,6 +111,18 @@ uint32_t eftControl::get_ecdh_benchmak(EcdhBenchmarkTable &benchmark) {
   t->stop(result);
   benchmark.duration = result.duration;
   benchmark.no_secrets = result.secret_no;
+  benchmark.rate = result.rate;
+
+  return EFT_OK;
+}
+
+uint32_t eftControl::get_dsa_benchmark(DsaBenchmarkTable &benchmark) {
+  eftTestVerifySig::TestResult result;
+  eftTestVerifySig* t = new eftTestVerifySig();
+  t->run();
+  t->stop(result);
+  benchmark.duration = result.duration;
+  benchmark.no_verify = result.verify_no;
   benchmark.rate = result.rate;
 
   return EFT_OK;

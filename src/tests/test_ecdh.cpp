@@ -32,14 +32,14 @@ void eftTestEcdh::tick() {
 }
 
 uint32_t eftTestEcdh::run() {
-  EC_KEY* key;
+  EC_KEY* key = NULL;
   char* public_key;
   char* peer_pub_key;
   char* secret;
   
   auto start_time = std::chrono::steady_clock::now();
 
-  eft::ec_gen_keypair(NID_X9_62_c2pnb163v1, key, public_key);
+  eft::ec_gen_keypair(NID_X9_62_c2pnb163v1, &key, public_key);
 
   /* exchange the public key with peer(s) */
 

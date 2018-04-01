@@ -61,7 +61,7 @@ private:
   uint32_t banchmark_comms_cmd(std::vector<std::string>& args);
   uint32_t benchmark_ec_cmd(std::vector<std::string>& args);
   uint32_t benchmark_ecdh_cmd(std::vector<std::string>& args);
-  
+  uint32_t benchmark_dsa_cmd(std::vector<std::string>& args);
   
   /* Other commands */
   uint32_t console_log_cmd(std::vector<std::string>& args);

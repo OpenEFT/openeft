@@ -54,6 +54,7 @@ public:
     EFT_GET_COMMS_BENCHMARK,
     EFT_GET_EC_BENCHMARK,
     EFT_GET_ECDH_BENCHMARK,
+    EFT_GET_DSA_BENCHMARK,
     
     EFT_COMMANDS_NOID,
     EFT_COMMANDS_LAST
@@ -73,6 +74,7 @@ public:
     string eft_get_comms_benchmark;
     string eft_get_ec_benchmark;
     string eft_get_ecdh_benchmark;
+    string eft_get_dsa_benchmark;
   };
 
   struct CheckupResult {
@@ -124,6 +126,13 @@ public:
     uint32_t duration;
     uint32_t rate; /* Secret key per seconds */
   };
+  
+  struct DsaBenchmarkTable {
+    uint32_t no_verify;
+    uint32_t duration;
+    uint32_t rate; /* verify signature per seconds */
+  };
+  
 
 protected:
 
@@ -141,6 +150,7 @@ protected:
   uint32_t get_comms_benchmak(CommsBenchmarkTable &benchmark);
   uint32_t get_ec_benchmark(EcBenchmarkTable &benchmark);
   uint32_t get_ecdh_benchmak(EcdhBenchmarkTable &benchmark);
+  uint32_t get_dsa_benchmark(DsaBenchmarkTable &benchmark);
 };
 
 #endif /* CONTROL_H */
