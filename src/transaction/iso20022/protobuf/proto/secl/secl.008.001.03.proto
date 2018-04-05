@@ -1,0 +1,347 @@
+//----------------------------------------------------------------------
+// Copyright (C) 2018  openeft.org
+// Copyright (C) Reza Schadmani <reza.schadmani@openeft.org>
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//----------------------------------------------------------------------
+
+message UnspecifiedType
+{
+	required string baseObjectType = 1;
+	required bytes object = 2;
+}
+
+message SupplementaryDataEnvelope1
+{
+}
+
+message FinancialInstrumentQuantity1Choice
+{
+	optional double Unit = 1;
+	optional double FaceAmt = 2;
+	optional double AmtsdVal = 3;
+}
+
+message PartyTextInformation1
+{
+	optional string DclrtnDtls = 1;
+	optional string PtyCtctDtls = 2;
+	optional string RegnDtls = 3;
+}
+
+message GenericIdentification30
+{
+	required string Id = 1;
+	required string Issr = 2;
+	optional string SchmeNm = 3;
+}
+
+message SafekeepingPlaceTypeAndAnyBICIdentifier1
+{
+	enum SafekeepingPlace1Code
+	{
+		SafekeepingPlace1Code_CUST = 1;
+		SafekeepingPlace1Code_ICSD = 2;
+		SafekeepingPlace1Code_NCSD = 3;
+		SafekeepingPlace1Code_SHHE = 4;
+	}
+	required SafekeepingPlace1Code SfkpgPlcTp = 1;
+	required string Id = 2;
+}
+
+message BuyIn3
+{
+	required string BuyInNtfctnId = 1;
+	required bool ReqForDelyInd = 2;
+	required double NbOfDays = 3;
+	required FinancialInstrumentQuantity1Choice InitlQty = 4;
+	required FinancialInstrumentQuantity1Choice CvrdQty = 5;
+	required FinancialInstrumentQuantity1Choice UcvrdQty = 6;
+}
+
+message SafekeepingPlaceTypeAndText1
+{
+	enum SafekeepingPlace3Code
+	{
+		SafekeepingPlace3Code_SHHE = 1;
+	}
+	required SafekeepingPlace3Code SfkpgPlcTp = 1;
+	optional string Id = 2;
+}
+
+message SecuritiesAccount18
+{
+	required string Id = 1;
+	enum ClearingAccountType1Code
+	{
+		ClearingAccountType1Code_CLIE = 1;
+		ClearingAccountType1Code_HOUS = 2;
+		ClearingAccountType1Code_LIPR = 3;
+	}
+	required ClearingAccountType1Code Tp = 2;
+	optional string Nm = 3;
+}
+
+message IdentificationType6Choice
+{
+	enum TypeOfIdentification1Code
+	{
+		TypeOfIdentification1Code_ARNU = 1;
+		TypeOfIdentification1Code_CCPT = 2;
+		TypeOfIdentification1Code_CHTY = 3;
+		TypeOfIdentification1Code_CORP = 4;
+		TypeOfIdentification1Code_DRLC = 5;
+		TypeOfIdentification1Code_FIIN = 6;
+		TypeOfIdentification1Code_TXID = 7;
+	}
+	optional TypeOfIdentification1Code Cd = 1;
+	optional GenericIdentification30 Prtry = 2;
+}
+
+message SecuritiesAccount19
+{
+	required string Id = 1;
+	optional GenericIdentification30 Tp = 2;
+	optional string Nm = 3;
+}
+
+message ActiveOrHistoricCurrencyAndAmount
+{
+	required string Ccy = 1;
+}
+
+message AlternatePartyIdentification4
+{
+	required IdentificationType6Choice IdTp = 1;
+	required string Ctry = 2;
+	required string AltrnId = 3;
+}
+
+message ActiveCurrencyAndAmount
+{
+	required string Ccy = 1;
+}
+
+message GenericIdentification40
+{
+	required string Id = 1;
+	required string Issr = 2;
+	optional string SchmeNm = 3;
+}
+
+message SupplementaryData1
+{
+	optional string PlcAndNm = 1;
+	required SupplementaryDataEnvelope1 Envlp = 2;
+}
+
+message IdentificationSource3Choice
+{
+	optional string Cd = 1;
+	optional string Prtry = 2;
+}
+
+message GenericIdentification29
+{
+	required string Id = 1;
+	required string Issr = 2;
+	optional string SchmeNm = 3;
+}
+
+message ActiveOrHistoricCurrencyAnd13DecimalAmount
+{
+	required string Ccy = 1;
+}
+
+message PostalAddress1
+{
+	enum AddressType2Code
+	{
+		AddressType2Code_ADDR = 1;
+		AddressType2Code_BIZZ = 2;
+		AddressType2Code_DLVY = 3;
+		AddressType2Code_HOME = 4;
+		AddressType2Code_MLTO = 5;
+		AddressType2Code_PBOX = 6;
+	}
+	optional AddressType2Code AdrTp = 1;
+	repeated string AdrLine = 2;
+	optional string StrtNm = 3;
+	optional string BldgNb = 4;
+	optional string PstCd = 5;
+	optional string TwnNm = 6;
+	optional string CtrySubDvsn = 7;
+	required string Ctry = 8;
+}
+
+message PostalAddress2
+{
+	optional string StrtNm = 1;
+	required string PstCdId = 2;
+	required string TwnNm = 3;
+	optional string CtrySubDvsn = 4;
+	required string Ctry = 5;
+}
+
+message OtherIdentification1
+{
+	required string Id = 1;
+	optional string Sfx = 2;
+	required IdentificationSource3Choice Tp = 3;
+}
+
+message SecurityIdentification14
+{
+	optional string ISIN = 1;
+	repeated OtherIdentification1 OthrId = 2;
+	optional string Desc = 3;
+}
+
+message ForeignExchangeTerms17
+{
+	required string UnitCcy = 1;
+	required string QtdCcy = 2;
+	required double XchgRate = 3;
+	required ActiveCurrencyAndAmount RsltgAmt = 4;
+}
+
+message NameAndAddress5
+{
+	required string Nm = 1;
+	optional PostalAddress1 Adr = 2;
+}
+
+message NameAndAddress6
+{
+	required string Nm = 1;
+	required PostalAddress2 Adr = 2;
+}
+
+message PartyIdentification35Choice
+{
+	optional string BIC = 1;
+	optional GenericIdentification29 PrtryId = 2;
+}
+
+message GenericIdentification58
+{
+	optional string Id = 1;
+	required GenericIdentification40 Tp = 2;
+}
+
+message PartyIdentification33Choice
+{
+	optional string AnyBIC = 1;
+	optional GenericIdentification29 PrtryId = 2;
+	optional NameAndAddress6 NmAndAdr = 3;
+}
+
+message PartyIdentification34Choice
+{
+	optional string BIC = 1;
+	optional NameAndAddress5 NmAndAdr = 2;
+	optional string Ctry = 3;
+}
+
+message PriceRateOrAmountChoice
+{
+	optional double Rate = 1;
+	optional ActiveOrHistoricCurrencyAnd13DecimalAmount Amt = 2;
+}
+
+message AmountAndDirection27
+{
+	required ActiveCurrencyAndAmount Amt = 1;
+	enum CreditDebitCode
+	{
+		CreditDebitCode_CRDT = 1;
+		CreditDebitCode_DBIT = 2;
+	}
+	optional CreditDebitCode CdtDbtInd = 2;
+	optional ActiveOrHistoricCurrencyAndAmount OrgnlCcyAndOrdrdAmt = 3;
+	optional ForeignExchangeTerms17 FXDtls = 4;
+}
+
+message SafekeepingPlaceFormat7Choice
+{
+	optional SafekeepingPlaceTypeAndText1 Id = 1;
+	optional string Ctry = 2;
+	optional SafekeepingPlaceTypeAndAnyBICIdentifier1 TpAndId = 3;
+	optional GenericIdentification58 Prtry = 4;
+}
+
+message Price4
+{
+	required PriceRateOrAmountChoice Val = 1;
+	enum PriceValueType7Code
+	{
+		PriceValueType7Code_ABSO = 1;
+		PriceValueType7Code_ACTU = 2;
+		PriceValueType7Code_DISC = 3;
+		PriceValueType7Code_FICT = 4;
+		PriceValueType7Code_PARV = 5;
+		PriceValueType7Code_PEUN = 6;
+		PriceValueType7Code_PRCT = 7;
+		PriceValueType7Code_PREM = 8;
+		PriceValueType7Code_SPRE = 9;
+		PriceValueType7Code_TEDP = 10;
+		PriceValueType7Code_TEDY = 11;
+		PriceValueType7Code_VACT = 12;
+		PriceValueType7Code_YIEL = 13;
+	}
+	optional PriceValueType7Code Tp = 2;
+}
+
+message PartyIdentificationAndAccount31
+{
+	required PartyIdentification33Choice Id = 1;
+	optional AlternatePartyIdentification4 AltrnId = 2;
+	optional PartyTextInformation1 AddtlInf = 3;
+	optional SecuritiesAccount18 ClrAcct = 4;
+}
+
+message SettlementObligation7
+{
+	optional string CSDTxId = 1;
+	optional string CntrlCtrPtyTxId = 2;
+	optional string PrvsBuyInId = 3;
+	optional SecuritiesAccount19 DlvryAcct = 4;
+	optional SafekeepingPlaceFormat7Choice SfkpgPlc = 5;
+	optional SecuritiesAccount19 SfkpgAcct = 6;
+	optional PartyIdentification35Choice ClrSgmt = 7;
+	optional PartyIdentificationAndAccount31 NonClrMmb = 8;
+	optional int32 IntnddSttlmDt = 9;
+	required SecurityIdentification14 FinInstrmId = 10;
+	optional int32 TradDt = 11;
+	optional Price4 DealPric = 12;
+	required FinancialInstrumentQuantity1Choice Qty = 13;
+	optional PartyIdentification34Choice Dpstry = 14;
+	optional FinancialInstrumentQuantity1Choice RmngQtyToBeSttld = 15;
+	required AmountAndDirection27 SttlmAmt = 16;
+	optional AmountAndDirection27 RmngAmtToBeSttld = 17;
+}
+
+message BuyInResponseV03
+{
+	optional string TxId = 1;
+	required BuyIn3 BuyInRspnDtls = 2;
+	optional SettlementObligation7 OrgnlSttlmOblgtnDtls = 3;
+	repeated SupplementaryData1 SplmtryData = 4;
+}
+
+message Document
+{
+	required BuyInResponseV03 BuyInRspn = 1;
+}
+

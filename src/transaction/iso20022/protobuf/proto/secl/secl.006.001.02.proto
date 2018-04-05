@@ -1,0 +1,236 @@
+//----------------------------------------------------------------------
+// Copyright (C) 2018  openeft.org
+// Copyright (C) Reza Schadmani <reza.schadmani@openeft.org>
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//----------------------------------------------------------------------
+
+message UnspecifiedType
+{
+	required string baseObjectType = 1;
+	required bytes object = 2;
+}
+
+message DateAndDateTimeChoice
+{
+	optional int32 Dt = 1;
+	optional int64 DtTm = 2;
+}
+
+message SupplementaryDataEnvelope1
+{
+}
+
+message PartyTextInformation1
+{
+	optional string DclrtnDtls = 1;
+	optional string PtyCtctDtls = 2;
+	optional string RegnDtls = 3;
+}
+
+message ReportParameters2
+{
+	required string RptId = 1;
+	required DateAndDateTimeChoice RptDtAndTm = 2;
+	enum EventFrequency6Code
+	{
+		EventFrequency6Code_DAIL = 1;
+		EventFrequency6Code_INDA = 2;
+		EventFrequency6Code_ONDE = 3;
+	}
+	required EventFrequency6Code Frqcy = 3;
+	required string RptCcy = 4;
+	optional int64 ClctnDt = 5;
+}
+
+message GenericIdentification30
+{
+	required string Id = 1;
+	required string Issr = 2;
+	optional string SchmeNm = 3;
+}
+
+message AccountSchemeName1Choice
+{
+	optional string Cd = 1;
+	optional string Prtry = 2;
+}
+
+message SecuritiesAccount18
+{
+	required string Id = 1;
+	enum ClearingAccountType1Code
+	{
+		ClearingAccountType1Code_CLIE = 1;
+		ClearingAccountType1Code_HOUS = 2;
+		ClearingAccountType1Code_LIPR = 3;
+	}
+	required ClearingAccountType1Code Tp = 2;
+	optional string Nm = 3;
+}
+
+message IdentificationType6Choice
+{
+	enum TypeOfIdentification1Code
+	{
+		TypeOfIdentification1Code_ARNU = 1;
+		TypeOfIdentification1Code_CCPT = 2;
+		TypeOfIdentification1Code_CHTY = 3;
+		TypeOfIdentification1Code_CORP = 4;
+		TypeOfIdentification1Code_DRLC = 5;
+		TypeOfIdentification1Code_FIIN = 6;
+		TypeOfIdentification1Code_TXID = 7;
+	}
+	optional TypeOfIdentification1Code Cd = 1;
+	optional GenericIdentification30 Prtry = 2;
+}
+
+message ActiveOrHistoricCurrencyAndAmount
+{
+	required string Ccy = 1;
+}
+
+message AlternatePartyIdentification4
+{
+	required IdentificationType6Choice IdTp = 1;
+	required string Ctry = 2;
+	required string AltrnId = 3;
+}
+
+message GenericAccountIdentification1
+{
+	required string Id = 1;
+	optional AccountSchemeName1Choice SchmeNm = 2;
+	optional string Issr = 3;
+}
+
+message ActiveCurrencyAndAmount
+{
+	required string Ccy = 1;
+}
+
+message SupplementaryData1
+{
+	optional string PlcAndNm = 1;
+	required SupplementaryDataEnvelope1 Envlp = 2;
+}
+
+message AmountAndDirection21
+{
+	required ActiveOrHistoricCurrencyAndAmount Amt = 1;
+	enum CreditDebitCode
+	{
+		CreditDebitCode_CRDT = 1;
+		CreditDebitCode_DBIT = 2;
+	}
+	optional CreditDebitCode CdtDbtInd = 2;
+}
+
+message GenericIdentification29
+{
+	required string Id = 1;
+	required string Issr = 2;
+	optional string SchmeNm = 3;
+}
+
+message Collateral3
+{
+	required ActiveCurrencyAndAmount PstHrcutVal = 1;
+	required ActiveCurrencyAndAmount MktVal = 2;
+	enum CollateralType2Code
+	{
+		CollateralType2Code_CASH = 1;
+		CollateralType2Code_SECU = 2;
+	}
+	required CollateralType2Code CollTp = 3;
+}
+
+message PostalAddress2
+{
+	optional string StrtNm = 1;
+	required string PstCdId = 2;
+	required string TwnNm = 3;
+	optional string CtrySubDvsn = 4;
+	required string Ctry = 5;
+}
+
+message NameAndAddress6
+{
+	required string Nm = 1;
+	required PostalAddress2 Adr = 2;
+}
+
+message PartyIdentification35Choice
+{
+	optional string BIC = 1;
+	optional GenericIdentification29 PrtryId = 2;
+}
+
+message AccountIdentification4Choice
+{
+	optional string IBAN = 1;
+	optional GenericAccountIdentification1 Othr = 2;
+}
+
+message PartyIdentification33Choice
+{
+	optional string AnyBIC = 1;
+	optional GenericIdentification29 PrtryId = 2;
+	optional NameAndAddress6 NmAndAdr = 3;
+}
+
+message PartyIdentificationAndAccount31
+{
+	required PartyIdentification33Choice Id = 1;
+	optional AlternatePartyIdentification4 AltrnId = 2;
+	optional PartyTextInformation1 AddtlInf = 3;
+	optional SecuritiesAccount18 ClrAcct = 4;
+}
+
+message Contribution1
+{
+	optional AccountIdentification4Choice Acct = 1;
+	required ActiveCurrencyAndAmount ReqrdAmt = 2;
+	optional ActiveCurrencyAndAmount IncrCvrgAmt = 3;
+	optional PartyIdentificationAndAccount31 NonClrMmb = 4;
+}
+
+message DefaultFund1
+{
+	required AccountIdentification4Choice DfltFndAcct = 1;
+	required ActiveCurrencyAndAmount TtlDfltFndAmt = 2;
+	repeated Contribution1 Cntrbtn = 3;
+	optional ActiveCurrencyAndAmount IncrCvrgAmt = 4;
+}
+
+message DefaultFundReport1
+{
+	repeated DefaultFund1 DfltFndClctn = 1;
+	repeated Collateral3 CollDesc = 2;
+	required AmountAndDirection21 NetXcssOrDfcit = 3;
+}
+
+message DefaultFundContributionReportV02
+{
+	required ReportParameters2 RptParams = 1;
+	required PartyIdentification35Choice ClrMmb = 2;
+	repeated DefaultFundReport1 RptDtls = 3;
+	repeated SupplementaryData1 SplmtryData = 4;
+}
+
+message Document
+{
+	required DefaultFundContributionReportV02 DfltFndCntrbtnRpt = 1;
+}
+

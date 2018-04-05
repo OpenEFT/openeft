@@ -1,0 +1,604 @@
+//----------------------------------------------------------------------
+// Copyright (C) 2018  openeft.org
+// Copyright (C) Reza Schadmani <reza.schadmani@openeft.org>
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//----------------------------------------------------------------------
+
+message UnspecifiedType
+{
+	required string baseObjectType = 1;
+	required bytes object = 2;
+}
+
+message DateAndDateTimeChoice
+{
+	optional int32 Dt = 1;
+	optional int64 DtTm = 2;
+}
+
+message SupplementaryDataEnvelope1
+{
+}
+
+message TradeDate3Choice
+{
+	optional int32 Dt = 1;
+	enum DateType1Code
+	{
+		DateType1Code_UKWN = 1;
+	}
+	optional DateType1Code DtCd = 2;
+}
+
+message Pagination
+{
+	required string PgNb = 1;
+	required bool LastPgInd = 2;
+}
+
+message ReportParameters4
+{
+	required string RptId = 1;
+	required DateAndDateTimeChoice RptDtAndTm = 2;
+}
+
+message SafekeepingPlaceTypeAndAnyBICIdentifier1
+{
+	enum SafekeepingPlace1Code
+	{
+		SafekeepingPlace1Code_CUST = 1;
+		SafekeepingPlace1Code_ICSD = 2;
+		SafekeepingPlace1Code_NCSD = 3;
+		SafekeepingPlace1Code_SHHE = 4;
+	}
+	required SafekeepingPlace1Code SfkpgPlcTp = 1;
+	required string Id = 2;
+}
+
+message ActiveOrHistoricCurrencyAndAmount
+{
+	required string Ccy = 1;
+}
+
+message GenericIdentification40
+{
+	required string Id = 1;
+	required string Issr = 2;
+	optional string SchmeNm = 3;
+}
+
+message SupplementaryData1
+{
+	optional string PlcAndNm = 1;
+	required SupplementaryDataEnvelope1 Envlp = 2;
+}
+
+message IdentificationSource3Choice
+{
+	optional string Cd = 1;
+	optional string Prtry = 2;
+}
+
+message ContactIdentification2
+{
+	enum NamePrefix1Code
+	{
+		NamePrefix1Code_DOCT = 1;
+		NamePrefix1Code_MADM = 2;
+		NamePrefix1Code_MISS = 3;
+		NamePrefix1Code_MIST = 4;
+	}
+	optional NamePrefix1Code NmPrfx = 1;
+	optional string GvnNm = 2;
+	required string Nm = 3;
+	optional string PhneNb = 4;
+	optional string MobNb = 5;
+	optional string FaxNb = 6;
+	optional string EmailAdr = 7;
+}
+
+message ActiveOrHistoricCurrencyAnd13DecimalAmount
+{
+	required string Ccy = 1;
+}
+
+message PostalAddress1
+{
+	enum AddressType2Code
+	{
+		AddressType2Code_ADDR = 1;
+		AddressType2Code_BIZZ = 2;
+		AddressType2Code_DLVY = 3;
+		AddressType2Code_HOME = 4;
+		AddressType2Code_MLTO = 5;
+		AddressType2Code_PBOX = 6;
+	}
+	optional AddressType2Code AdrTp = 1;
+	repeated string AdrLine = 2;
+	optional string StrtNm = 3;
+	optional string BldgNb = 4;
+	optional string PstCd = 5;
+	optional string TwnNm = 6;
+	optional string CtrySubDvsn = 7;
+	required string Ctry = 8;
+}
+
+message PostalAddress2
+{
+	optional string StrtNm = 1;
+	required string PstCdId = 2;
+	required string TwnNm = 3;
+	optional string CtrySubDvsn = 4;
+	required string Ctry = 5;
+}
+
+message FinancialInstrumentQuantity1Choice
+{
+	optional double Unit = 1;
+	optional double FaceAmt = 2;
+	optional double AmtsdVal = 3;
+}
+
+message PartyTextInformation1
+{
+	optional string DclrtnDtls = 1;
+	optional string PtyCtctDtls = 2;
+	optional string RegnDtls = 3;
+}
+
+message OtherIdentification1
+{
+	required string Id = 1;
+	optional string Sfx = 2;
+	required IdentificationSource3Choice Tp = 3;
+}
+
+message GenericIdentification30
+{
+	required string Id = 1;
+	required string Issr = 2;
+	optional string SchmeNm = 3;
+}
+
+message NameAndAddress5
+{
+	required string Nm = 1;
+	optional PostalAddress1 Adr = 2;
+}
+
+message ObligationType1Choice
+{
+	enum ObligationType1Code
+	{
+		ObligationType1Code_COEV = 1;
+		ObligationType1Code_FAIL = 2;
+		ObligationType1Code_NEW1 = 3;
+	}
+	optional ObligationType1Code Cd = 1;
+	optional GenericIdentification30 Prtry = 2;
+}
+
+message SimpleIdentificationInformation4
+{
+	required string Id = 1;
+}
+
+message NameAndAddress6
+{
+	required string Nm = 1;
+	required PostalAddress2 Adr = 2;
+}
+
+message Reference19
+{
+	repeated string TradLegNtfctnId = 1;
+	optional string NetPosId = 2;
+}
+
+message SafekeepingPlaceTypeAndText1
+{
+	enum SafekeepingPlace3Code
+	{
+		SafekeepingPlace3Code_SHHE = 1;
+	}
+	required SafekeepingPlace3Code SfkpgPlcTp = 1;
+	optional string Id = 2;
+}
+
+message SecuritiesAccount18
+{
+	required string Id = 1;
+	enum ClearingAccountType1Code
+	{
+		ClearingAccountType1Code_CLIE = 1;
+		ClearingAccountType1Code_HOUS = 2;
+		ClearingAccountType1Code_LIPR = 3;
+	}
+	required ClearingAccountType1Code Tp = 2;
+	optional string Nm = 3;
+}
+
+message SecuritiesAccount19
+{
+	required string Id = 1;
+	optional GenericIdentification30 Tp = 2;
+	optional string Nm = 3;
+}
+
+message SimpleIdentificationInformation
+{
+	required string Id = 1;
+}
+
+message MarketIdentification1Choice
+{
+	optional string MktIdrCd = 1;
+	optional string Desc = 2;
+}
+
+message GenericIdentification20
+{
+	required string Id = 1;
+	required string Issr = 2;
+	optional string SchmeNm = 3;
+}
+
+message ActiveCurrencyAndAmount
+{
+	required string Ccy = 1;
+}
+
+message GenericIdentification29
+{
+	required string Id = 1;
+	required string Issr = 2;
+	optional string SchmeNm = 3;
+}
+
+message AccountIdentification26
+{
+	required SimpleIdentificationInformation4 Prtry = 1;
+}
+
+message SubAccount4
+{
+	required AccountIdentification26 Id = 1;
+	optional string Nm = 2;
+	optional string Chrtc = 3;
+}
+
+message SecurityIdentification14
+{
+	optional string ISIN = 1;
+	repeated OtherIdentification1 OthrId = 2;
+	optional string Desc = 3;
+}
+
+message ForeignExchangeTerms17
+{
+	required string UnitCcy = 1;
+	required string QtdCcy = 2;
+	required double XchgRate = 3;
+	required ActiveCurrencyAndAmount RsltgAmt = 4;
+}
+
+message PartyIdentification35Choice
+{
+	optional string BIC = 1;
+	optional GenericIdentification29 PrtryId = 2;
+}
+
+message MarketType8Choice
+{
+	enum MarketType2Code
+	{
+		MarketType2Code_EXCH = 1;
+		MarketType2Code_OTCO = 2;
+		MarketType2Code_PRIM = 3;
+		MarketType2Code_SECM = 4;
+		MarketType2Code_VARI = 5;
+	}
+	optional MarketType2Code Cd = 1;
+	optional GenericIdentification30 Prtry = 2;
+}
+
+message GenericIdentification58
+{
+	optional string Id = 1;
+	required GenericIdentification40 Tp = 2;
+}
+
+message IdentificationType6Choice
+{
+	enum TypeOfIdentification1Code
+	{
+		TypeOfIdentification1Code_ARNU = 1;
+		TypeOfIdentification1Code_CCPT = 2;
+		TypeOfIdentification1Code_CHTY = 3;
+		TypeOfIdentification1Code_CORP = 4;
+		TypeOfIdentification1Code_DRLC = 5;
+		TypeOfIdentification1Code_FIIN = 6;
+		TypeOfIdentification1Code_TXID = 7;
+	}
+	optional TypeOfIdentification1Code Cd = 1;
+	optional GenericIdentification30 Prtry = 2;
+}
+
+message AlternatePartyIdentification4
+{
+	required IdentificationType6Choice IdTp = 1;
+	required string Ctry = 2;
+	required string AltrnId = 3;
+}
+
+message AccountIdentification1
+{
+	required SimpleIdentificationInformation Prtry = 1;
+}
+
+message PartyIdentification34Choice
+{
+	optional string BIC = 1;
+	optional NameAndAddress5 NmAndAdr = 2;
+	optional string Ctry = 3;
+}
+
+message PriceRateOrAmountChoice
+{
+	optional double Rate = 1;
+	optional ActiveOrHistoricCurrencyAnd13DecimalAmount Amt = 2;
+}
+
+message SafekeepingPlaceFormat7Choice
+{
+	optional SafekeepingPlaceTypeAndText1 Id = 1;
+	optional string Ctry = 2;
+	optional SafekeepingPlaceTypeAndAnyBICIdentifier1 TpAndId = 3;
+	optional GenericIdentification58 Prtry = 4;
+}
+
+message Price4
+{
+	required PriceRateOrAmountChoice Val = 1;
+	enum PriceValueType7Code
+	{
+		PriceValueType7Code_ABSO = 1;
+		PriceValueType7Code_ACTU = 2;
+		PriceValueType7Code_DISC = 3;
+		PriceValueType7Code_FICT = 4;
+		PriceValueType7Code_PARV = 5;
+		PriceValueType7Code_PEUN = 6;
+		PriceValueType7Code_PRCT = 7;
+		PriceValueType7Code_PREM = 8;
+		PriceValueType7Code_SPRE = 9;
+		PriceValueType7Code_TEDP = 10;
+		PriceValueType7Code_TEDY = 11;
+		PriceValueType7Code_VACT = 12;
+		PriceValueType7Code_YIEL = 13;
+	}
+	optional PriceValueType7Code Tp = 2;
+}
+
+message DateCode3Choice
+{
+	enum DateType1Code
+	{
+		DateType1Code_UKWN = 1;
+	}
+	optional DateType1Code Cd = 1;
+	optional GenericIdentification20 Prtry = 2;
+}
+
+message PartyIdentification33Choice
+{
+	optional string AnyBIC = 1;
+	optional GenericIdentification29 PrtryId = 2;
+	optional NameAndAddress6 NmAndAdr = 3;
+}
+
+message AmountAndDirection27
+{
+	required ActiveCurrencyAndAmount Amt = 1;
+	enum CreditDebitCode
+	{
+		CreditDebitCode_CRDT = 1;
+		CreditDebitCode_DBIT = 2;
+	}
+	optional CreditDebitCode CdtDbtInd = 2;
+	optional ActiveOrHistoricCurrencyAndAmount OrgnlCcyAndOrdrdAmt = 3;
+	optional ForeignExchangeTerms17 FXDtls = 4;
+}
+
+message SubAccount1
+{
+	required AccountIdentification1 Id = 1;
+	optional string Nm = 2;
+	optional string Chrtc = 3;
+}
+
+message MarketIdentification84
+{
+	optional MarketIdentification1Choice Id = 1;
+	required MarketType8Choice Tp = 2;
+}
+
+message PartyIdentificationAndAccount31
+{
+	required PartyIdentification33Choice Id = 1;
+	optional AlternatePartyIdentification4 AltrnId = 2;
+	optional PartyTextInformation1 AddtlInf = 3;
+	optional SecuritiesAccount18 ClrAcct = 4;
+}
+
+message PartyIdentificationAndAccount32
+{
+	required PartyIdentification33Choice PtyId = 1;
+	optional string AcctId = 2;
+	optional string PrcgId = 3;
+	optional DateAndDateTimeChoice PrcgDt = 4;
+	optional SubAccount1 SubAcctDtls = 5;
+	optional ContactIdentification2 CtctPrsn = 6;
+}
+
+message ReceivingPartiesAndAccount7
+{
+	required PartyIdentification34Choice Dpstry = 1;
+	required PartyIdentificationAndAccount32 Pty1 = 2;
+	optional PartyIdentificationAndAccount32 Pty2 = 3;
+	optional string SctiesSttlmSys = 4;
+}
+
+message PartyIdentificationAndAccount102
+{
+	required PartyIdentification33Choice PtyId = 1;
+	optional string AcctId = 2;
+	optional string PrcgId = 3;
+	optional DateAndDateTimeChoice PrcgDt = 4;
+	optional SubAccount4 SubAcct = 5;
+	optional ContactIdentification2 CtctPrsn = 6;
+}
+
+message SettlementObligation5
+{
+	optional string RltdSttlmOblgtnId = 1;
+	optional ObligationType1Choice OblgtnTp = 2;
+	optional string Desc = 3;
+	optional int32 TradDt = 4;
+	required FinancialInstrumentQuantity1Choice Qty = 5;
+	optional Price4 NetPosPric = 6;
+	optional string TradgCcy = 7;
+	required AmountAndDirection27 SttlmAmt = 8;
+	required int32 SttlmDt = 9;
+	enum ReceiveDelivery1Code
+	{
+		ReceiveDelivery1Code_DELI = 1;
+		ReceiveDelivery1Code_RECE = 2;
+	}
+	required ReceiveDelivery1Code SctiesMvmntTp = 10;
+	enum DeliveryReceiptType2Code
+	{
+		DeliveryReceiptType2Code_APMT = 1;
+		DeliveryReceiptType2Code_FREE = 2;
+	}
+	required DeliveryReceiptType2Code Pmt = 11;
+	optional Reference19 Refs = 12;
+}
+
+message DateFormat11Choice
+{
+	optional DateAndDateTimeChoice Dt = 1;
+	optional DateCode3Choice DtCd = 2;
+}
+
+message ReceivingPartiesAndAccount11
+{
+	required PartyIdentification34Choice Dpstry = 1;
+	required PartyIdentificationAndAccount102 Pty1 = 2;
+	optional PartyIdentificationAndAccount102 Pty2 = 3;
+	optional string SctiesSttlmSys = 4;
+}
+
+message DeliveringPartiesAndAccount7
+{
+	required PartyIdentification34Choice Dpstry = 1;
+	required PartyIdentificationAndAccount32 Pty1 = 2;
+	optional PartyIdentificationAndAccount32 Pty2 = 3;
+	optional string SctiesSttlmSys = 4;
+}
+
+message DeliveringPartiesAndAccount11
+{
+	required PartyIdentification34Choice Dpstry = 1;
+	required PartyIdentificationAndAccount102 Pty1 = 2;
+	optional PartyIdentificationAndAccount102 Pty2 = 3;
+	optional string SctiesSttlmSys = 4;
+}
+
+message SettlementParties2Choice
+{
+	optional DeliveringPartiesAndAccount7 DlvrgSttlmPties = 1;
+	optional ReceivingPartiesAndAccount7 RcvgSttlmPties = 2;
+}
+
+message SettlementParties4Choice
+{
+	optional DeliveringPartiesAndAccount11 DlvrgSttlmPties = 1;
+	optional ReceivingPartiesAndAccount11 RcvgSttlmPties = 2;
+}
+
+message SettlementObligation8
+{
+	required string SttlmOblgtnId = 1;
+	required SecurityIdentification14 FinInstrmId = 2;
+	required DateFormat11Choice IntnddSttlmDt = 3;
+	required FinancialInstrumentQuantity1Choice Qty = 4;
+	required AmountAndDirection27 SttlmAmt = 5;
+	required MarketIdentification84 PlcOfTrad = 6;
+	optional TradeDate3Choice TradDt = 7;
+	enum TradingCapacity5Code
+	{
+		TradingCapacity5Code_AGEN = 1;
+		TradingCapacity5Code_PRIN = 2;
+		TradingCapacity5Code_RISP = 3;
+	}
+	optional TradingCapacity5Code TradgCpcty = 8;
+	enum ClearingAccountType1Code
+	{
+		ClearingAccountType1Code_CLIE = 1;
+		ClearingAccountType1Code_HOUS = 2;
+		ClearingAccountType1Code_LIPR = 3;
+	}
+	optional ClearingAccountType1Code ClrAcctTp = 9;
+	optional SafekeepingPlaceFormat7Choice SfkpgPlc = 10;
+	optional SecuritiesAccount19 SfkpgAcct = 11;
+	enum ReceiveDelivery1Code
+	{
+		ReceiveDelivery1Code_DELI = 1;
+		ReceiveDelivery1Code_RECE = 2;
+	}
+	optional ReceiveDelivery1Code SctiesMvmntTp = 12;
+	enum DeliveryReceiptType2Code
+	{
+		DeliveryReceiptType2Code_APMT = 1;
+		DeliveryReceiptType2Code_FREE = 2;
+	}
+	required DeliveryReceiptType2Code Pmt = 13;
+	optional SettlementParties4Choice SttlmPties = 14;
+	repeated SettlementObligation5 AddtlSttlmOblgtnDtls = 15;
+}
+
+message Report5
+{
+	repeated PartyIdentificationAndAccount31 NonClrMmb = 1;
+	repeated SettlementObligation8 SttlmOblgtnDtls = 2;
+}
+
+message SettlementObligationReportV03
+{
+	required ReportParameters4 RptParams = 1;
+	required Pagination Pgntn = 2;
+	optional PartyIdentification35Choice ClrMmb = 3;
+	optional PartyIdentification35Choice ClrSgmt = 4;
+	optional SecuritiesAccount19 DlvryAcct = 5;
+	repeated Report5 RptDtls = 6;
+	optional SettlementParties2Choice SttlmPties = 7;
+	repeated SupplementaryData1 SplmtryData = 8;
+}
+
+message Document
+{
+	required SettlementObligationReportV03 SttlmOblgtnRpt = 1;
+}
+
