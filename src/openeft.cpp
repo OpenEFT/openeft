@@ -28,8 +28,6 @@
 #include "openeft.h"
 #include "log/log.h"
 #include "config/config.h"
-#include "control/console.h"
-
 
 bool transact = true;
 int* unassigned_mem = NULL;
@@ -100,26 +98,6 @@ void do_optlong(int argc, char* argv[], eftConfig &cfg) {
 void print_help() {
   printf("usage: openeft [--version] [--help] [-C <path>]\n");
   printf("               [--guide]\n\n");
-
-  printf("OpenEFT offers runtime operational commands to help perform various\n" \
-         "operational tasks. Press Enter at any point after program exectution\n" \
-         "to enter the super user operational command base.\n\n");
-  printf("List of operational commands:\n\n");
-
-  printf("common tasks:\n");
-  printf("\thelp\t\t\thelp with operational tasks\n");
-  printf("\treload_cfg\t\treload the configurations without having to restart the program\n");
-  printf("\thard_reset\t\treset to the default configurations and restart the program\n");
-
-  printf("advanced tasks:\n");
-  printf("\top_table\t\tget operational reports pertains to this EFTnode\n");
-  printf("\tcompliance_table\tget compliance reports pertains to this EFTnode\n");
-  printf("\ttr_table\t\tget transaction reports pertains to this EFTnode\n");
-  printf("\tpeer_adv_table\t\tget peer advertisement information received by this EFTnode\n");
-  printf("\tnet_op_table\t\tget a complete EFT network operational report\n");
-  printf("\tnet_compliance_table\tget a complete EFT network compliance report\n");
-  printf("\tnet_tr_table\t\tget a complete EFT network transaction report\n");
-  printf("\n");
   return;
 }
 
@@ -129,11 +107,9 @@ void getOSInfo() {
 }
 
 eftOpeneft::~eftOpeneft() {
-  delete console;
 }
 
-eftOpeneft::eftOpeneft() {
-  console = new eftConsole();
+eftOpeneft::eftOpeneft() {  
 }
 
 uint32_t eftOpeneft::init() {
@@ -142,9 +118,6 @@ uint32_t eftOpeneft::init() {
   /* I N I T */
   if (retcode = init_config() != EFT_OK)
     log(LOG_EMERG, "Configuration failed [%d]", retcode);
-
-  if (retcode = init_console() != EFT_OK)
-    log(LOG_EMERG, "Console initialization failed [%d]", retcode);
 
   log(LOG_INFO, "Openeft initialization done");
 
@@ -155,14 +128,8 @@ uint32_t eftOpeneft::init_config() {
   return EFT_OK;
 }
 
-uint32_t eftOpeneft::init_console() {
-  EFTOBJ_TICK_ON(eftConsole, console);
-  return EFT_OK;
-}
 
 uint32_t eftOpeneft::shutdown() {
-
-  EFTOBJ_TICK_OFF(eftConsole, console);
   free(unassigned_mem);
 }
 

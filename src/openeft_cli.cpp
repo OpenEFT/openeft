@@ -31,22 +31,21 @@
 #include "control/console.h"
 
 
-bool transact = true;
 int* unassigned_mem = NULL;
 
 void print_help();
-void do_optlong(int argc, char* argv[], eftConfig &cfg);
+void do_optlong(int argc, char* argv[], eftOpeneftCli *cli);
 void get_os_info();
 
 int main(int argc, char* argv[]) {
   uint32_t ret_code;
   eftOpeneftCli *openeft_cli = new eftOpeneftCli();
 
-  do_optlong(argc, argv, openeft_cli->cfg);
-
   if (ret_code = openeft_cli->init() != EFT_OK) {
     log(LOG_EMERG, "return code [%d]", ret_code);
   }
+
+  do_optlong(argc, argv, openeft_cli);
 
   openeft_cli->tick();
   
@@ -56,18 +55,26 @@ int main(int argc, char* argv[]) {
   return 0;
 }
 
-void do_optlong(int argc, char* argv[], eftConfig &cfg) {
+void do_optlong(int argc, char* argv[], eftOpeneftCli *cli) {
 
   uint32_t c = 0;
   int help_flag = 0, version_flag = 0, guide_flag = 0;
+  int ip_flag = 0, port_flag = 0;
+  int ca_file_flag = 0, client_crt_flag = 0, client_key_flag = 0;
   int option_index = 0;
 
   struct option longopts[] = {
-    { "help", no_argument, &help_flag, 1},
-    { "config", required_argument, NULL, 'C'},
-    { "version", no_argument, &version_flag, 1},
-    { "guide", no_argument, &guide_flag, 1},
-    { 0, 0, 0, 0}
+    {"help", no_argument, &help_flag, 1},
+    {"config", required_argument, NULL, 'C'},
+    {"version", no_argument, &version_flag, 1},
+    {"guide", no_argument, &guide_flag, 1},
+    {"ip", no_argument, &ip_flag, 1},
+    {"port", no_argument, &port_flag, 1},
+    {"ca_file", no_argument, &ca_file_flag, 1},
+    {"ca_crt", no_argument, &client_crt_flag, 1},
+    {"ca_key", no_argument, &client_key_flag, 1},
+    
+    {0, 0, 0, 0}
   };
 
   while ((c = getopt_long(argc, argv, ":C:", longopts, &option_index)) != -1) {
@@ -75,7 +82,7 @@ void do_optlong(int argc, char* argv[], eftConfig &cfg) {
       case 0:
         break;
       case 'C':
-        cfg.config_path = optarg;
+        cli->cfg.config_path = optarg;
         break;
       default:
         print_help();
@@ -95,15 +102,42 @@ void do_optlong(int argc, char* argv[], eftConfig &cfg) {
   if (guide_flag) {
     exit(0);
   }
+  if (ip_flag) {
+    
+  }
+  if (port_flag) {
+    
+  }
+  if (ca_file_flag) {
+    
+  }
+  if (client_crt_flag) {
+    
+  }
+  if (client_key_flag) {
+    
+  }
+  
+  /* Now reading the operational commands */
+  if (argc > 1) {
+    std::string cmd;
+    log(LOG_DEBUG, "argc [%d]", argc);
+    for (int i = 1; i < argc; i++) {
+      log(LOG_DEBUG, "argv [%s]", argv[i]);
+      cmd.append(argv[i]);
+      cmd.append(" ");
+    }
+    
+    cli->console->handle_command(cmd);
+  }
 }
 
 void print_help() {
-  printf("usage: openeft [--version] [--help] [-C <path>]\n");
-  printf("               [--guide]\n\n");
+  printf("usage: openeft-cli [--version] [--help] [-C <path>]\n");
+  printf("                   [--guide]\n");
+  printf("                   [--ip <eftnode's IP address>] [--port <eftnode's listening TCP port>]\n");
+  printf("                   [--cafile <path>] [--client_crt <path>] [--client_key <path>]\n\n");  
 
-  printf("OpenEFT offers runtime operational commands to help perform various\n" \
-         "operational tasks. Press Enter at any point after program exectution\n" \
-         "to enter the super user operational command base.\n\n");
   printf("List of operational commands:\n\n");
 
   printf("common tasks:\n");
@@ -140,7 +174,7 @@ uint32_t eftOpeneftCli::init() {
   uint32_t retcode;
 
   /* I N I T */
-  if (retcode = init_config() != EFT_OK)
+  if (retcode = init_cli_config() != EFT_OK)
     log(LOG_EMERG, "Configuration failed [%d]", retcode);
 
   if (retcode = init_console() != EFT_OK)
@@ -151,23 +185,14 @@ uint32_t eftOpeneftCli::init() {
   return EFT_OK;
 }
 
-uint32_t eftOpeneftCli::init_config() {
+uint32_t eftOpeneftCli::init_cli_config() {
   return EFT_OK;
 }
 
 uint32_t eftOpeneftCli::init_console() {
-  EFTOBJ_TICK_ON(eftConsole, console);
   return EFT_OK;
 }
 
 uint32_t eftOpeneftCli::shutdown() {
-
-  EFTOBJ_TICK_OFF(eftConsole, console);
   free(unassigned_mem);
-}
-
-void eftOpeneftCli::tick() {
-  while (transact) {
-    usleep(OPENEFT_HEARTBEAT_MICROSEC);
-  }
 }

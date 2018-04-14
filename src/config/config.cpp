@@ -30,7 +30,7 @@ string eftConfig::ssl_key = "certroot/eftnode_comm_key.pem";
 
 
 /* L O G S */
-uint32_t eftConfig::log_fp = 0;
+uint32_t eftConfig::log_fp = fileno(stdout);
 uint32_t eftConfig::log_run_level = LOG_DEBUG;
 bool eftConfig::log_enabled = true;
 

@@ -30,9 +30,8 @@ public:
   eftConsole();
   
   virtual ~eftConsole();
-  virtual void tick();
   
-  uint32_t handle_command(string cmd);
+  uint32_t handle_command(string &cmd);
   
 private:
   struct Command {

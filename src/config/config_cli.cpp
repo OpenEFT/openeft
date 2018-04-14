@@ -15,43 +15,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
-#ifndef _OPENEFT_EFTCLASS_H
-#define _OPENEFT_EFTCLASS_H
-
 #include "global.h"
+#include "config_cli.h"
 
 
-/*
- ** Use OPENEFT_STD_CLASS to streamline type checking, class instanciation
- ** and runtime communications.
- */
-#define OPENEFT_STD_CLASS(name_of_class)     \
-public:
+/* G E N E R A L */
+string eftConfigCli::config_path = "openeft-cli.conf";
 
-/*
- ** Everything is of type of eftClass. This abstraction aims to prevent
- ** memory problems and streamline the communications between objects and processes.
- */
-class eftClass {
-public:
-  OPENEFT_STD_CLASS(eftClass);
+/* S S L */
+uint16_t eftConfigCli::port = 9846;
+string eftConfigCli::ipaddr = "127.0.0.1";
+string eftConfigCli::cafile = "certroot/eftnode_cli_ca.crt";
+string eftConfigCli::client_crt = "certroot/eftnode_cli_client.crt";
+string eftConfigCli::client_key = "certroot/eftnode_cli_client.key";
 
-  void* operator new(size_t);
-  void* operator new[](size_t);
 
-  void operator delete(void *);
-  void operator delete[](void *);
-
-  void find_uninitialized_mem();
-
-  virtual ~eftClass();
-
-  virtual void tick();
-private:
-  /* Keep tracking of the memory usage */
-  static uint32_t mem_used;
-  static uint32_t num_objects;
-};
-
-#endif /* EFTCLASS_H */
-
+/* L O G S */
+uint32_t eftConfigCli::log_fp = fileno(stdout);
+uint32_t eftConfigCli::log_run_level = LOG_DEBUG;
+bool eftConfigCli::log_enabled = true;

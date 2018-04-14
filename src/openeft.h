@@ -22,7 +22,6 @@
 #include "eftclass.h"
 #include "log/log.h"
 #include "config/config.h"
-#include "control/console.h"
 
 /*
  ** The main entry of this program.
@@ -35,7 +34,6 @@ public:
   void tick();
 
   uint32_t init();
-  uint32_t init_console(); /* Initialize console */
   uint32_t init_blockchain(); /* Initialize the blockchains */
   uint32_t init_consensus(); /* Initialzie consensus state machine */
   uint32_t init_comms(); /* Initialize the network interfaces */
@@ -48,10 +46,8 @@ public:
   uint32_t init_peer(); /* Initialze objects needed to process peer functionalities */
   uint32_t shutdown(); /* Graceful exit */
   
-  eftConsole *console;
   eftConfig cfg;
   
-  EFTOBJ_TICK_INIT(eftConsole);
 };
 
 

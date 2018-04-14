@@ -46,44 +46,16 @@ eftConsole::~eftConsole() {
 
 }
 
-void eftConsole::tick() {
-  bool console_active = false;
-  string cmd = "";
-
-  while (true) {
-    usleep(OPENEFT_HEARTBEAT_MICROSEC);
-
-    std::getline(std::cin, cmd);
-
-    if (console_active == false && cmd.empty()) {
-      console_active = true;
-      eftConfig::log_enabled = false;
-      log(LOG_CONSOLE, "Console activated");
-    }
-
-    if (console_active == true)
-      if (cmd == "exit") {
-        console_active = false;
-        eftConfig::log_enabled = true;
-        log(LOG_CONSOLE, "Console deactivated");
-        continue;
-      }
-
-    if (!cmd.empty())
-      handle_command(cmd);
-  }
-}
-
-uint32_t eftConsole::handle_command(string cmd) {
+uint32_t eftConsole::handle_command(string &cmd) {
   uint32_t ret = EFT_OK;
   uint32_t i = 0;
   bool cmd_recognized = false;
-  std::vector<std::string> strs;
+  std::vector<std::string> params;
   vector<string>::iterator it;
   
-  eft::split_str(cmd, strs, ' ');
+  eft::split_str(cmd, params, ' ');
   
-  for (it = strs.begin(); it != strs.end(); it++, i++) {
+  for (it = params.begin(); it != params.end(); it++, i++) {
     boost::algorithm::to_lower(*it);
     if(i == 0)
       log(LOG_DEBUG, "Command [%s] received", (*it).c_str());
@@ -94,15 +66,15 @@ uint32_t eftConsole::handle_command(string cmd) {
           it++) {
     Command *command = &(*it);
 
-    if (command->name == strs[0]) {
+    if (command->name == params[0]) {
       cmd_recognized = true;
       log(LOG_DEBUG, "%s", command->dump().c_str());
-      CALL_MEMBER_FN(this, command->command_fptr)(strs);
+      CALL_MEMBER_FN(this, command->command_fptr)(params);
     }
   }
   
   if (cmd_recognized == false)
-    log(LOG_CONSOLE, "Command [%s] not recognized.", strs[0].c_str());
+    log(LOG_CONSOLE, "Command [%s] not recognized.", params[0].c_str());
 
   return ret;
 }

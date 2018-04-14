@@ -52,6 +52,10 @@ void eftClass::operator delete(void *ptr) {
   }
 }
 
+void eftClass::tick() {
+  return;
+}
+
 void eftClass::find_uninitialized_mem() {
 #ifdef DEBUG_UNINITIALIZED_MEMORY
   unsigned long *ptr = ((unsigned long *) this) - 1;

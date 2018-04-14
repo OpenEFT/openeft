@@ -21,7 +21,7 @@
 #include "global.h"
 #include "eftclass.h"
 #include "log/log.h"
-#include "config/config.h"
+#include "config/config_cli.h"
 #include "control/console.h"
 
 /*
@@ -32,26 +32,13 @@ public:
   ~eftOpeneftCli();
   eftOpeneftCli();
   
-  void tick();
-
   uint32_t init();
+  uint32_t init_cli_config();
   uint32_t init_console(); /* Initialize console */
-  uint32_t init_blockchain(); /* Initialize the blockchains */
-  uint32_t init_consensus(); /* Initialzie consensus state machine */
-  uint32_t init_comms(); /* Initialize the network interfaces */
-  uint32_t init_config(); /* Read and apply the configurations */
-  uint32_t init_eftnode(); /* Init the eftnode properties if this deamon configured as an eftnode */
-  uint32_t init_hsm(); /* Initialize the HSMs' connections and command base */
-  uint32_t init_ssm(); /* Initialize the internal SSM */
-  uint32_t init_kernel(); /* Initialize and boot the core eft protocol state machine */
-  uint32_t init_transaction_handlers(); /* Initialize the transaction messaging standard */
-  uint32_t init_peer(); /* Initialze objects needed to process peer functionalities */
   uint32_t shutdown(); /* Graceful exit */
   
   eftConsole *console;
-  eftConfig cfg;
-  
-  EFTOBJ_TICK_INIT(eftConsole);
+  eftConfigCli cfg;
 };
 
 
