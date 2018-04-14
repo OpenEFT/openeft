@@ -89,25 +89,59 @@ find_package(Boost 1.66.0 COMPONENTS
         thread
         system
         regex)
+if(Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+endif()
 find_package(OpenSSL REQUIRED)
 if(OPENSSL_FOUND)
     include_directories(${OPENSSL_INCLUDE_DIRS})
 endif()
-if(Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIRS})
-endif()
+find_package(Protobuf REQUIRED)
+include_directories(${PROTOBUF_INCLUDE_DIR})
+find_package(GRPC REQUIRED)
+include_directories(${GRPC_INCLUDE_DIR})
 
+file(GLOB CONTROL_PROTOS
+    "${CMAKE_CURRENT_SOURCE_DIR}/control/protos/*.proto")
+file(GLOB ISO20022_PROTOS
+    "${CMAKE_CURRENT_SOURCE_DIR}/transaction/iso20022/protos/*.proto")
+
+set(PROTO_SRC_DIR ${CMAKE_CURRENT_BINARY_DIR}/proto_src)
+file(MAKE_DIRECTORY ${PROTO_SRC_DIR})
+set(PROTO_SRC_DIR_CTRL ${CMAKE_CURRENT_BINARY_DIR}/proto_src/control)
+file(MAKE_DIRECTORY ${PROTO_SRC_DIR_CTRL})
+set(PROTO_SRC_DIR_ISO20022 ${CMAKE_CURRENT_BINARY_DIR}/proto_src/iso_20022)
+file(MAKE_DIRECTORY ${PROTO_SRC_DIR_ISO20022})
+
+include_directories(${PROTO_SRC_DIR})
+include_directories(${PROTO_SRC_DIR_CTRL})
+include_directories(${PROTO_SRC_DIR_ISO20022})
+
+if(CONTROL_PROTOS)
+foreach(PROTO ${CONTROL_PROTOS})
+protobuf_generate_cpp(CONTROL_PROTO_SRCS CONTROL_PROTO_HDRS ${PROTO_SRC_DIR_CTRL} ${PROTO})
+grpc_generate_cpp(CONTROL_GRPC_SRCS CONTROL_GRPC_HDRS ${PROTO_SRC_DIR_CTRL} ${PROTO})
+endforeach()
+endif()
+if(ISO20022_PROTOS)
+foreach(PROTO ${ISO20022_PROTOS})
+protobuf_generate_cpp(ISO20022_PROTO_SRCS ISO20022_PROTO_HDRS ${PROTO_SRC_DIR_ISO20022} ${PROTO})
+grpc_generate_cpp(ISO20022_GRPC_SRCS ISO20022_GRPC_HDRS ${PROTO_SRC_DIR_ISO20022} ${PROTO})
+endforeach()
+endif()
 #  The main openeft executable
 add_executable(openeft
-    ${openeft_src}
+    ${openeft_src} ${CONTROL_PROTO_SRCS} ${CONTROL_GRPC_SRCS} ${ISO20022_PROTO_SRCS} ${ISO20022_GRPC_SRCS}
     )
-target_link_libraries(openeft ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES})
+target_link_libraries(openeft
+   ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} ${GRPC_LIBRARY})
 
 #  The main openeft executable
 add_executable(openeft-cli
-    ${openeft_cli_src}
+    ${openeft_cli_src} ${CONTROL_PROTO_SRCS} ${CONTROL_GRPC_SRCS}
     )
-target_link_libraries(openeft-cli ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES})
+target_link_libraries(openeft-cli
+   ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} ${GRPC_LIBRARY})
 
 
 # 
