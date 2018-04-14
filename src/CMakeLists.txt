@@ -38,8 +38,33 @@ if(OPTION_BUILD_TESTS)
 endif()
 
 file(GLOB openeft_src
-    "*.h"
-    "*.cpp"
+    "eftclass.h"
+    "eftclass.cpp"
+    "global.h"
+    "openeft-version.h"
+    "openeft.cpp"
+    "openeft.h"
+    "comms/*.h"
+    "comms/*.cpp"
+    "config/*.h"
+    "config/*.cpp"
+    "control/*.h"
+    "control/*.cpp"
+    "log/*.h"
+    "log/*.cpp"
+    "utils/*.cpp"
+    "utils/*.h"
+    "tests/*.cpp"
+    "tests/*.h"
+)
+
+file(GLOB openeft_cli_src
+    "eftclass.h"
+    "eftclass.cpp"
+    "global.h"
+    "openeft-version.h"
+    "openeft_cli.cpp"
+    "openeft_cli.h"
     "comms/*.h"
     "comms/*.cpp"
     "config/*.h"
@@ -77,6 +102,13 @@ add_executable(openeft
     ${openeft_src}
     )
 target_link_libraries(openeft ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES})
+
+#  The main openeft executable
+add_executable(openeft-cli
+    ${openeft_cli_src}
+    )
+target_link_libraries(openeft-cli ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES})
+
 
 # 
 # Deployment
