@@ -134,14 +134,14 @@ add_executable(openeft
     ${openeft_src} ${CONTROL_PROTO_SRCS} ${CONTROL_GRPC_SRCS} ${ISO20022_PROTO_SRCS} ${ISO20022_GRPC_SRCS}
     )
 target_link_libraries(openeft
-   ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} ${GRPC_LIBRARY})
+   ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} gRPC::grpc++_reflection)
 
 #  The main openeft executable
 add_executable(openeft-cli
     ${openeft_cli_src} ${CONTROL_PROTO_SRCS} ${CONTROL_GRPC_SRCS}
     )
 target_link_libraries(openeft-cli
-   ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} ${GRPC_LIBRARY})
+   ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} gRPC::grpc++_reflection)
 
 
 # 

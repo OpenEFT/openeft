@@ -1,0 +1,131 @@
+//----------------------------------------------------------------------
+// Copyright (C) 2018  openeft.org
+// Copyright (C) Reza Schadmani <reza.schadmani@openeft.org>
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//----------------------------------------------------------------------
+
+syntax = "proto3";
+
+package eft_control;
+
+service cli {
+  rpc help (VoidRequest) returns (HelpResult) {}
+  rpc checkup (VoidRequest) returns (CheckupResult) {}
+  rpc reset (VoidRequest) returns (HardResetResult) {}
+  rpc reload (VoidRequest) returns (ReloadCfgResult) {}
+  rpc get_tr_report (VoidRequest) returns (TransactionTable) {}
+  rpc get_compliance_report (VoidRequest) returns (ComplianceTable) {}
+  rpc get_op_report (VoidRequest) returns (OpTable) {}
+  rpc get_peer_adv_report (VoidRequest) returns (PeerAdvTable) {}
+  rpc get_net_compliance_report (VoidRequest) returns (NetComplianceTable) {}
+  rpc get_net_op_report (VoidRequest) returns (NetOpTable) {}
+  rpc get_net_tr_report (VoidRequest) returns (NetTransactionTable) {}
+  rpc get_comms_benchmark (VoidRequest) returns (CommsBenchmarkTable) {}
+  rpc get_ec_benchmark (VoidRequest) returns (EcBenchmarkTable) {}
+  rpc get_ecdh_benchmark (VoidRequest) returns (EcdhBenchmarkTable) {}
+  rpc get_dsa_benchmark (VoidRequest) returns (DsaBenchmarkTable) {}
+  rpc console_log (ConsoleLogRequest) returns (GenericReply) {}
+}
+
+message GenericRequest {
+  string value = 1;
+}
+
+message GenericReply {
+  string value = 1;
+}
+
+message VoidRequest {
+}
+
+message VoidReply {
+}
+
+message HelpResult {
+  string eft_checkup = 1;
+  string eft_reload_cfg = 2;
+  string eft_hard_reset = 3;
+  string eft_get_op_table = 4;
+  string eft_get_compliance_table = 5;
+  string eft_get_tr_table = 6;
+  string eft_get_peer_adv_table = 7;
+  string eft_get_net_op_table = 8;
+  string eft_get_net_compliance_table = 9;
+  string eft_get_net_tr_table = 10;
+  string eft_get_comms_benchmark = 11;
+  string eft_get_ec_benchmark = 12;
+  string eft_get_ecdh_benchmark = 13;
+  string eft_get_dsa_benchmark = 14;
+}
+
+message CheckupResult {
+}
+
+message ReloadCfgResult {
+}
+
+message HardResetResult {
+}
+
+message OpTable {
+}
+
+message ComplianceTable {
+}
+
+message TransactionTable {
+}
+
+message PeerAdvTable {
+}
+
+message NetOpTable {
+}
+
+message NetComplianceTable {
+}
+
+message NetTransactionTable {
+}
+
+message CommsBenchmarkTable {
+  int32 no_connections = 1;
+  int32 no_messages = 2;
+  int32 volume = 3;
+  int32 duration = 4; /* millisecond */
+  int32 rate = 5; /* Mbs */
+}
+
+message EcBenchmarkTable {
+  int32 no_keypair = 1;
+  int32 duration = 2;
+  int32 rate = 3; /* keypair per seconds */
+}
+
+message EcdhBenchmarkTable {
+  int32 no_secrets = 1;
+  int32 duration = 2;
+  int32 rate = 3; /* Secret key per seconds */
+}
+
+message DsaBenchmarkTable {
+  int32 no_verify = 1;
+  int32 duration = 2;
+  int32 rate = 3; /* verify signature per seconds */
+}
+
+message ConsoleLogRequest {
+  int32 enable  = 1;
+}

@@ -53,12 +53,12 @@ uint32_t eftConsole::handle_command(string &cmd) {
   std::vector<std::string> params;
   vector<string>::iterator it;
   
+  log(LOG_DEBUG, "Command received [%s]", cmd.c_str());
+  
   eft::split_str(cmd, params, ' ');
   
   for (it = params.begin(); it != params.end(); it++, i++) {
     boost::algorithm::to_lower(*it);
-    if(i == 0)
-      log(LOG_DEBUG, "Command [%s] received", (*it).c_str());
   }
  
   for (vector<Command>::iterator it = cmd_list.begin();
@@ -68,8 +68,8 @@ uint32_t eftConsole::handle_command(string &cmd) {
 
     if (command->name == params[0]) {
       cmd_recognized = true;
-      log(LOG_DEBUG, "%s", command->dump().c_str());
       CALL_MEMBER_FN(this, command->command_fptr)(params);
+      break;
     }
   }
   
