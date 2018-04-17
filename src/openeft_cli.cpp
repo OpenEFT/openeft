@@ -30,6 +30,12 @@
 #include "config/config.h"
 #include "control/console.h"
 
+using grpc::Channel;
+using grpc::ClientAsyncResponseReader;
+using grpc::ClientContext;
+using grpc::CompletionQueue;
+using grpc::Status;
+
 
 int* unassigned_mem = NULL;
 
@@ -46,8 +52,6 @@ int main(int argc, char* argv[]) {
   }
 
   do_optlong(argc, argv, openeft_cli);
-
-  openeft_cli->tick();
   
   openeft_cli->shutdown();
   delete openeft_cli;
@@ -180,7 +184,7 @@ uint32_t eftOpeneftCli::init() {
   if (retcode = init_console() != EFT_OK)
     log(LOG_EMERG, "Console initialization failed [%d]", retcode);
 
-  log(LOG_INFO, "Openeft initialization done");
+  log(LOG_INFO, "openeft-cli initialization done");
 
   return EFT_OK;
 }

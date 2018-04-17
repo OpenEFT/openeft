@@ -7,3 +7,9 @@ CMakeLists.txt.user
 *.log
 *nbproject*/
 *.localconfig*/
+
+# ignore protocol buffer generated files.
+*.pb.cc
+*.pb.h
+*.grpc.pb.cc
+*.grpc.pb.h

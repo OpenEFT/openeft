@@ -1,3 +1,6 @@
+
+#include "config/config_cli.h"
+
 //----------------------------------------------------------------------
 // Copyright (C) 2018  openeft.org
 // Copyright (C) Reza Schadmani <reza.schadmani@openeft.org>
@@ -15,34 +18,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
-#ifndef _OPENEFT_CLI_OPENEFT_H
-#define _OPENEFT_CLI_OPENEFT_H
-
-#include "global.h"
-#include "eftclass.h"
-#include "log/log.h"
-#include "config/config_cli.h"
-#include "control/console.h"
-#include "control/protos/control.grpc.pb.h"
-
-using control_proto;
-/*
- ** The main entry of this program.
- */
-class eftOpeneftCli : public eftClass {
-public:
-  ~eftOpeneftCli();
-  eftOpeneftCli();
+template <class T>
+eftRpcClientService<T>::eftRpcClientService(std::string cert,
+                  std::string key,
+                  std::string root) {
+  read(client_crt, cert);
+  read(client_key, key);
+  read(cafile, root);
   
-  uint32_t init();
-  uint32_t init_cli_config();
-  uint32_t init_console(); /* Initialize console */
-  uint32_t shutdown(); /* Graceful exit */
+  grpc::SslCredentialsOptions opts = {root, key, cert};
+  channel = grpc::CreateChannel(
+      eftConfigCli::ipaddr + ":" + eftConfigCli::port,
+      grpc::SslCredentials(opts));
+  stub = T::NewStub(channel);
+}
+eftRpcClientService<T>::~eftRpcClientService() {
   
-  eftConsole *console;
-  eftConfigCli cfg;
-};
-
-
-#endif /* OPENEFT_CLI_H */
-
+}

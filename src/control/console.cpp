@@ -16,9 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 #include "global.h"
-#include "control.h"
 #include "console.h"
 #include "log/log.h"
+#include "protos/control.grpc.pb.h"
+
+using grpc::Channel;
+using grpc::ClientAsyncResponseReader;
+using grpc::ClientContext;
+using grpc::CompletionQueue;
+using grpc::Status;
+
+using control_proto;
 
 eftConsole::eftConsole() {
 
@@ -80,7 +88,29 @@ uint32_t eftConsole::handle_command(string &cmd) {
 }
 
 uint32_t eftConsole::help_cmd(std::vector<std::string>& args) {
-
+  VoidRequest request;
+  HelpResult reply;
+  ClientContext context;
+  CompletionQueue cq;
+  Status status;
+  std::unique_ptr<ClientAsyncResponseReader<HelpResult> > rpc(
+        stub_->PrepareAsynchelp(&context, request, &cq));
+  rpc->StartCall();
+  rpc->Finish(&reply, &status, (void*)EFT_HELP);
+  void* got_tag;
+  bool ok = false;
+  
+  GPR_ASSERT(cq.Next(&got_tag, &ok));
+  GPR_ASSERT(got_tag == (void*)EFT_HELP);
+  GPR_ASSERT(ok);
+  
+  if (!status.ok()) {
+    log(LOG_CONSOLE, "RPC failed");
+    return EFT_NOK;
+  }
+  
+  log(LOG_CONSOLE, reply.message.c_str());
+  return EFT_OK;
 }
 
 uint32_t eftConsole::checkup_cmd(std::vector<std::string>& args) {

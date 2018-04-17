@@ -23,6 +23,106 @@
 #include "global.h"
 #include "eftclass.h"
 
+enum EFT_COMMANDS {
+  EFT_HELP = 0,
+  EFT_CHECKUP,
+  EFT_RELOAD_CFG,
+  EFT_HARD_RESET,
+
+  /* I add a set of MIBs here. Hope somewhen in the 
+  future we would have standard MIBs for blockchains. */
+
+  EFT_GET_OP_TABLE,
+  EFT_GET_COMPLIANCE_TABLE,
+  EFT_GET_TR_TABLE,
+  EFT_GET_PEER_ADV_TABLE,
+  EFT_GET_NET_OP_TABLE,
+  EFT_GET_NET_COMPLIANCE_TABLE,
+  EFT_GET_NET_TR_TABLE,
+
+  /* Some generic commands */
+  EFT_GET_COMMS_BENCHMARK,
+  EFT_GET_EC_BENCHMARK,
+  EFT_GET_ECDH_BENCHMARK,
+  EFT_GET_DSA_BENCHMARK,
+
+  EFT_COMMANDS_NOID,
+  EFT_COMMANDS_LAST
+};
+
+struct HelpResult {
+  string eft_checkup;
+  string eft_reload_cfg;
+  string eft_hard_reset;
+  string eft_get_op_table;
+  string eft_get_compliance_table;
+  string eft_get_tr_table;
+  string eft_get_peer_adv_table;
+  string eft_get_net_op_table;
+  string eft_get_net_compliance_table;
+  string eft_get_net_tr_table;
+  string eft_get_comms_benchmark;
+  string eft_get_ec_benchmark;
+  string eft_get_ecdh_benchmark;
+  string eft_get_dsa_benchmark;
+};
+
+struct CheckupResult {
+};
+
+struct ReloadCfgResult {
+};
+
+struct HardResetResult {
+};
+
+struct OpTable {
+};
+
+struct ComplianceTable {
+};
+
+struct TransactionTable {
+};
+
+struct PeerAdvTable {
+};
+
+struct NetOpTable {
+};
+
+struct NetComplianceTable {
+};
+
+struct NetTransactionTable {
+};
+
+struct CommsBenchmarkTable {
+  uint32_t no_connections;
+  uint32_t no_messages;
+  uint32_t volume;
+  uint32_t duration; /* millisecond */
+  uint32_t rate; /* Mbs */
+};
+
+struct EcBenchmarkTable {
+  uint32_t no_keypair;
+  uint32_t duration;
+  uint32_t rate; /* keypair per seconds */
+};
+
+struct EcdhBenchmarkTable {
+  uint32_t no_secrets;
+  uint32_t duration;
+  uint32_t rate; /* Secret key per seconds */
+};
+
+struct DsaBenchmarkTable {
+  uint32_t no_verify;
+  uint32_t duration;
+  uint32_t rate; /* verify signature per seconds */
+};
+
 
 /* 
  * Keep track of the status and respond to control commands
@@ -31,108 +131,7 @@ class eftControl : public eftClass {
 public:
 
   virtual ~eftControl();
-  virtual void tick();
-
-  enum EFT_COMMANDS {
-    EFT_HELP = 0,
-    EFT_CHECKUP,
-    EFT_RELOAD_CFG,
-    EFT_HARD_RESET,
-
-    /* I add a set of MIBs here. Hope somewhen in the 
-    future we would have standard MIBs for blockchains. */
-
-    EFT_GET_OP_TABLE,
-    EFT_GET_COMPLIANCE_TABLE,
-    EFT_GET_TR_TABLE,
-    EFT_GET_PEER_ADV_TABLE,
-    EFT_GET_NET_OP_TABLE,
-    EFT_GET_NET_COMPLIANCE_TABLE,
-    EFT_GET_NET_TR_TABLE,
-
-    /* Some generic commands */
-    EFT_GET_COMMS_BENCHMARK,
-    EFT_GET_EC_BENCHMARK,
-    EFT_GET_ECDH_BENCHMARK,
-    EFT_GET_DSA_BENCHMARK,
-    
-    EFT_COMMANDS_NOID,
-    EFT_COMMANDS_LAST
-  };
-
-  struct HelpResult {
-    string eft_checkup;
-    string eft_reload_cfg;
-    string eft_hard_reset;
-    string eft_get_op_table;
-    string eft_get_compliance_table;
-    string eft_get_tr_table;
-    string eft_get_peer_adv_table;
-    string eft_get_net_op_table;
-    string eft_get_net_compliance_table;
-    string eft_get_net_tr_table;
-    string eft_get_comms_benchmark;
-    string eft_get_ec_benchmark;
-    string eft_get_ecdh_benchmark;
-    string eft_get_dsa_benchmark;
-  };
-
-  struct CheckupResult {
-  };
-
-  struct ReloadCfgResult {
-  };
-
-  struct HardResetResult {
-  };
-
-  struct OpTable {
-  };
-
-  struct ComplianceTable {
-  };
-
-  struct TransactionTable {
-  };
-
-  struct PeerAdvTable {
-  };
-
-  struct NetOpTable {
-  };
-
-  struct NetComplianceTable {
-  };
-
-  struct NetTransactionTable {
-  };
-  
-  struct CommsBenchmarkTable {
-    uint32_t no_connections;
-    uint32_t no_messages;
-    uint32_t volume;
-    uint32_t duration; /* millisecond */
-    uint32_t rate; /* Mbs */
-  };
-  
-  struct EcBenchmarkTable {
-    uint32_t no_keypair;
-    uint32_t duration;
-    uint32_t rate; /* keypair per seconds */
-  };
-  
-  struct EcdhBenchmarkTable {
-    uint32_t no_secrets;
-    uint32_t duration;
-    uint32_t rate; /* Secret key per seconds */
-  };
-  
-  struct DsaBenchmarkTable {
-    uint32_t no_verify;
-    uint32_t duration;
-    uint32_t rate; /* verify signature per seconds */
-  };
-  
+  virtual void tick();  
 
 protected:
 

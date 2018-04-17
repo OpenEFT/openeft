@@ -55,6 +55,10 @@
 #include <boost/archive/iterators/insert_linebreaks.hpp>
 #include <boost/archive/iterators/remove_whitespace.hpp>
 
+#include <grpc++/grpc++.h>
+#include <grpc/support/log.h>
+
+
 using namespace std;
 using namespace boost;
 using namespace boost::archive::iterators;

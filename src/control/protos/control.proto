@@ -18,26 +18,7 @@
 
 syntax = "proto3";
 
-package eft_control;
-
-service cli {
-  rpc help (VoidRequest) returns (HelpResult) {}
-  rpc checkup (VoidRequest) returns (CheckupResult) {}
-  rpc reset (VoidRequest) returns (HardResetResult) {}
-  rpc reload (VoidRequest) returns (ReloadCfgResult) {}
-  rpc get_tr_report (VoidRequest) returns (TransactionTable) {}
-  rpc get_compliance_report (VoidRequest) returns (ComplianceTable) {}
-  rpc get_op_report (VoidRequest) returns (OpTable) {}
-  rpc get_peer_adv_report (VoidRequest) returns (PeerAdvTable) {}
-  rpc get_net_compliance_report (VoidRequest) returns (NetComplianceTable) {}
-  rpc get_net_op_report (VoidRequest) returns (NetOpTable) {}
-  rpc get_net_tr_report (VoidRequest) returns (NetTransactionTable) {}
-  rpc get_comms_benchmark (VoidRequest) returns (CommsBenchmarkTable) {}
-  rpc get_ec_benchmark (VoidRequest) returns (EcBenchmarkTable) {}
-  rpc get_ecdh_benchmark (VoidRequest) returns (EcdhBenchmarkTable) {}
-  rpc get_dsa_benchmark (VoidRequest) returns (DsaBenchmarkTable) {}
-  rpc console_log (ConsoleLogRequest) returns (GenericReply) {}
-}
+package control_proto;
 
 message GenericRequest {
   string value = 1;
@@ -128,4 +109,27 @@ message DsaBenchmarkTable {
 
 message ConsoleLogRequest {
   int32 enable  = 1;
+}
+
+
+
+
+
+service cli {
+  rpc help (VoidRequest) returns (HelpResult) {}
+  rpc checkup (VoidRequest) returns (CheckupResult) {}
+  rpc reset (VoidRequest) returns (HardResetResult) {}
+  rpc reload (VoidRequest) returns (ReloadCfgResult) {}
+  rpc get_tr_report (VoidRequest) returns (TransactionTable) {}
+  rpc get_compliance_report (VoidRequest) returns (ComplianceTable) {}
+  rpc get_op_report (VoidRequest) returns (OpTable) {}
+  rpc get_peer_adv_report (VoidRequest) returns (PeerAdvTable) {}
+  rpc get_net_compliance_report (VoidRequest) returns (NetComplianceTable) {}
+  rpc get_net_op_report (VoidRequest) returns (NetOpTable) {}
+  rpc get_net_tr_report (VoidRequest) returns (NetTransactionTable) {}
+  rpc get_comms_benchmark (VoidRequest) returns (CommsBenchmarkTable) {}
+  rpc get_ec_benchmark (VoidRequest) returns (EcBenchmarkTable) {}
+  rpc get_ecdh_benchmark (VoidRequest) returns (EcdhBenchmarkTable) {}
+  rpc get_dsa_benchmark (VoidRequest) returns (DsaBenchmarkTable) {}
+  rpc console_log (ConsoleLogRequest) returns (GenericReply) {}
 }

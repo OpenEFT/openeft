@@ -9,7 +9,7 @@
 #define OPENEFT_VERSION_MAJOR       "0"
 #define OPENEFT_VERSION_MINOR       "1"
 #define OPENEFT_VERSION_PATCH       "0"
-#define OPENEFT_VERSION_REVISION    "cd78d04a5921"
+#define OPENEFT_VERSION_REVISION    "3a697d49061b"
 
 #define OPENEFT_VERSION             "0.1.0"
-#define OPENEFT_NAME_VERSION        "openeft v0.1.0 (cd78d04a5921)"
+#define OPENEFT_NAME_VERSION        "openeft v0.1.0 (3a697d49061b)"

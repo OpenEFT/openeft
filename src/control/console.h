@@ -19,13 +19,13 @@
 #ifndef _OPENEFT_CONSOLE_H
 #define _OPENEFT_CONSOLE_H
 
-#include "control.h"
+#include "comms/rpc_client_ssl.h"
 
 
 /*
  * Listens to fdin and executes commands 
  */
-class eftConsole : public eftControl {
+class eftConsole : public eftRpcClientService {
 public:
   eftConsole();
   

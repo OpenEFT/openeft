@@ -19,6 +19,17 @@
 #include "log/log.h"
 
 namespace eft {
+  
+  void read_file_str(const std::string& filename, std::string& data) {
+    std::ifstream file(filename.c_str(), std::ios::in);
+    if (file.is_open()) {
+      std::stringstream ss;
+      ss << file.rdbuf();
+      file.close();
+      data = ss.str();
+    }
+    return;
+  }
 
   uint32_t split_str(const std::string &txt, std::vector<std::string> &strs, char ch) {
     size_t pos = txt.find(ch);

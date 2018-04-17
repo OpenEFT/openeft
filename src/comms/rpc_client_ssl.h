@@ -15,34 +15,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
-#ifndef _OPENEFT_CLI_OPENEFT_H
-#define _OPENEFT_CLI_OPENEFT_H
+#ifndef _OPENEFT_RPC_CLIENT_SSL_H
+#define _OPENEFT_RPC_CLIENT_SSL_H
 
-#include "global.h"
-#include "eftclass.h"
-#include "log/log.h"
-#include "config/config_cli.h"
-#include "control/console.h"
-#include "control/protos/control.grpc.pb.h"
-
-using control_proto;
-/*
- ** The main entry of this program.
- */
-class eftOpeneftCli : public eftClass {
+template <class T>
+class eftRpcClientService : public eftClass {
 public:
-  ~eftOpeneftCli();
-  eftOpeneftCli();
+  eftRpcClientService(std::string cert,
+                  std::string key,
+                  std::string root);
+  ~eftRpcClientService();
   
-  uint32_t init();
-  uint32_t init_cli_config();
-  uint32_t init_console(); /* Initialize console */
-  uint32_t shutdown(); /* Graceful exit */
   
-  eftConsole *console;
-  eftConfigCli cfg;
+private:
+  std::string cert;
+  std::string key;
+  std::string root;
+  
+protected:
+  std::shared_ptr<Channel> channel;
+  std::unique_ptr<T::Stub> stub;
 };
 
-
-#endif /* OPENEFT_CLI_H */
+#endif /* RPC_CLIENT_SSL_H */
 

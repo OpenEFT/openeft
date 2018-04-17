@@ -119,7 +119,7 @@ uint32_t eftOpeneft::init() {
   if (retcode = init_config() != EFT_OK)
     log(LOG_EMERG, "Configuration failed [%d]", retcode);
 
-  log(LOG_INFO, "Openeft initialization done");
+  log(LOG_INFO, "openeft initialization done");
 
   return EFT_OK;
 }
