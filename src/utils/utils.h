@@ -24,7 +24,7 @@
 
 namespace eft {
   
-  void read(const std::string& filename, std::string& data);
+  void read_file_str(const std::string& filename, std::string& data);
 
   uint32_t split_str(const std::string &txt,
     std::vector<std::string> &strs, char ch);

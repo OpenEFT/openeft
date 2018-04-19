@@ -19,8 +19,7 @@
 #ifndef _OPENEFT_CONFIG_H
 #define _OPENEFT_CONFIG_H
 
-#include <string>
-#include "log/log.h"
+#include "global.h"
 
 class eftConfig {
 public:

@@ -18,11 +18,12 @@
 #include "global.h"
 #include "eftclass.h"
 #include "log/log.h"
+#include "utils/utils.h"
 #include "rpc_client_ssl.h"
 
 eftRpcClientService::eftRpcClientService(
                   std::string ipaddr,
-                  std::port,
+                  std::string port,
                   std::string cert_path,
                   std::string key_path,
                   std::string root_path) {
@@ -30,9 +31,9 @@ eftRpcClientService::eftRpcClientService(
   std::string key;
   std::string root;
   
-  read(cert_path, cert);
-  read(key_path, key);
-  read(root_path, root);
+  eft::read_file_str(cert_path, cert);
+  eft::read_file_str(key_path, key);
+  eft::read_file_str(root_path, root);
   
   grpc::SslCredentialsOptions opts = {root, key, cert};
   channel = grpc::CreateChannel(

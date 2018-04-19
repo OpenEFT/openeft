@@ -18,6 +18,7 @@
 #include "global.h"
 #include "log/log.h"
 #include "eftclass.h"
+#include "utils/utils.h"
 #include "rpc_server_ssl.h"
 
 
@@ -32,9 +33,9 @@ eftRpcServerAsync::eftRpcServerAsync(std::string ipaddr,
   std::string key;
   std::string root;
 
-  read(cert_path, cert);
-  read(key_path, key);
-  read(root_path, root);
+  eft::read_file_str(cert_path, cert);
+  eft::read_file_str(key_path, key);
+  eft::read_file_str(root_path, root);
 
   std::string server_address(ipaddr + ":" + port);
   grpc::SslServerCredentialsOptions::PemKeyCertPair keycert = {key, cert};

@@ -16,19 +16,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 #include "global.h"
-#include "control_service.h"
-#include "log/log.h"
-#include "protos/control.grpc.pb.h"
 #include "control.h"
 
-
-using grpc::Channel;
-using grpc::ClientAsyncResponseReader;
-using grpc::ClientContext;
-using grpc::CompletionQueue;
-using grpc::Status;
-
-using control_proto;
+#include "comms/rpc_server_ssl.h"
+#include "control_service.h"
 
 
 void eftControlService::run() {
@@ -42,34 +33,34 @@ void eftControlService::HandleRpcs() {
   bool ok = false;
 
   /* Add data objects here */
-  new eftCallDataHelp(&srv, cq.get());
+  new eftCallDataHelp(&srv, cq.get(), this->ctrl);
 
   while (true) {
     GPR_ASSERT(cq->Next(&tag, &ok));
     GPR_ASSERT(ok);
-    static_cast<CallData*> (tag)->Proceed();
+    static_cast<eftRpcCallData*> (tag)->Proceed();
   }
 }
 
 
 
 eftCallDataHelp::eftCallDataHelp(::grpc::Service* service, ServerCompletionQueue* cq, eftControl* control) :
-CallData(service, cq),
+eftRpcCallData(service, cq),
 responder(&ctx),
 ctrl(control){
   Proceed();
 }
 
-virtual void eftCallDataHelp::Proceed() {
+void eftCallDataHelp::Proceed() {
   if (status == CREATE) {
     status = PROCESS;
 
-    ((ControlSrv::AsyncService*)srv)->RequestHelp(&ctx, &request, &responder, cq, cq,
+    ((ControlSrv::AsyncService*)srv)->Requesthelp(&ctx, &request, &responder, cq, cq,
             this);
   } else if (status == PROCESS) {
     
     /* Respawn itself for the next query */
-    new eftRpcCallDataHelp(srv, cq);
+    new eftCallDataHelp(srv, cq, ctrl);
 
     /* Process the reply here and set the reply object accordingly */
     HelpResult ret;

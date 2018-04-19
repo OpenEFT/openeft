@@ -16,17 +16,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 #include "global.h"
+#include "control.h"
 #include "console.h"
-#include "log/log.h"
-#include "protos/control.grpc.pb.h"
 
-using grpc::Channel;
-using grpc::ClientAsyncResponseReader;
-using grpc::ClientContext;
-using grpc::CompletionQueue;
-using grpc::Status;
-
-using control_proto;
+using namespace control_proto;
 
 eftConsole::eftConsole(std::string ipaddr,
               std::string port,
@@ -104,8 +97,8 @@ uint32_t eftConsole::help_cmd(std::vector<std::string>& args) {
   ClientContext context;
   CompletionQueue cq;
   Status status;
-  std::unique_ptr<ClientAsyncResponseReader<HelpResult> > rpc(
-        stu_->PrepareAsynchelp(&context, request, &cq));
+  std::unique_ptr<ClientAsyncResponseReader<HelpReply> > rpc(
+        stub->PrepareAsynchelp(&context, request, &cq));
   rpc->StartCall();
   rpc->Finish(&reply, &status, (void*)EFT_HELP);
   void* got_tag = NULL;
@@ -120,7 +113,6 @@ uint32_t eftConsole::help_cmd(std::vector<std::string>& args) {
     return EFT_NOK;
   }
   
-  log(LOG_CONSOLE, reply.message.c_str());
   return EFT_OK;
 }
 
@@ -166,7 +158,7 @@ uint32_t eftConsole::get_net_tr_table_cmd(std::vector<std::string>& args) {
 
 uint32_t eftConsole::banchmark_comms_cmd(std::vector<std::string>& args) {
   CommsBenchmarkTable benchmark;
-  get_comms_benchmak(benchmark);
+  //get_comms_benchmak(benchmark);
   log(LOG_CONSOLE, "Communication benchmark information:");
   log(LOG_CONSOLE, "Number of connections: [%d]", benchmark.no_connections);
   log(LOG_CONSOLE, "Number of messages: [%d]", benchmark.no_messages);
@@ -178,7 +170,7 @@ uint32_t eftConsole::banchmark_comms_cmd(std::vector<std::string>& args) {
 
 uint32_t eftConsole::benchmark_ec_cmd(std::vector<std::string>& args) {
   EcBenchmarkTable benchmark;
-  get_ec_benchmark(benchmark);
+  //get_ec_benchmark(benchmark);
   log(LOG_CONSOLE, "Elliptic-curve keypair generation benchmark information:");
   log(LOG_CONSOLE, "Number of keypairs: [%d]", benchmark.no_keypair);
   log(LOG_CONSOLE, "Duration: [%d]ms", benchmark.duration);
@@ -188,7 +180,7 @@ uint32_t eftConsole::benchmark_ec_cmd(std::vector<std::string>& args) {
 
 uint32_t eftConsole::benchmark_ecdh_cmd(std::vector<std::string>& args) {
   EcdhBenchmarkTable benchmark;
-  get_ecdh_benchmak(benchmark);
+  //get_ecdh_benchmak(benchmark);
   log(LOG_CONSOLE, "Elliptic-curve Diffie–Hellman benchmark information:");
   log(LOG_CONSOLE, "Number of secrets: [%d]", benchmark.no_secrets);
   log(LOG_CONSOLE, "Duration: [%d]ms", benchmark.duration);
@@ -221,7 +213,7 @@ uint32_t eftConsole::console_log_cmd(std::vector<std::string>& args) {
 
 uint32_t eftConsole::benchmark_dsa_cmd(std::vector<std::string>& args) {
   DsaBenchmarkTable benchmark;
-  get_dsa_benchmark(benchmark);
+  //get_dsa_benchmark(benchmark);
   log(LOG_CONSOLE, "Elliptic-curve DSA benchmark information:");
   log(LOG_CONSOLE, "Number of verifies: [%d]", benchmark.no_verify);
   log(LOG_CONSOLE, "Duration: [%d]ms", benchmark.duration);

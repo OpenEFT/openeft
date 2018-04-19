@@ -19,6 +19,7 @@
 #ifndef _OPENEFT_CONSOLE_H
 #define _OPENEFT_CONSOLE_H
 
+#include "protos/control.grpc.pb.h"
 #include "comms/rpc_client_ssl.h"
 
 

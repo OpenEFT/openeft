@@ -58,10 +58,10 @@
 #include <grpc++/grpc++.h>
 #include <grpc/support/log.h>
 
-
 using namespace std;
 using namespace boost;
 using namespace boost::archive::iterators;
+using namespace grpc;
 
 enum EFT_ERROR_CODE {
   EFT_OK = 0,
@@ -109,5 +109,12 @@ enum EFT_ERROR_CODE {
 
 #define CALL_MEMBER_FN(object, pointer_to_member_function) \
    (object->*(pointer_to_member_function))
+
+
+#include "openeft-version.h"
+#include "eftclass.h"
+#include "log/log.h"
+#include "config/config.h"
+#include "config/config_cli.h"
 
 #endif

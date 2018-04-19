@@ -19,16 +19,22 @@
 #ifndef _OPENEFT_CONTROL_SERVICE_H
 #define _OPENEFT_CONTROL_SERVICE_H
 
+#include "protos/control.grpc.pb.h"
+
+using namespace control_proto;
+
 class eftCallDataHelp;
 
 class eftControlService : public eftRpcServerAsync {
 public:
 
-  eftControlService(std::string addr,
+  eftControlService(eftControl* control,
+    std::string addr,
     std::string port,
     std::string cert,
     std::string key,
     std::string root) :
+  ctrl(control),
   eftRpcServerAsync(addr, port, cert, key, root) {
   }
 
@@ -38,6 +44,7 @@ public:
 private:
 
   ControlSrv::AsyncService srv;
+  eftControl* ctrl;
 };
 
 

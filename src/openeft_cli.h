@@ -25,7 +25,7 @@
 #include "control/console.h"
 #include "control/protos/control.grpc.pb.h"
 
-using control_proto;
+using namespace control_proto;
 /*
  ** The main entry of this program.
  */
