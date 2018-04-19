@@ -28,7 +28,18 @@ using grpc::Status;
 
 using control_proto;
 
-eftConsole::eftConsole() {
+eftConsole::eftConsole(std::string ipaddr,
+              std::string port,
+              std::string cert_path,
+              std::string key_path,
+              std::string root_path)
+              : eftRpcClientService(ipaddr,
+                        port,
+                        cert_path,
+                        key_path,
+                        root_path) {
+  
+  stub = ControlSrv::NewStub(channel);
 
   cmd_list = {
     {EFT_HELP, "help", &eftConsole::help_cmd},
@@ -89,15 +100,15 @@ uint32_t eftConsole::handle_command(string &cmd) {
 
 uint32_t eftConsole::help_cmd(std::vector<std::string>& args) {
   VoidRequest request;
-  HelpResult reply;
+  HelpReply reply;
   ClientContext context;
   CompletionQueue cq;
   Status status;
   std::unique_ptr<ClientAsyncResponseReader<HelpResult> > rpc(
-        stub_->PrepareAsynchelp(&context, request, &cq));
+        stu_->PrepareAsynchelp(&context, request, &cq));
   rpc->StartCall();
   rpc->Finish(&reply, &status, (void*)EFT_HELP);
-  void* got_tag;
+  void* got_tag = NULL;
   bool ok = false;
   
   GPR_ASSERT(cq.Next(&got_tag, &ok));

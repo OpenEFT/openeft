@@ -34,7 +34,7 @@ message VoidRequest {
 message VoidReply {
 }
 
-message HelpResult {
+message HelpReply {
   string eft_checkup = 1;
   string eft_reload_cfg = 2;
   string eft_hard_reset = 3;
@@ -51,37 +51,37 @@ message HelpResult {
   string eft_get_dsa_benchmark = 14;
 }
 
-message CheckupResult {
+message CheckupReply {
 }
 
-message ReloadCfgResult {
+message ReloadCfgReply {
 }
 
-message HardResetResult {
+message HardResetReply {
 }
 
-message OpTable {
+message OpTableReply {
 }
 
-message ComplianceTable {
+message ComplianceTableReply {
 }
 
-message TransactionTable {
+message TransactionTableReply {
 }
 
-message PeerAdvTable {
+message PeerAdvTableReply {
 }
 
-message NetOpTable {
+message NetOpTableReply {
 }
 
-message NetComplianceTable {
+message NetComplianceTableReply {
 }
 
-message NetTransactionTable {
+message NetTransactionTableReply {
 }
 
-message CommsBenchmarkTable {
+message CommsBenchmarkTableReply {
   int32 no_connections = 1;
   int32 no_messages = 2;
   int32 volume = 3;
@@ -89,19 +89,19 @@ message CommsBenchmarkTable {
   int32 rate = 5; /* Mbs */
 }
 
-message EcBenchmarkTable {
+message EcBenchmarkTableReply {
   int32 no_keypair = 1;
   int32 duration = 2;
   int32 rate = 3; /* keypair per seconds */
 }
 
-message EcdhBenchmarkTable {
+message EcdhBenchmarkTableReply {
   int32 no_secrets = 1;
   int32 duration = 2;
   int32 rate = 3; /* Secret key per seconds */
 }
 
-message DsaBenchmarkTable {
+message DsaBenchmarkTableReply {
   int32 no_verify = 1;
   int32 duration = 2;
   int32 rate = 3; /* verify signature per seconds */
@@ -112,24 +112,21 @@ message ConsoleLogRequest {
 }
 
 
-
-
-
-service cli {
-  rpc help (VoidRequest) returns (HelpResult) {}
-  rpc checkup (VoidRequest) returns (CheckupResult) {}
-  rpc reset (VoidRequest) returns (HardResetResult) {}
-  rpc reload (VoidRequest) returns (ReloadCfgResult) {}
-  rpc get_tr_report (VoidRequest) returns (TransactionTable) {}
-  rpc get_compliance_report (VoidRequest) returns (ComplianceTable) {}
-  rpc get_op_report (VoidRequest) returns (OpTable) {}
-  rpc get_peer_adv_report (VoidRequest) returns (PeerAdvTable) {}
-  rpc get_net_compliance_report (VoidRequest) returns (NetComplianceTable) {}
-  rpc get_net_op_report (VoidRequest) returns (NetOpTable) {}
-  rpc get_net_tr_report (VoidRequest) returns (NetTransactionTable) {}
-  rpc get_comms_benchmark (VoidRequest) returns (CommsBenchmarkTable) {}
-  rpc get_ec_benchmark (VoidRequest) returns (EcBenchmarkTable) {}
-  rpc get_ecdh_benchmark (VoidRequest) returns (EcdhBenchmarkTable) {}
-  rpc get_dsa_benchmark (VoidRequest) returns (DsaBenchmarkTable) {}
+service ControlSrv {
+  rpc help (VoidRequest) returns (HelpReply) {}
+  rpc checkup (VoidRequest) returns (CheckupReply) {}
+  rpc reset (VoidRequest) returns (HardResetReply) {}
+  rpc reload (VoidRequest) returns (ReloadCfgReply) {}
+  rpc get_tr_report (VoidRequest) returns (TransactionTableReply) {}
+  rpc get_compliance_report (VoidRequest) returns (ComplianceTableReply) {}
+  rpc get_op_report (VoidRequest) returns (OpTableReply) {}
+  rpc get_peer_adv_report (VoidRequest) returns (PeerAdvTableReply) {}
+  rpc get_net_compliance_report (VoidRequest) returns (NetComplianceTableReply) {}
+  rpc get_net_op_report (VoidRequest) returns (NetOpTableReply) {}
+  rpc get_net_tr_report (VoidRequest) returns (NetTransactionTableReply) {}
+  rpc get_comms_benchmark (VoidRequest) returns (CommsBenchmarkTableReply) {}
+  rpc get_ec_benchmark (VoidRequest) returns (EcBenchmarkTableReply) {}
+  rpc get_ecdh_benchmark (VoidRequest) returns (EcdhBenchmarkTableReply) {}
+  rpc get_dsa_benchmark (VoidRequest) returns (DsaBenchmarkTableReply) {}
   rpc console_log (ConsoleLogRequest) returns (GenericReply) {}
 }

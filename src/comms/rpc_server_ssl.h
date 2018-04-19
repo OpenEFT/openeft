@@ -19,6 +19,40 @@
 #ifndef _OPENEFT_RPC_SERVER_SSL_H
 #define _OPENEFT_RPC_SERVER_SSL_H
 
+class eftRpcServerAsync : public eftClass {
+public:
+
+  eftRpcServerAsync(std::string ipaddr,
+    std::string port,
+    std::string cert_path,
+    std::string key_path,
+    std::string root_path);
+
+  void RegisterService(::grpc::Service* service);
+  void RunService();
+
+protected:
+  ServerBuilder builder;
+  std::unique_ptr<Server> srv;
+  std::unique_ptr<ServerCompletionQueue> cq;
+};
+
+class eftRpcCallData : public eftClass {
+public:
+  eftRpcCallData(::grpc::Service* service, ServerCompletionQueue* queue)
+  : srv(service), cq(queue), status(CREATE) {}
+
+  virtual void Proceed() = 0;
+
+protected:
+  ::grpc::Service* srv;
+  ServerCompletionQueue* cq;
+ 
+  enum CallStatus {
+    CREATE, PROCESS, FINISH
+  };
+  CallStatus status;
+};
 
 
 #endif /* RPC_SERVER_SSL_H */

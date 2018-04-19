@@ -15,3 +15,43 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
+#include "global.h"
+#include "log/log.h"
+#include "eftclass.h"
+#include "rpc_server_ssl.h"
+
+
+
+eftRpcServerAsync::eftRpcServerAsync(std::string ipaddr,
+  std::string port,
+  std::string cert_path,
+  std::string key_path,
+  std::string root_path) {
+
+  std::string cert;
+  std::string key;
+  std::string root;
+
+  read(cert_path, cert);
+  read(key_path, key);
+  read(root_path, root);
+
+  std::string server_address(ipaddr + ":" + port);
+  grpc::SslServerCredentialsOptions::PemKeyCertPair keycert = {key, cert};
+  grpc::SslServerCredentialsOptions sslOps;
+
+  sslOps.pem_root_certs = root;
+  sslOps.pem_key_cert_pairs.push_back(keycert);
+
+  builder.AddListeningPort(server_address, grpc::SslServerCredentials(sslOps));
+  cq = builder.AddCompletionQueue();
+}
+
+void eftRpcServerAsync::RegisterService(::grpc::Service* service) {
+  builder.RegisterService(service);
+}
+
+void eftRpcServerAsync::RunService() {
+  srv = builder.BuildAndStart();
+}
+

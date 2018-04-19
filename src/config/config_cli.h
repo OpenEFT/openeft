@@ -26,7 +26,7 @@ class eftConfigCli {
 public:
   static string config_path;
   
-  static uint16_t port;
+  static string port;
   static string ipaddr;
   static string cafile;
   static string client_crt;

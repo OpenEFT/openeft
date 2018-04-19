@@ -171,7 +171,11 @@ eftOpeneftCli::~eftOpeneftCli() {
 }
 
 eftOpeneftCli::eftOpeneftCli() {
-  console = new eftConsole();
+  console = new eftConsole(eftConfigCli::ipaddr,
+                            eftConfigCli::port,
+                            eftConfigCli::client_crt,
+                            eftConfigCli::client_key,
+                            eftConfigCli::cafile);
 }
 
 uint32_t eftOpeneftCli::init() {

@@ -19,7 +19,6 @@
 #ifndef _OPENEFT_CONTROL_H
 #define _OPENEFT_CONTROL_H
 
-#include <string>
 #include "global.h"
 #include "eftclass.h"
 
@@ -132,8 +131,6 @@ public:
 
   virtual ~eftControl();
   virtual void tick();  
-
-protected:
 
   uint32_t help(HelpResult &ret);
   uint32_t checkup(CheckupResult &ret);

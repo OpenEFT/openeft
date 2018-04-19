@@ -1,6 +1,3 @@
-
-#include "config/config_cli.h"
-
 //----------------------------------------------------------------------
 // Copyright (C) 2018  openeft.org
 // Copyright (C) Reza Schadmani <reza.schadmani@openeft.org>
@@ -18,20 +15,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
-template <class T>
-eftRpcClientService<T>::eftRpcClientService(std::string cert,
-                  std::string key,
-                  std::string root) {
-  read(client_crt, cert);
-  read(client_key, key);
-  read(cafile, root);
+#include "global.h"
+#include "eftclass.h"
+#include "log/log.h"
+#include "rpc_client_ssl.h"
+
+eftRpcClientService::eftRpcClientService(
+                  std::string ipaddr,
+                  std::port,
+                  std::string cert_path,
+                  std::string key_path,
+                  std::string root_path) {
+  std::string cert;
+  std::string key;
+  std::string root;
+  
+  read(cert_path, cert);
+  read(key_path, key);
+  read(root_path, root);
   
   grpc::SslCredentialsOptions opts = {root, key, cert};
   channel = grpc::CreateChannel(
-      eftConfigCli::ipaddr + ":" + eftConfigCli::port,
+      ipaddr + ":" + port,
       grpc::SslCredentials(opts));
-  stub = T::NewStub(channel);
 }
-eftRpcClientService<T>::~eftRpcClientService() {
+
+eftRpcClientService::~eftRpcClientService() {
   
 }

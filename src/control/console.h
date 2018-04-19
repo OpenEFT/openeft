@@ -27,10 +27,14 @@
  */
 class eftConsole : public eftRpcClientService {
 public:
-  eftConsole();
-  
+  eftConsole(std::string ipaddr,
+              std::string port,
+              std::string cert_path,
+              std::string key_path,
+              std::string root_path);
+
   virtual ~eftConsole();
-  
+
   uint32_t handle_command(string &cmd);
   
 private:
@@ -64,6 +68,9 @@ private:
   
   /* Other commands */
   uint32_t console_log_cmd(std::vector<std::string>& args);
+  
+  
+  std::unique_ptr<control_proto::ControlSrv::Stub> stub;
 };
 
 

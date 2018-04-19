@@ -101,8 +101,8 @@ include_directories(${PROTOBUF_INCLUDE_DIR})
 find_package(GRPC REQUIRED)
 include_directories(${GRPC_INCLUDE_DIR})
 
-set(PROTO_SRC_DIR_CTRL "${CMAKE_CURRENT_SOURCE_DIR}/control/protos/")
-set(PROTO_SRC_DIR_ISO20022 "${CMAKE_CURRENT_SOURCE_DIR}/transaction/iso20022/protos/")
+set(PROTO_SRC_DIR_CTRL "${CMAKE_CURRENT_SOURCE_DIR}/control/protos")
+set(PROTO_SRC_DIR_ISO20022 "${CMAKE_CURRENT_SOURCE_DIR}/transaction/iso20022/protos")
 
 file(GLOB CONTROL_PROTOS
     "${PROTO_SRC_DIR_CTRL}/*.proto")

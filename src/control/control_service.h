@@ -15,22 +15,46 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
-#ifndef _OPENEFT_RPC_CLIENT_SSL_H
-#define _OPENEFT_RPC_CLIENT_SSL_H
 
+#ifndef _OPENEFT_CONTROL_SERVICE_H
+#define _OPENEFT_CONTROL_SERVICE_H
 
-class eftRpcClientService : public eftClass {
+class eftCallDataHelp;
+
+class eftControlService : public eftRpcServerAsync {
 public:
-  eftRpcClientService(std::string ipaddr,
-                        std::string port,
-                        std::string cert_path,
-                        std::string key_path,
-                        std::string root_path);
-  ~eftRpcClientService();
-  
-protected:
-  std::shared_ptr<grpc::Channel> channel;
+
+  eftControlService(std::string addr,
+    std::string port,
+    std::string cert,
+    std::string key,
+    std::string root) :
+  eftRpcServerAsync(addr, port, cert, key, root) {
+  }
+
+  void run();
+  void HandleRpcs();
+
+private:
+
+  ControlSrv::AsyncService srv;
 };
 
-#endif /* RPC_CLIENT_SSL_H */
+
+class eftCallDataHelp : public eftRpcCallData {
+public:
+
+  eftCallDataHelp(::grpc::Service* service, ServerCompletionQueue* cq, eftControl* control);
+  virtual void Proceed();
+
+private:
+  ServerContext ctx;
+  control_proto::VoidRequest request;
+  control_proto::HelpReply reply;
+  ServerAsyncResponseWriter<HelpReply> responder;
+  eftControl* ctrl;
+};
+
+
+#endif /* CONTROL_SERVICE_H */
 
