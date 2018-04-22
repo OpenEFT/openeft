@@ -34,6 +34,8 @@ public:
   void tick();
 
   uint32_t init();
+  uint32_t init_control(); /* Initialize the control unit */
+  uint32_t init_eft_services(); /* Initialize the RPC service layer */
   uint32_t init_blockchain(); /* Initialize the blockchains */
   uint32_t init_consensus(); /* Initialzie consensus state machine */
   uint32_t init_comms(); /* Initialize the network interfaces */
@@ -48,6 +50,11 @@ public:
   
   eftConfig cfg;
   
+  eftControl *control;
+  eftControlService *control_service;
+  
+  EFTOBJ_TICK_INIT(eftControl);
+  EFTOBJ_TICK_INIT(controlService);
 };
 
 

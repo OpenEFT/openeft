@@ -28,6 +28,7 @@
 #include "openeft.h"
 #include "log/log.h"
 #include "config/config.h"
+#include "control/control_service.h"
 
 bool transact = true;
 int* unassigned_mem = NULL;
@@ -107,9 +108,18 @@ void getOSInfo() {
 }
 
 eftOpeneft::~eftOpeneft() {
+  delete control;
+  delete control_service;
 }
 
-eftOpeneft::eftOpeneft() {  
+eftOpeneft::eftOpeneft() {
+  control = new eftControl();
+  control_service = new eftControlService(control,
+                eftConfig::cli_ipaddr,
+                eftConfig::cli_port,
+                eftConfig::cli_server_crt,
+                eftConfig::cli_server_key,
+                eftConfig::cli_cafile);
 }
 
 uint32_t eftOpeneft::init() {
@@ -118,9 +128,18 @@ uint32_t eftOpeneft::init() {
   /* I N I T */
   if (retcode = init_config() != EFT_OK)
     log(LOG_EMERG, "Configuration failed [%d]", retcode);
+  if (retcode = init_control() != EFT_OK)
+    log(LOG_EMERG, "Configuration failed [%d]", retcode);
+  if (retcode = init_eft_services() != EFT_OK)
+    log(LOG_EMERG, "Configuration failed [%d]", retcode);
 
   log(LOG_INFO, "openeft initialization done");
 
+  return EFT_OK;
+}
+
+uint32_t eftOpeneft::init_eft_services {
+  EFTOBJ_TICK_ON(eftControlService, control_service);
   return EFT_OK;
 }
 
@@ -128,8 +147,20 @@ uint32_t eftOpeneft::init_config() {
   return EFT_OK;
 }
 
+uint32_t eftOpeneft::init_control() {
+  EFTOBJ_TICK_ON(eftControl, control);
+  return EFT_OK;
+}
+
+uint32_t eftOpeneft::init_rpc_service() {
+  return EFT_OK;
+}
+
+
 
 uint32_t eftOpeneft::shutdown() {
+  EFTOBJ_TICK_OFF(eftControl, control);
+  EFTOBJ_TICK_OFF(eftControlService, control_service);
   free(unassigned_mem);
 }
 

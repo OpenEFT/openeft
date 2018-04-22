@@ -34,6 +34,12 @@ public:
   static string ssl_cert;
   static string ssl_key;
 
+  static string cli_port;
+  static string cli_ipaddr;
+  static string cli_cafile;
+  static string cli_server_crt;
+  static string cli_server_key;
+
   /* fd to collect the logs */
   static uint32_t log_fp;
   static uint32_t log_run_level;

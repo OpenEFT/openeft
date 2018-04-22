@@ -65,6 +65,8 @@ uint32_t eftConsole::handle_command(string &cmd) {
   std::vector<std::string> params;
   vector<string>::iterator it;
   
+  eft::trim(cmd);
+  
   log(LOG_DEBUG, "Command received [%s]", cmd.c_str());
   
   eft::split_str(cmd, params, ' ');
