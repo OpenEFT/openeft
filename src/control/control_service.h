@@ -20,6 +20,7 @@
 #define _OPENEFT_CONTROL_SERVICE_H
 
 #include "protos/control.grpc.pb.h"
+#include "comms/rpc_server_ssl.h"
 
 using namespace control_proto;
 
@@ -37,6 +38,8 @@ public:
   ctrl(control),
   eftRpcServerAsync(addr, port, cert, key, root) {
   }
+  
+  void tick();
 
   void run();
   void HandleRpcs();

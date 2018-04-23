@@ -24,12 +24,12 @@
 
 namespace eft {
 
-  static inline void ltrim(std::string &s);
-  static inline void rtrim(std::string &s);
-  static inline void trim(std::string &s);
-  static inline std::string ltrim_copy(std::string s);
-  static inline std::string rtrim_copy(std::string s);
-  static inline std::string trim_copy(std::string s);
+  void ltrim(std::string &s);
+  void rtrim(std::string &s);
+  void trim(std::string &s);
+  std::string ltrim_copy(std::string s);
+  std::string rtrim_copy(std::string s);
+  std::string trim_copy(std::string s);
 
   void read_file_str(const std::string& filename, std::string& data);
 

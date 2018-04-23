@@ -21,7 +21,6 @@
 #include "comms/rpc_server_ssl.h"
 #include "control_service.h"
 
-
 void eftControlService::run() {
   RegisterService(&srv);
   RunService();
@@ -42,6 +41,9 @@ void eftControlService::HandleRpcs() {
   }
 }
 
+void eftControlService::tick() {
+  run();
+}
 
 
 eftCallDataHelp::eftCallDataHelp(::grpc::Service* service, ServerCompletionQueue* cq, eftControl* control) :

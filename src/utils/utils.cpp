@@ -20,32 +20,32 @@
 
 namespace eft {
 
-  static inline void ltrim(std::string &s) {
+  void ltrim(std::string &s) {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(),
             std::not1(std::ptr_fun<int, int>(std::isspace))));
   }
 
-  static inline void rtrim(std::string &s) {
+  void rtrim(std::string &s) {
     s.erase(std::find_if(s.rbegin(), s.rend(),
             std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
   }
 
-  static inline void trim(std::string &s) {
+  void trim(std::string &s) {
     ltrim(s);
     rtrim(s);
   }
 
-  static inline std::string ltrim_copy(std::string s) {
+  std::string ltrim_copy(std::string s) {
     ltrim(s);
     return s;
   }
 
-  static inline std::string rtrim_copy(std::string s) {
+  std::string rtrim_copy(std::string s) {
     rtrim(s);
     return s;
   }
 
-  static inline std::string trim_copy(std::string s) {
+  std::string trim_copy(std::string s) {
     trim(s);
     return s;
   }

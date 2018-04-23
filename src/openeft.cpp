@@ -138,7 +138,7 @@ uint32_t eftOpeneft::init() {
   return EFT_OK;
 }
 
-uint32_t eftOpeneft::init_eft_services {
+uint32_t eftOpeneft::init_eft_services() {
   EFTOBJ_TICK_ON(eftControlService, control_service);
   return EFT_OK;
 }
@@ -151,12 +151,6 @@ uint32_t eftOpeneft::init_control() {
   EFTOBJ_TICK_ON(eftControl, control);
   return EFT_OK;
 }
-
-uint32_t eftOpeneft::init_rpc_service() {
-  return EFT_OK;
-}
-
-
 
 uint32_t eftOpeneft::shutdown() {
   EFTOBJ_TICK_OFF(eftControl, control);

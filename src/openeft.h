@@ -56,7 +56,7 @@ public:
   eftControlService *control_service;
   
   EFTOBJ_TICK_INIT(eftControl);
-  EFTOBJ_TICK_INIT(controlService);
+  EFTOBJ_TICK_INIT(eftControlService);
 };
 
 
