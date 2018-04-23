@@ -39,11 +39,13 @@ Where YYYY in the first line will be replaced by the current year.
  */
 class eftGoodThing {
   private:
-    byte* data;
+    byte* data; /* stick the asterisk to the type */
     char* str;
-    int *pointer_a, *pointer_b;
+    int *pointer_a, *pointer_b; /* unless in such occasions */
     time_t time;
     vector<pair<double, double, double>> listOfPairs;
+
+    void my_func(int& io_val, int* out_len, char** out_buf);
 
     void request_response(void);
   public:
