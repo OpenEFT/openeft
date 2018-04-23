@@ -1,4 +1,5 @@
 # License
+```C++
 //----------------------------------------------------------------------
 // Copyright (C) YYYY  openeft.org
 // Copyright (C) Reza Schadmani <reza.schadmani@openeft.org>
@@ -17,7 +18,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
-
+```
 Where YYYY in the license's first line will be replaced by the current year.
 * License must hold both the notice and the GPL free software note.
 
