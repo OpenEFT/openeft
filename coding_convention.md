@@ -2,7 +2,6 @@
 ```C++
 //----------------------------------------------------------------------
 // Copyright (C) YYYY  openeft.org
-// Copyright (C) Reza Schadmani <reza.schadmani@openeft.org>
 // Copyright (C) OpenEFT development team.
 //
 // This program is free software: you can redistribute it and/or modify
