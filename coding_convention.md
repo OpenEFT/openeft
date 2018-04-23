@@ -22,6 +22,12 @@
 Where YYYY in the first line will be replaced by the current year.
 * License must hold both the notice and the GPL free software note.
 
+# Indentations
+* Expand tabs into spaces.
+* Tab size is 2 spaces.
+* Number of spaces per indent is 2.
+* Right margin is 100 lines.
+
 # Formatting
 * It's inspired by C coding style in the Linux Kernel but we code in C++ in this project.
 
@@ -43,8 +49,8 @@ class eftGoodThing {
     void  request_response(void);
   public:
     struct SomeEntity {
-      bool				condition; /* some comments */
-      int         important_var;
+      bool condition; /* some comments */
+      int important_var;
     } fl;
 
     struct OtherEntity {
