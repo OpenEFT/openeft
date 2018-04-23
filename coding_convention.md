@@ -19,10 +19,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 ```
-Where YYYY in the license's first line will be replaced by the current year.
+Where YYYY in the first line will be replaced by the current year.
 * License must hold both the notice and the GPL free software note.
 
 # Formatting
+* It's inspired by C coding style in the Linux Kernel but we code in C++ in this project.
+
 ```C++
 #include <iostream>
 
@@ -30,43 +32,45 @@ Where YYYY in the license's first line will be replaced by the current year.
  ** Description Line
  ** Description Line
  */
-class eftComseClass {
+class eftGoodThing {
   private:
-    byte          *data;
-    time_t         time;
+    byte* data;
+    char* str;
+    int *pointer_a, *pointer_b;
+    time_t time;
     vector<pair<double, double, double>> listOfPairs;
 
-    void					RequestResponse(void);
+    void  request_response(void);
   public:
-    struct entityFlags_s {
+    struct SomeEntity {
       bool				condition; /* some comments */
-      int         importantVar;
+      int         important_var;
     } fl;
 
-    struct exitFlags_s {
-      static bool				condition     = false;	/* some comments */
-      static int        importantVar  = 1;
+    struct OtherEntity {
+      static bool condition = false; /* some comments */
+      static int importantVar = 1;
     } fl;
 
-    void                Cleanup(time_t time, int param);
+    void clean_up(time_t time, int param);
   protected:
 };
 
-void OfSomeClass::RequestResponse(void) {
+void eftGoodThing::request_response(void) {
   switch(variable) {
     case a:
-      RunFunction();
+      run_func();
     break;
     case b:
-      DoNothing();
+      do_nothing();
     default:
     break;
   }
   return;
 }
 
-int OfSomeClass::Cleanup(time_t time, int param) {
-  if ( !file ) {
+int eftGoodThing::clean_up(time_t time, int param) {
+  if (!file) {
     for(;;) {
       break;
     }
@@ -75,17 +79,18 @@ int OfSomeClass::Cleanup(time_t time, int param) {
   return NOK;
 }
 
-namespace MySpace {
+namespace mySpace {
   typedef enum {
     EN_STATIC,
     EN_CACHED,
     EN_CONTINUOUS
-  } aModel_t;
+  } aModel;
 
   #define EVENT_INTEGER       'd'
   #define EVENT_FLOAT         'f'
 }
 ```
+
 # File and directory naming
 * Only Linux style file/directory naming. For example: codeing_convention blockchain/ config.cpp
     eft_serivces/ dev_notes.txt
