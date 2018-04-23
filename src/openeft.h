@@ -22,6 +22,8 @@
 #include "eftclass.h"
 #include "log/log.h"
 #include "config/config.h"
+#include "control/control.h"
+#include "control/control_service.h"
 
 /*
  ** The main entry of this program.
