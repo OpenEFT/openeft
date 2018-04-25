@@ -29,7 +29,7 @@ string eftConfig::ssl_cert = "certroot/eftnode_comm_cert.pem";
 string eftConfig::ssl_key = "certroot/eftnode_comm_key.pem";
 
 string eftConfig::cli_port = "9846";
-string eftConfig::cli_ipaddr = "127.0.0.1";
+string eftConfig::cli_ipaddr = "localhost";
 string eftConfig::cli_cafile = "certroot/eftnode_cli_ca.crt";
 string eftConfig::cli_server_crt = "certroot/eftnode_cli_server.crt";
 string eftConfig::cli_server_key = "certroot/eftnode_cli_server.key";

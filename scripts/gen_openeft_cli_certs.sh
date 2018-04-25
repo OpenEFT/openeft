@@ -44,7 +44,7 @@ openssl req -passin pass:$password -new -x509 -days 365 -key eftnode_cli_ca.key 
 
 # Generate valid Server Key/Cert
 openssl genrsa -passout pass:$password -des3 -out eftnode_cli_server.key 4096
-openssl req -passin pass:$password -new -key eftnode_cli_server.key -out eftnode_cli_server.csr -subj "/C=AU/ST=NSW/L=Sydney/O=OpenEFT/OU=OpenEFT Node/CN=openeft-cli"
+openssl req -passin pass:$password -new -key eftnode_cli_server.key -out eftnode_cli_server.csr -subj "/C=AU/ST=NSW/L=Sydney/O=OpenEFT/OU=OpenEFT Node/CN=localhost"
 openssl x509 -req -passin pass:$password -days 365 -in eftnode_cli_server.csr -CA eftnode_cli_ca.crt -CAkey eftnode_cli_ca.key -set_serial 01 -out eftnode_cli_server.crt
 
 # Remove passphrase from the Server Key
@@ -52,7 +52,7 @@ openssl rsa -passin pass:$password -in eftnode_cli_server.key -out eftnode_cli_s
 
 # Generate valid Client Key/Cert
 openssl genrsa -passout pass:$password -des3 -out eftnode_cli_client.key 4096
-openssl req -passin pass:$password -new -key eftnode_cli_client.key -out eftnode_cli_client.csr -subj "/C=AU/ST=NSW/L=Sydney/O=OpenEFT/OU=OpenEFT Client/CN=openeft-cli"
+openssl req -passin pass:$password -new -key eftnode_cli_client.key -out eftnode_cli_client.csr -subj "/C=AU/ST=NSW/L=Sydney/O=OpenEFT/OU=OpenEFT Client/CN=localhost"
 openssl x509 -passin pass:$password -req -days 365 -in eftnode_cli_client.csr -CA eftnode_cli_ca.crt -CAkey eftnode_cli_ca.key -set_serial 01 -out eftnode_cli_client.crt
 
 # Remove passphrase from Client Key

@@ -115,6 +115,8 @@ uint32_t eftConsole::help_cmd(std::vector<std::string>& args) {
     return EFT_NOK;
   }
   
+  log(LOG_CONSOLE, "Reply [%s]", reply.eft_checkup().c_str());
+  
   return EFT_OK;
 }
 

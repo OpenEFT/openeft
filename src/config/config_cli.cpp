@@ -24,7 +24,7 @@ string eftConfigCli::config_path = "openeft-cli.conf";
 
 /* S S L */
 string eftConfigCli::port = "9846";
-string eftConfigCli::ipaddr = "127.0.0.1";
+string eftConfigCli::ipaddr = "localhost";
 string eftConfigCli::cafile = "certroot/eftnode_cli_ca.crt";
 string eftConfigCli::client_crt = "certroot/eftnode_cli_client.crt";
 string eftConfigCli::client_key = "certroot/eftnode_cli_client.key";
