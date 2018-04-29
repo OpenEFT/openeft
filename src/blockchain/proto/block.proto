@@ -16,12 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 
-#ifndef _OPENEFT_BLOCK_H
-#define _OPENEFT_BLOCK_H
+syntax = "proto3";
 
+package blockchain_proto;
 
+message Block {
+  int32 version = 1;
+  string prev_hash = 2;
+  string merkle_root_hash = 3;
+  uint32 time = 4;
+  uint32 bits = 5;
+  uint32 nonce = 6;
 
-
-
-#endif /* BLOCK_H */
-
+  repeat Transaction trans_list = 7;
+}
