@@ -7,6 +7,8 @@ CMakeLists.txt.user
 *.log
 *nbproject*/
 *.localconfig*/
+*.vscode*/
+*.code-workspace
 
 # ignore protocol buffer generated files.
 *.pb.cc

@@ -100,6 +100,10 @@ find_package(OpenSSL REQUIRED)
 if(OPENSSL_FOUND)
     include_directories(${OPENSSL_INCLUDE_DIRS})
 endif()
+find_package(RocksDb REQUIRED)
+if(ROCKSDB_FOUND)
+    include_directories(${ROCKSDB_INCLUDE_DIRS})
+endif()
 find_package(Protobuf REQUIRED)
 include_directories(${PROTOBUF_INCLUDE_DIR})
 find_package(GRPC REQUIRED)
@@ -130,7 +134,7 @@ add_executable(openeft
     ${openeft_src} ${CONTROL_PROTO_SRCS} ${CONTROL_GRPC_SRCS} ${ISO20022_PROTO_SRCS} ${ISO20022_GRPC_SRCS}
     )
 target_link_libraries(openeft
-   ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} gRPC::grpc++_reflection)
+   ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} ${ROCKSDB_LIBRARY} gRPC::grpc++_reflection)
 
 #  The main openeft executable
 add_executable(openeft-cli
