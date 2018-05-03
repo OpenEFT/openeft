@@ -26,7 +26,7 @@ import "smart_contract.proto";
 message Batch {
   string hash = 1;
   string version = 2;
-  
+
   repeated Transaction trans_list = 3;
-  optional SmartContract contract = 4;
+  SmartContract contract = 4;
 }
