@@ -1,0 +1,44 @@
+//----------------------------------------------------------------------
+// Copyright (C) 2018  openeft.org
+// Copyright (C) Reza Schadmani <reza.schadmani@openeft.org>
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//----------------------------------------------------------------------
+
+syntax = "proto3";
+
+package blockchain_proto;
+
+message TransactionIn {
+  string hash = 1;
+  string public_key = 2;
+  string signature = 3;
+  int32 amount = 4;
+}
+
+message TransactionOut {
+  string public_key = 1;
+  int32 amount = 2;
+}
+
+message Transaction {
+  string hash = 1;
+  string version = 2;
+  int32 fee = 3;
+  int32 total_amount = 4;
+
+  repeated TransactionIn tnx_in = 7;
+  repeated TransactionOut tnx_out = 8;
+}
+

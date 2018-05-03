@@ -110,10 +110,13 @@ find_package(GRPC REQUIRED)
 include_directories(${GRPC_INCLUDE_DIR})
 
 set(PROTO_SRC_DIR_CTRL "${CMAKE_CURRENT_SOURCE_DIR}/control/protos")
+set(PROTO_SRC_DIR_BLOCKCHAIN "${CMAKE_CURRENT_SOURCE_DIR}/blockchain/protos")
 set(PROTO_SRC_DIR_ISO20022 "${CMAKE_CURRENT_SOURCE_DIR}/transaction/iso20022/protos")
 
 file(GLOB CONTROL_PROTOS
     "${PROTO_SRC_DIR_CTRL}/*.proto")
+file(GLOB BLOCKCHAIN_PROTOS
+    "${PROTO_SRC_DIR_BLOCKCHAIN}/*.proto")
 file(GLOB ISO20022_PROTOS
     "${PROTO_SRC_DIR_ISO20022}/*.proto")
 
@@ -121,17 +124,30 @@ if(CONTROL_PROTOS)
 foreach(PROTO ${CONTROL_PROTOS})
 protobuf_generate_cpp(CONTROL_PROTO_SRCS CONTROL_PROTO_HDRS ${PROTO_SRC_DIR_CTRL} ${PROTO})
 grpc_generate_cpp(CONTROL_GRPC_SRCS CONTROL_GRPC_HDRS ${PROTO_SRC_DIR_CTRL} ${PROTO})
+list(APPEND proto_list ${CONTROL_PROTO_SRCS})
+list(APPEND proto_list ${CONTROL_GRPC_SRCS})
+endforeach()
+endif()
+if(BLOCKCHAIN_PROTOS)
+foreach(PROTO ${BLOCKCHAIN_PROTOS})
+protobuf_generate_cpp(BLOCKCHAIN_PROTO_SRCS BLOCKCHAIN_PROTO_HDRS ${PROTO_SRC_DIR_BLOCKCHAIN} ${PROTO})
+grpc_generate_cpp(BLOCKCHAIN_GRPC_SRCS BLOCKCHAIN_GRPC_HDRS ${PROTO_SRC_DIR_BLOCKCHAIN} ${PROTO})
+list(APPEND proto_list ${BLOCKCHAIN_PROTO_SRCS})
+list(APPEND proto_list ${BLOCKCHAIN_GRPC_SRCS})
 endforeach()
 endif()
 if(ISO20022_PROTOS)
 foreach(PROTO ${ISO20022_PROTOS})
 protobuf_generate_cpp(ISO20022_PROTO_SRCS ISO20022_PROTO_HDRS ${PROTO_SRC_DIR_ISO20022} ${PROTO})
 grpc_generate_cpp(ISO20022_GRPC_SRCS ISO20022_GRPC_HDRS ${PROTO_SRC_DIR_ISO20022} ${PROTO})
+list(APPEND proto_list ${ISO20022_PROTO_SRCS})
+list(APPEND proto_list ${ISO20022_GRPC_SRCS})
 endforeach()
 endif()
+
 #  The main openeft executable
 add_executable(openeft
-    ${openeft_src} ${CONTROL_PROTO_SRCS} ${CONTROL_GRPC_SRCS} ${ISO20022_PROTO_SRCS} ${ISO20022_GRPC_SRCS}
+    ${openeft_src} ${proto_list}
     )
 target_link_libraries(openeft
    ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} ${ROCKSDB_LIBRARY} gRPC::grpc++_reflection)

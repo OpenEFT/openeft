@@ -20,13 +20,23 @@ syntax = "proto3";
 
 package blockchain_proto;
 
-message Block {
-  int32 version = 1;
-  string prev_hash = 2;
-  string merkle_root_hash = 3;
-  uint32 time = 4;
-  uint32 bits = 5;
-  uint32 nonce = 6;
+message Script {
+  string version = 1;
+}
 
-  repeat Transaction trans_list = 7;
+message PreProcessing {
+  Script s = 2;
+}
+
+message PostProcessing {
+  Script s = 2;
+}
+
+message SmartContract {
+  string hash = 1;
+  string version = 2;
+  string language_ig = 3;
+
+  PreProcessing pre = 4;
+  PostProcessing post = 5;
 }
