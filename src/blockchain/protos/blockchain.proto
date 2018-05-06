@@ -20,15 +20,60 @@ syntax = "proto3";
 
 package blockchain_proto;
 
-message eftNodes {
-  enum ServiceFlags {
-    FULL_NODE = 0;
-    LIMITED_NODE = 1;
-  }
-  int32 version = 1;
-  ServiceFlags srv_flags = 2;
-  string ip = 3;
-  string port = 4;
-  int64 uptime = 5; /* seconds uptime */
+import "block.proto";
+
+message VoidRequest {
 }
 
+message VoidReply {
+}
+
+message BcInfoReply {
+
+}
+
+message BcTxStatReply {
+
+}
+
+message BlockInfoReply {
+  int64 block_no = 1;
+  BlockHdr header = 2;
+}
+
+message BcVerifyRequest {
+
+}
+
+message BcVerifyReply {
+
+}
+
+message BcBestHashReply {
+
+}
+
+message BcBlockInfoRequest {
+  int64 block_no = 1;
+}
+
+
+
+message BcHelpReply {
+  string eft_bc_info = 1;
+  string eft_bc_tx_stat = 2;
+  string eft_bc_best_hash = 3;
+  string eft_bc_block_info = 5;
+  string eft_bc_do_verify = 6;  
+}
+
+
+
+service BlockchainSrv {
+  rpc help (VoidRequest) returns (BcHelpReply) {}
+  rpc get_bc_info (VoidRequest) returns (BcInfoReply) {}
+  rpc get_bc_tx_stat (VoidRequest) returns (BcTxStatReply) {}
+  rpc get_bc_best_hash (VoidRequest) returns (BcBestHashReply) {}
+  rpc get_bc_block_info (BcBlockInfoRequest) returns (BlockInfoReply) {}
+  rpc bc_do_verify (BcVerifyRequest) returns (BcVerifyReply) {}
+}
