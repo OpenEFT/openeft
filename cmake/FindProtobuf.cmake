@@ -54,13 +54,14 @@ function(PROTOBUF_GENERATE_CPP SRCS HDRS DEST)
   foreach(FIL ${ARGN})
     get_filename_component(ABS_FIL ${FIL} ABSOLUTE)
     get_filename_component(FIL_WE ${FIL} NAME_WE)
+    get_filename_component(DIR_WE ${FIL} DIRECTORY)
 
-    list(APPEND ${SRCS} "${DEST}/${FIL_WE}.pb.cc")
-    list(APPEND ${HDRS} "${DEST}/${FIL_WE}.pb.h")
+    list(APPEND ${SRCS} "${DIR_WE}/${FIL_WE}.pb.cc")
+    list(APPEND ${HDRS} "${DIR_WE}/${FIL_WE}.pb.h")
 
     add_custom_command(
-      OUTPUT "${DEST}/${FIL_WE}.pb.cc"
-             "${DEST}/${FIL_WE}.pb.h"
+      OUTPUT "${DIR_WE}/${FIL_WE}.pb.cc"
+             "${DIR_WE}/${FIL_WE}.pb.ch"
       COMMAND protobuf::protoc
       ARGS --cpp_out ${DEST} ${_protobuf_include_path} ${ABS_FIL}
       DEPENDS ${ABS_FIL} protobuf::protoc

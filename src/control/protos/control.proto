@@ -18,21 +18,9 @@
 
 syntax = "proto3";
 
+import "kernel/protos/generic.proto";
+
 package control_proto;
-
-message GenericRequest {
-  string value = 1;
-}
-
-message GenericReply {
-  string value = 1;
-}
-
-message VoidRequest {
-}
-
-message VoidReply {
-}
 
 message HelpReply {
   string eft_checkup = 1;
@@ -111,22 +99,21 @@ message ConsoleLogRequest {
   int32 enable  = 1;
 }
 
-
 service ControlSrv {
-  rpc help (VoidRequest) returns (HelpReply) {}
-  rpc checkup (VoidRequest) returns (CheckupReply) {}
-  rpc reset (VoidRequest) returns (HardResetReply) {}
-  rpc reload (VoidRequest) returns (ReloadCfgReply) {}
-  rpc get_tr_report (VoidRequest) returns (TransactionTableReply) {}
-  rpc get_compliance_report (VoidRequest) returns (ComplianceTableReply) {}
-  rpc get_op_report (VoidRequest) returns (OpTableReply) {}
-  rpc get_peer_adv_report (VoidRequest) returns (PeerAdvTableReply) {}
-  rpc get_net_compliance_report (VoidRequest) returns (NetComplianceTableReply) {}
-  rpc get_net_op_report (VoidRequest) returns (NetOpTableReply) {}
-  rpc get_net_tr_report (VoidRequest) returns (NetTransactionTableReply) {}
-  rpc get_comms_benchmark (VoidRequest) returns (CommsBenchmarkTableReply) {}
-  rpc get_ec_benchmark (VoidRequest) returns (EcBenchmarkTableReply) {}
-  rpc get_ecdh_benchmark (VoidRequest) returns (EcdhBenchmarkTableReply) {}
-  rpc get_dsa_benchmark (VoidRequest) returns (DsaBenchmarkTableReply) {}
-  rpc console_log (ConsoleLogRequest) returns (GenericReply) {}
+  rpc help (generic_proto.VoidRequest) returns (HelpReply) {}
+  rpc checkup (generic_proto.VoidRequest) returns (CheckupReply) {}
+  rpc reset (generic_proto.VoidRequest) returns (HardResetReply) {}
+  rpc reload (generic_proto.VoidRequest) returns (ReloadCfgReply) {}
+  rpc get_tr_report (generic_proto.VoidRequest) returns (TransactionTableReply) {}
+  rpc get_compliance_report (generic_proto.VoidRequest) returns (ComplianceTableReply) {}
+  rpc get_op_report (generic_proto.VoidRequest) returns (OpTableReply) {}
+  rpc get_peer_adv_report (generic_proto.VoidRequest) returns (PeerAdvTableReply) {}
+  rpc get_net_compliance_report (generic_proto.VoidRequest) returns (NetComplianceTableReply) {}
+  rpc get_net_op_report (generic_proto.VoidRequest) returns (NetOpTableReply) {}
+  rpc get_net_tr_report (generic_proto.VoidRequest) returns (NetTransactionTableReply) {}
+  rpc get_comms_benchmark (generic_proto.VoidRequest) returns (CommsBenchmarkTableReply) {}
+  rpc get_ec_benchmark (generic_proto.VoidRequest) returns (EcBenchmarkTableReply) {}
+  rpc get_ecdh_benchmark (generic_proto.VoidRequest) returns (EcdhBenchmarkTableReply) {}
+  rpc get_dsa_benchmark (generic_proto.VoidRequest) returns (DsaBenchmarkTableReply) {}
+  rpc console_log (ConsoleLogRequest) returns (generic_proto.GenericReply) {}
 }

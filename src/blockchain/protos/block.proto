@@ -18,9 +18,10 @@
 
 syntax = "proto3";
 
-package blockchain_proto;
+import "kernel/protos/generic.proto";
+import "blockchain/protos/transaction.proto";
 
-import "transaction.proto";
+package blockchain_proto;
 
 message BlockHdr {
   int32 version = 1;

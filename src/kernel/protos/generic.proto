@@ -18,27 +18,17 @@
 
 syntax = "proto3";
 
-import "kernel/protos/generic.proto";
+package generic_proto;
 
-package blockchain_proto;
-
-message Script {
-  string version = 1;
+message VoidRequest {
+  int32 error_code = 1;
 }
 
-message PreProcessing {
-  Script s = 2;
+message VoidReply {
+  int32 error_code = 1;
 }
 
-message PostProcessing {
-  Script s = 2;
+message GenericReply {
+  int32 error_code = 1;
 }
 
-message SmartContract {
-  string hash = 1;
-  string version = 2;
-  string language_ig = 3;
-
-  PreProcessing pre = 4;
-  PostProcessing post = 5;
-}

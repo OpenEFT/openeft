@@ -54,8 +54,12 @@ file(GLOB openeft_src
     "config/*.cpp"
     "control/*.h"
     "control/*.cpp"
+    "kernel/*.h"
+    "kernel/*.cpp"
     "log/*.h"
     "log/*.cpp"
+    "network/*.h"
+    "network/*.cpp"
     "utils/*.cpp"
     "utils/*.h"
     "tests/*.cpp"
@@ -75,6 +79,8 @@ file(GLOB openeft_cli_src
     "config/*.cpp"
     "control/*.h"
     "control/*.cpp"
+    "kernel/*.h"
+    "kernel/*.cpp"
     "log/*.h"
     "log/*.cpp"
     "utils/*.cpp"
@@ -112,6 +118,13 @@ include_directories(${GRPC_INCLUDE_DIR})
 set(PROTO_SRC_DIR_CTRL "${CMAKE_CURRENT_SOURCE_DIR}/control/protos")
 set(PROTO_SRC_DIR_BLOCKCHAIN "${CMAKE_CURRENT_SOURCE_DIR}/blockchain/protos")
 set(PROTO_SRC_DIR_ISO20022 "${CMAKE_CURRENT_SOURCE_DIR}/transaction/iso20022/protos")
+set(PROTO_SRC_DIR_KERNEL "${CMAKE_CURRENT_SOURCE_DIR}/kernel/protos")
+set(PROTO_SRC_DIR_NETWORK "${CMAKE_CURRENT_SOURCE_DIR}/network/protos")
+
+set(GRPC_GENERATE_CPP_APPEND_PATH FALSE)
+set(PROTOBUF_GENERATE_CPP_APPEND_PATH FALSE)
+
+include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 file(GLOB CONTROL_PROTOS
     "${PROTO_SRC_DIR_CTRL}/*.proto")
@@ -119,29 +132,49 @@ file(GLOB BLOCKCHAIN_PROTOS
     "${PROTO_SRC_DIR_BLOCKCHAIN}/*.proto")
 file(GLOB ISO20022_PROTOS
     "${PROTO_SRC_DIR_ISO20022}/*.proto")
+file(GLOB KERNEL_PROTOS
+    "${PROTO_SRC_DIR_KERNEL}/*.proto")
+file(GLOB NETWORK_PROTOS
+    "${PROTO_SRC_DIR_NETWORK}/*.proto")
 
+if(KERNEL_PROTOS)
+foreach(PROTO ${KERNEL_PROTOS})
+protobuf_generate_cpp(KERNEL_PROTO_SRCS KERNEL_PROTO_HDRS ${CMAKE_CURRENT_LIST_DIR} ${PROTO})
+grpc_generate_cpp(KERNEL_GRPC_SRCS KERNEL_GRPC_HDRS ${CMAKE_CURRENT_LIST_DIR} ${PROTO})
+list(APPEND proto_list ${KERNEL_PROTO_SRCS})
+list(APPEND proto_list ${KERNEL_GRPC_SRCS})
+endforeach()
+endif()
 if(CONTROL_PROTOS)
 foreach(PROTO ${CONTROL_PROTOS})
-protobuf_generate_cpp(CONTROL_PROTO_SRCS CONTROL_PROTO_HDRS ${PROTO_SRC_DIR_CTRL} ${PROTO})
-grpc_generate_cpp(CONTROL_GRPC_SRCS CONTROL_GRPC_HDRS ${PROTO_SRC_DIR_CTRL} ${PROTO})
+protobuf_generate_cpp(CONTROL_PROTO_SRCS CONTROL_PROTO_HDRS ${CMAKE_CURRENT_LIST_DIR} ${PROTO})
+grpc_generate_cpp(CONTROL_GRPC_SRCS CONTROL_GRPC_HDRS ${CMAKE_CURRENT_LIST_DIR} ${PROTO})
 list(APPEND proto_list ${CONTROL_PROTO_SRCS})
 list(APPEND proto_list ${CONTROL_GRPC_SRCS})
 endforeach()
 endif()
 if(BLOCKCHAIN_PROTOS)
 foreach(PROTO ${BLOCKCHAIN_PROTOS})
-protobuf_generate_cpp(BLOCKCHAIN_PROTO_SRCS BLOCKCHAIN_PROTO_HDRS ${PROTO_SRC_DIR_BLOCKCHAIN} ${PROTO})
-grpc_generate_cpp(BLOCKCHAIN_GRPC_SRCS BLOCKCHAIN_GRPC_HDRS ${PROTO_SRC_DIR_BLOCKCHAIN} ${PROTO})
+protobuf_generate_cpp(BLOCKCHAIN_PROTO_SRCS BLOCKCHAIN_PROTO_HDRS ${CMAKE_CURRENT_LIST_DIR} ${PROTO})
+grpc_generate_cpp(BLOCKCHAIN_GRPC_SRCS BLOCKCHAIN_GRPC_HDRS ${CMAKE_CURRENT_LIST_DIR} ${PROTO})
 list(APPEND proto_list ${BLOCKCHAIN_PROTO_SRCS})
 list(APPEND proto_list ${BLOCKCHAIN_GRPC_SRCS})
 endforeach()
 endif()
 if(ISO20022_PROTOS)
 foreach(PROTO ${ISO20022_PROTOS})
-protobuf_generate_cpp(ISO20022_PROTO_SRCS ISO20022_PROTO_HDRS ${PROTO_SRC_DIR_ISO20022} ${PROTO})
-grpc_generate_cpp(ISO20022_GRPC_SRCS ISO20022_GRPC_HDRS ${PROTO_SRC_DIR_ISO20022} ${PROTO})
+protobuf_generate_cpp(ISO20022_PROTO_SRCS ISO20022_PROTO_HDRS ${CMAKE_CURRENT_LIST_DIR} ${PROTO})
+grpc_generate_cpp(ISO20022_GRPC_SRCS ISO20022_GRPC_HDRS ${CMAKE_CURRENT_LIST_DIR} ${PROTO})
 list(APPEND proto_list ${ISO20022_PROTO_SRCS})
 list(APPEND proto_list ${ISO20022_GRPC_SRCS})
+endforeach()
+endif()
+if(NETWORK_PROTOS)
+foreach(PROTO ${NETWORK_PROTOS})
+protobuf_generate_cpp(NETWORK_PROTO_SRCS NETWORK_PROTO_HDRS ${CMAKE_CURRENT_LIST_DIR} ${PROTO})
+grpc_generate_cpp(NETWORK_GRPC_SRCS BLOCKCHAIN_GRPC_HDRS ${CMAKE_CURRENT_LIST_DIR} ${PROTO})
+list(APPEND proto_list ${NETWORK_PROTO_SRCS})
+list(APPEND proto_list ${NETWORK_GRPC_SRCS})
 endforeach()
 endif()
 
@@ -152,9 +185,9 @@ add_executable(openeft
 target_link_libraries(openeft
    ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} ${ROCKSDB_LIBRARY} gRPC::grpc++_reflection)
 
-#  The main openeft executable
+#  The main openeft-cli executable
 add_executable(openeft-cli
-    ${openeft_cli_src} ${CONTROL_PROTO_SRCS} ${CONTROL_GRPC_SRCS}
+    ${openeft_cli_src} ${proto_list} 
     )
 target_link_libraries(openeft-cli
    ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} gRPC::grpc++_reflection)

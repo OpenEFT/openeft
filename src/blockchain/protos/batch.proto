@@ -18,10 +18,12 @@
 
 syntax = "proto3";
 
+import "kernel/protos/generic.proto";
+import "blockchain/protos/transaction.proto";
+import "blockchain/protos/smart_contract.proto";
+
 package blockchain_proto;
 
-import "transaction.proto";
-import "smart_contract.proto";
 
 message Batch {
   string hash = 1;

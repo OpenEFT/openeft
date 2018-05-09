@@ -18,6 +18,8 @@
 
 syntax = "proto3";
 
+import "kernel/protos/generic.proto";
+
 package blockchain_proto;
 
 message TransactionIn {

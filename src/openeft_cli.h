@@ -24,8 +24,10 @@
 #include "config/config_cli.h"
 #include "control/console.h"
 #include "control/protos/control.grpc.pb.h"
+#include "kernel/protos/generic.grpc.pb.h"
 
 using namespace control_proto;
+using namespace generic_proto;
 /*
  ** The main entry of this program.
  */

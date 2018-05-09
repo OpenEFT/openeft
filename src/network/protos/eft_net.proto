@@ -18,17 +18,36 @@
 
 syntax = "proto3";
 
-package blockchain_proto;
+import "kernel/protos/generic.proto";
+import "network/protos/eft_nodes.proto";
 
-message eftNodes {
-  enum ServiceFlags {
-    FULL_NODE = 0;
-    LIMITED_NODE = 1;
-  }
-  int32 version = 1;
-  ServiceFlags srv_flags = 2;
-  string ip = 3;
-  string port = 4;
-  int64 uptime = 5; /* seconds uptime */
+package network_proto;
+
+message EftMap {
+
 }
 
+message RoutingRecord {
+  string node_id = 1;
+  string next_hop = 2;
+  int32 metric = 3;
+  int32 weight = 4;
+  repeated string path = 5;  /* contains a list of node ids that build a path towards node_id */
+}
+
+message RoutingTable {
+  repeated RoutingRecord records = 1;
+}
+
+message EftNet {
+  repeated EftNode nodes = 1;
+  EftMap map = 2;
+  RoutingTable routing_tbl = 3;
+}
+
+service EftNetworkSrv {
+  rpc advertise_network (EftNet) returns (generic_proto.VoidReply) {}
+  rpc get_routing_table (generic_proto.VoidRequest) returns (RoutingTable) {}
+  rpc get_eft_network (generic_proto.VoidRequest) returns (EftNet) {}
+  rpc get_eft_map (generic_proto.VoidRequest) returns (EftMap) {}
+}

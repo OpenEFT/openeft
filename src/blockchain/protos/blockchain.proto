@@ -18,15 +18,10 @@
 
 syntax = "proto3";
 
+import "kernel/protos/generic.proto";
+import "blockchain/protos/block.proto";
+
 package blockchain_proto;
-
-import "block.proto";
-
-message VoidRequest {
-}
-
-message VoidReply {
-}
 
 message BcInfoReply {
 
@@ -70,10 +65,10 @@ message BcHelpReply {
 
 
 service BlockchainSrv {
-  rpc help (VoidRequest) returns (BcHelpReply) {}
-  rpc get_bc_info (VoidRequest) returns (BcInfoReply) {}
-  rpc get_bc_tx_stat (VoidRequest) returns (BcTxStatReply) {}
-  rpc get_bc_best_hash (VoidRequest) returns (BcBestHashReply) {}
+  rpc help (generic_proto.VoidRequest) returns (BcHelpReply) {}
+  rpc get_bc_info (generic_proto.VoidRequest) returns (BcInfoReply) {}
+  rpc get_bc_tx_stat (generic_proto.VoidRequest) returns (BcTxStatReply) {}
+  rpc get_bc_best_hash (generic_proto.VoidRequest) returns (BcBestHashReply) {}
   rpc get_bc_block_info (BcBlockInfoRequest) returns (BlockInfoReply) {}
   rpc bc_do_verify (BcVerifyRequest) returns (BcVerifyReply) {}
 }

@@ -20,6 +20,7 @@
 #include "console.h"
 
 using namespace control_proto;
+using namespace generic_proto;
 
 eftConsole::eftConsole(std::string ipaddr,
               std::string port,

@@ -20,9 +20,12 @@
 #define _OPENEFT_CONTROL_SERVICE_H
 
 #include "protos/control.grpc.pb.h"
+#include "kernel/protos/generic.grpc.pb.h"
 #include "comms/rpc_server_ssl.h"
 
+
 using namespace control_proto;
+using namespace generic_proto;
 
 class eftCallDataHelp;
 
@@ -59,7 +62,7 @@ public:
 
 private:
   ServerContext ctx;
-  control_proto::VoidRequest request;
+  generic_proto::VoidRequest request;
   control_proto::HelpReply reply;
   ServerAsyncResponseWriter<HelpReply> responder;
   eftControl* ctrl;
