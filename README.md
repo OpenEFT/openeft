@@ -35,13 +35,14 @@ Make sure that .editorconfig is correctly read by the IDE. You can test TAB and 
       Save the workspace inside the root directory by clicking on File/Save Workspace As.
     - Install VS code plugins for C/C++, python, git etc support.
 
-## List of binary products
+## List of output products
   * openeft
     - Main daemon that represents a full node in an eft network.
   * eftconsole
     - Secure permissive access to a full node to perform administrative and reporting tasks.
   * openeft-cli
-    - Peer client application. Can perform all sort of financial interactions with eft network.
-    - Can represent a full featured openeft wallet.
+    - Peer client application. Can perform all sort of financial interactions within the eft network.
+    - It can also represent a full-featured openeft wallet.
   * eftminer
-    - openeft mining application.
+    - OpenEFT mining application.
+  
