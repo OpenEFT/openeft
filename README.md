@@ -37,12 +37,11 @@ Make sure that .editorconfig is correctly read by the IDE. You can test TAB and 
 
 ## List of output products
   * openeft
-    - Main daemon that represents a full node in an eft network.
+    - Main daemon that represents a full node in an EFT network.
   * eftconsole
     - Secure permissive access to a full node to perform administrative and reporting tasks.
   * openeft-cli
-    - Peer client application. Can perform all sort of financial interactions within the eft network.
+    - Peer client application. Can perform all sort of financial interactions within the EFT network.
     - It can also represent a full-featured openeft wallet.
   * eftminer
     - OpenEFT mining application.
-  
