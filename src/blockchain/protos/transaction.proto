@@ -23,24 +23,21 @@ import "kernel/protos/generic.proto";
 package blockchain_proto;
 
 message TransactionIn {
-  string hash = 1;
-  string public_key = 2;
-  string signature = 3;
-  int32 amount = 4;
+  string rrn = 1; /* retrieval reference number rrn (as hash of the transaction) */
+  repeated string signature = 2; /* signature (and public key) to verify the owner */
+  oneof tr_data {
+
+  }
 }
 
 message TransactionOut {
   string public_key = 1;
-  int32 amount = 2;
 }
 
 message Transaction {
-  string hash = 1;
-  string version = 2;
-  int32 fee = 3;
-  int32 total_amount = 4;
-
-  repeated TransactionIn tnx_in = 7;
-  repeated TransactionOut tnx_out = 8;
+  string version = 1;
+  
+  repeated TransactionIn tnx_in = 2;
+  repeated TransactionOut tnx_out = 3;
 }
 

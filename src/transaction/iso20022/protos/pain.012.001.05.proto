@@ -1,0 +1,514 @@
+//----------------------------------------------------------------------
+// Copyright (C) 2018  openeft.org
+// Copyright (C) Reza Schadmani <reza.schadmani@openeft.org>
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//----------------------------------------------------------------------
+
+message UnspecifiedType
+{
+	required string baseObjectType = 1;
+	required bytes object = 2;
+}
+
+message SupplementaryDataEnvelope1
+{
+}
+
+message FrequencyAndMoment1
+{
+	enum Frequency6Code
+	{
+		Frequency6Code_ADHO = 1;
+		Frequency6Code_DAIL = 2;
+		Frequency6Code_FRTN = 3;
+		Frequency6Code_INDA = 4;
+		Frequency6Code_MIAN = 5;
+		Frequency6Code_MNTH = 6;
+		Frequency6Code_QURT = 7;
+		Frequency6Code_WEEK = 8;
+		Frequency6Code_YEAR = 9;
+	}
+	required Frequency6Code Tp = 1;
+	required string PtInTm = 2;
+}
+
+message MandateReason1Choice
+{
+	optional string Cd = 1;
+	optional string Prtry = 2;
+}
+
+message Frequency37Choice
+{
+	enum Frequency10Code
+	{
+		Frequency10Code_MIAN = 1;
+		Frequency10Code_NEVR = 2;
+		Frequency10Code_QURT = 3;
+		Frequency10Code_RATE = 4;
+		Frequency10Code_YEAR = 5;
+	}
+	optional Frequency10Code Cd = 1;
+	optional string Prtry = 2;
+}
+
+message MandateClassification1Choice
+{
+	enum MandateClassification1Code
+	{
+		MandateClassification1Code_FIXE = 1;
+		MandateClassification1Code_USGB = 2;
+		MandateClassification1Code_VARI = 3;
+	}
+	optional MandateClassification1Code Cd = 1;
+	optional string Prtry = 2;
+}
+
+message PersonIdentificationSchemeName1Choice
+{
+	optional string Cd = 1;
+	optional string Prtry = 2;
+}
+
+message Authorisation1Choice
+{
+	enum Authorisation1Code
+	{
+		Authorisation1Code_AUTH = 1;
+		Authorisation1Code_FDET = 2;
+		Authorisation1Code_FSUM = 3;
+		Authorisation1Code_ILEV = 4;
+	}
+	optional Authorisation1Code Cd = 1;
+	optional string Prtry = 2;
+}
+
+message AcceptanceResult6
+{
+	required bool Accptd = 1;
+	optional MandateReason1Choice RjctRsn = 2;
+	repeated string AddtlRjctRsnInf = 3;
+}
+
+message DatePeriodDetails1
+{
+	required int32 FrDt = 1;
+	optional int32 ToDt = 2;
+}
+
+message MandateSetupReason1Choice
+{
+	optional string Cd = 1;
+	optional string Prtry = 2;
+}
+
+message ActiveOrHistoricCurrencyAndAmount
+{
+	required string Ccy = 1;
+}
+
+message FrequencyPeriod1
+{
+	enum Frequency6Code
+	{
+		Frequency6Code_ADHO = 1;
+		Frequency6Code_DAIL = 2;
+		Frequency6Code_FRTN = 3;
+		Frequency6Code_INDA = 4;
+		Frequency6Code_MIAN = 5;
+		Frequency6Code_MNTH = 6;
+		Frequency6Code_QURT = 7;
+		Frequency6Code_WEEK = 8;
+		Frequency6Code_YEAR = 9;
+	}
+	required Frequency6Code Tp = 1;
+	required double CntPerPrd = 2;
+}
+
+message DateAndPlaceOfBirth
+{
+	required int32 BirthDt = 1;
+	optional string PrvcOfBirth = 2;
+	required string CityOfBirth = 3;
+	required string CtryOfBirth = 4;
+}
+
+message Frequency36Choice
+{
+	enum Frequency6Code
+	{
+		Frequency6Code_ADHO = 1;
+		Frequency6Code_DAIL = 2;
+		Frequency6Code_FRTN = 3;
+		Frequency6Code_INDA = 4;
+		Frequency6Code_MIAN = 5;
+		Frequency6Code_MNTH = 6;
+		Frequency6Code_QURT = 7;
+		Frequency6Code_WEEK = 8;
+		Frequency6Code_YEAR = 9;
+	}
+	optional Frequency6Code Tp = 1;
+	optional FrequencyPeriod1 Prd = 2;
+	optional FrequencyAndMoment1 PtInTm = 3;
+}
+
+message ReferredDocumentType3Choice
+{
+	enum DocumentType6Code
+	{
+		DocumentType6Code_AROI = 1;
+		DocumentType6Code_BOLD = 2;
+		DocumentType6Code_CINV = 3;
+		DocumentType6Code_CMCN = 4;
+		DocumentType6Code_CNFA = 5;
+		DocumentType6Code_CREN = 6;
+		DocumentType6Code_DEBN = 7;
+		DocumentType6Code_DISP = 8;
+		DocumentType6Code_DNFA = 9;
+		DocumentType6Code_HIRI = 10;
+		DocumentType6Code_MSIN = 11;
+		DocumentType6Code_PUOR = 12;
+		DocumentType6Code_SBIN = 13;
+		DocumentType6Code_SOAC = 14;
+		DocumentType6Code_TSUT = 15;
+		DocumentType6Code_VCHR = 16;
+	}
+	optional DocumentType6Code Cd = 1;
+	optional string Prtry = 2;
+}
+
+message ClearingSystemIdentification2Choice
+{
+	optional string Cd = 1;
+	optional string Prtry = 2;
+}
+
+message CashAccountType2Choice
+{
+	optional string Cd = 1;
+	optional string Prtry = 2;
+}
+
+message AuthenticationChannel1Choice
+{
+	optional string Cd = 1;
+	optional string Prtry = 2;
+}
+
+message OrganisationIdentificationSchemeName1Choice
+{
+	optional string Cd = 1;
+	optional string Prtry = 2;
+}
+
+message ReferredDocumentType4
+{
+	required ReferredDocumentType3Choice CdOrPrtry = 1;
+	optional string Issr = 2;
+}
+
+message GenericPersonIdentification1
+{
+	required string Id = 1;
+	optional PersonIdentificationSchemeName1Choice SchmeNm = 2;
+	optional string Issr = 3;
+}
+
+message CategoryPurpose1Choice
+{
+	optional string Cd = 1;
+	optional string Prtry = 2;
+}
+
+message SupplementaryData1
+{
+	optional string PlcAndNm = 1;
+	required SupplementaryDataEnvelope1 Envlp = 2;
+}
+
+message PostalAddress6
+{
+	enum AddressType2Code
+	{
+		AddressType2Code_ADDR = 1;
+		AddressType2Code_BIZZ = 2;
+		AddressType2Code_DLVY = 3;
+		AddressType2Code_HOME = 4;
+		AddressType2Code_MLTO = 5;
+		AddressType2Code_PBOX = 6;
+	}
+	optional AddressType2Code AdrTp = 1;
+	optional string Dept = 2;
+	optional string SubDept = 3;
+	optional string StrtNm = 4;
+	optional string BldgNb = 5;
+	optional string PstCd = 6;
+	optional string TwnNm = 7;
+	optional string CtrySubDvsn = 8;
+	optional string Ctry = 9;
+	repeated string AdrLine = 10;
+}
+
+message ReferredMandateDocument1
+{
+	optional ReferredDocumentType4 Tp = 1;
+	optional string Nb = 2;
+	optional string CdtrRef = 3;
+	optional int32 RltdDt = 4;
+}
+
+message ServiceLevel8Choice
+{
+	optional string Cd = 1;
+	optional string Prtry = 2;
+}
+
+message ContactDetails2
+{
+	enum NamePrefix1Code
+	{
+		NamePrefix1Code_DOCT = 1;
+		NamePrefix1Code_MADM = 2;
+		NamePrefix1Code_MISS = 3;
+		NamePrefix1Code_MIST = 4;
+	}
+	optional NamePrefix1Code NmPrfx = 1;
+	optional string Nm = 2;
+	optional string PhneNb = 3;
+	optional string MobNb = 4;
+	optional string FaxNb = 5;
+	optional string EmailAdr = 6;
+	optional string Othr = 7;
+}
+
+message OriginalMessageInformation1
+{
+	required string MsgId = 1;
+	required string MsgNmId = 2;
+	optional int64 CreDtTm = 3;
+}
+
+message MandateAuthentication1
+{
+	optional string MsgAuthntcnCd = 1;
+	optional int32 Dt = 2;
+	optional AuthenticationChannel1Choice Chanl = 3;
+}
+
+message LocalInstrument2Choice
+{
+	optional string Cd = 1;
+	optional string Prtry = 2;
+}
+
+message BranchData2
+{
+	optional string Id = 1;
+	optional string Nm = 2;
+	optional PostalAddress6 PstlAdr = 3;
+}
+
+message AccountSchemeName1Choice
+{
+	optional string Cd = 1;
+	optional string Prtry = 2;
+}
+
+message PersonIdentification5
+{
+	optional DateAndPlaceOfBirth DtAndPlcOfBirth = 1;
+	repeated GenericPersonIdentification1 Othr = 2;
+}
+
+message ActiveCurrencyAndAmount
+{
+	required string Ccy = 1;
+}
+
+message FinancialIdentificationSchemeName1Choice
+{
+	optional string Cd = 1;
+	optional string Prtry = 2;
+}
+
+message GenericOrganisationIdentification1
+{
+	required string Id = 1;
+	optional OrganisationIdentificationSchemeName1Choice SchmeNm = 2;
+	optional string Issr = 3;
+}
+
+message ClearingSystemMemberIdentification2
+{
+	optional ClearingSystemIdentification2Choice ClrSysId = 1;
+	required string MmbId = 2;
+}
+
+message MandateOccurrences4
+{
+	enum SequenceType2Code
+	{
+		SequenceType2Code_OOFF = 1;
+		SequenceType2Code_RCUR = 2;
+	}
+	required SequenceType2Code SeqTp = 1;
+	optional Frequency36Choice Frqcy = 2;
+	optional DatePeriodDetails1 Drtn = 3;
+	optional int32 FrstColltnDt = 4;
+	optional int32 FnlColltnDt = 5;
+}
+
+message MandateTypeInformation2
+{
+	optional ServiceLevel8Choice SvcLvl = 1;
+	optional LocalInstrument2Choice LclInstrm = 2;
+	optional CategoryPurpose1Choice CtgyPurp = 3;
+	optional MandateClassification1Choice Clssfctn = 4;
+}
+
+message OrganisationIdentification8
+{
+	optional string AnyBIC = 1;
+	repeated GenericOrganisationIdentification1 Othr = 2;
+}
+
+message GenericAccountIdentification1
+{
+	required string Id = 1;
+	optional AccountSchemeName1Choice SchmeNm = 2;
+	optional string Issr = 3;
+}
+
+message GenericFinancialIdentification1
+{
+	required string Id = 1;
+	optional FinancialIdentificationSchemeName1Choice SchmeNm = 2;
+	optional string Issr = 3;
+}
+
+message MandateAdjustment1
+{
+	required bool DtAdjstmntRuleInd = 1;
+	optional Frequency37Choice Ctgy = 2;
+	optional ActiveCurrencyAndAmount Amt = 3;
+	optional double Rate = 4;
+}
+
+message Party11Choice
+{
+	optional OrganisationIdentification8 OrgId = 1;
+	optional PersonIdentification5 PrvtId = 2;
+}
+
+message PartyIdentification43
+{
+	optional string Nm = 1;
+	optional PostalAddress6 PstlAdr = 2;
+	optional Party11Choice Id = 3;
+	optional string CtryOfRes = 4;
+	optional ContactDetails2 CtctDtls = 5;
+}
+
+message FinancialInstitutionIdentification8
+{
+	optional string BICFI = 1;
+	optional ClearingSystemMemberIdentification2 ClrSysMmbId = 2;
+	optional string Nm = 3;
+	optional PostalAddress6 PstlAdr = 4;
+	optional GenericFinancialIdentification1 Othr = 5;
+}
+
+message AccountIdentification4Choice
+{
+	optional string IBAN = 1;
+	optional GenericAccountIdentification1 Othr = 2;
+}
+
+message CashAccount24
+{
+	required AccountIdentification4Choice Id = 1;
+	optional CashAccountType2Choice Tp = 2;
+	optional string Ccy = 3;
+	optional string Nm = 4;
+}
+
+message BranchAndFinancialInstitutionIdentification5
+{
+	required FinancialInstitutionIdentification8 FinInstnId = 1;
+	optional BranchData2 BrnchId = 2;
+}
+
+message Mandate11
+{
+	optional string MndtId = 1;
+	optional string MndtReqId = 2;
+	optional MandateAuthentication1 Authntcn = 3;
+	optional MandateTypeInformation2 Tp = 4;
+	optional MandateOccurrences4 Ocrncs = 5;
+	required bool TrckgInd = 6;
+	optional ActiveOrHistoricCurrencyAndAmount FrstColltnAmt = 7;
+	optional ActiveOrHistoricCurrencyAndAmount ColltnAmt = 8;
+	optional ActiveOrHistoricCurrencyAndAmount MaxAmt = 9;
+	optional MandateAdjustment1 Adjstmnt = 10;
+	optional MandateSetupReason1Choice Rsn = 11;
+	optional PartyIdentification43 CdtrSchmeId = 12;
+	required PartyIdentification43 Cdtr = 13;
+	optional CashAccount24 CdtrAcct = 14;
+	optional BranchAndFinancialInstitutionIdentification5 CdtrAgt = 15;
+	optional PartyIdentification43 UltmtCdtr = 16;
+	required PartyIdentification43 Dbtr = 17;
+	optional CashAccount24 DbtrAcct = 18;
+	required BranchAndFinancialInstitutionIdentification5 DbtrAgt = 19;
+	optional PartyIdentification43 UltmtDbtr = 20;
+	optional string MndtRef = 21;
+	repeated ReferredMandateDocument1 RfrdDoc = 22;
+}
+
+message GroupHeader47
+{
+	required string MsgId = 1;
+	required int64 CreDtTm = 2;
+	repeated Authorisation1Choice Authstn = 3;
+	optional PartyIdentification43 InitgPty = 4;
+	optional BranchAndFinancialInstitutionIdentification5 InstgAgt = 5;
+	optional BranchAndFinancialInstitutionIdentification5 InstdAgt = 6;
+}
+
+message OriginalMandate5Choice
+{
+	optional string OrgnlMndtId = 1;
+	optional Mandate11 OrgnlMndt = 2;
+}
+
+message MandateAcceptance5
+{
+	optional OriginalMessageInformation1 OrgnlMsgInf = 1;
+	required AcceptanceResult6 AccptncRslt = 2;
+	optional OriginalMandate5Choice OrgnlMndt = 3;
+	repeated SupplementaryData1 SplmtryData = 4;
+}
+
+message MandateAcceptanceReportV05
+{
+	required GroupHeader47 GrpHdr = 1;
+	repeated MandateAcceptance5 UndrlygAccptncDtls = 2;
+	repeated SupplementaryData1 SplmtryData = 3;
+}
+
+message Document
+{
+	required MandateAcceptanceReportV05 MndtAccptncRpt = 1;
+}
+
