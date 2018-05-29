@@ -19,30 +19,12 @@
 syntax = "proto3";
 
 import "kernel/protos/generic.proto";
-import "transaction/iso20022/protos/iso20022.proto";
-import "transaction/eft/protos/eft.proto";
-import "transaction/fix/protos/fix.proto";
 
-package blockchain_proto;
+package fix;
 
-message Creditor {
-  string rrn = 1; /* retrieval reference number rrn (as hash of the transaction) */
-  repeated string authorization_signature = 2; /* signature (and public key) to verify the owner */
-  oneof data {
-    eft.Transaction eft = 3;
-    iso20022.Transaction iso20022 = 4;
-    fix.Transaction fix = 5;
-  }
-}
-
-message Debtor {
-  string public_key = 1;
-}
 
 message Transaction {
-  string version = 1;
-  
-  repeated Creditor tnx_in = 2;
-  repeated Debtor tnx_out = 3;
+  oneof type {
+    string tbd = 1;
+  }
 }
-

@@ -53,9 +53,9 @@ function(PROTOBUF_GENERATE_CPP SRCS HDRS DEST)
   set(${HDRS})
   foreach(FIL ${ARGN})
     get_filename_component(ABS_FIL ${FIL} ABSOLUTE)
-    get_filename_component(FIL_WE ${FIL} NAME_WE)
+    get_filename_component(FIL_NAME ${ABS_FIL} NAME)
+    string(REGEX REPLACE "\\.[^.]*$" "" FIL_WE ${FIL_NAME})
     get_filename_component(DIR_WE ${FIL} DIRECTORY)
-
     list(APPEND ${SRCS} "${DIR_WE}/${FIL_WE}.pb.cc")
     list(APPEND ${HDRS} "${DIR_WE}/${FIL_WE}.pb.h")
 

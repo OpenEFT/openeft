@@ -15,6 +15,15 @@ C++ programming language is used in openeft development.
 
 ## Compile and build
 Run following commands in bash/console to build the project:
+  * Minimum required development libraries
+    - Boost 1.66.0
+    - OpenSSL 1.0.2g
+    - RocksDb 5.12.4
+    - Protobuf 3.5.1
+    - GRPC 1.12.0
+    - Cmake 3.9.1
+    - GCC 7.2.0
+
   * "cmake -H. -Bbuild"
   * "cmake --build build -- -j3"
   * Make sure you run execute 'cmake -H. -Bbuild' in bash/console after making any changes in 

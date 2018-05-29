@@ -1,1 +1,3 @@
-
+- Convert the xsd files to proto using xsd2thrift.
+- Add syntax and package to the beginning of the proto files.
+- Remove optional and required keywords and set the enums start from 0.

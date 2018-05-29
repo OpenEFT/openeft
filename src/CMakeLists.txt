@@ -117,7 +117,9 @@ include_directories(${GRPC_INCLUDE_DIR})
 
 set(PROTO_SRC_DIR_CTRL "${CMAKE_CURRENT_SOURCE_DIR}/control/protos")
 set(PROTO_SRC_DIR_BLOCKCHAIN "${CMAKE_CURRENT_SOURCE_DIR}/blockchain/protos")
+set(PROTO_SRC_DIR_EFT "${CMAKE_CURRENT_SOURCE_DIR}/transaction/eft/protos")
 set(PROTO_SRC_DIR_ISO20022 "${CMAKE_CURRENT_SOURCE_DIR}/transaction/iso20022/protos")
+set(PROTO_SRC_DIR_FIX "${CMAKE_CURRENT_SOURCE_DIR}/transaction/fix/protos")
 set(PROTO_SRC_DIR_KERNEL "${CMAKE_CURRENT_SOURCE_DIR}/kernel/protos")
 set(PROTO_SRC_DIR_NETWORK "${CMAKE_CURRENT_SOURCE_DIR}/network/protos")
 
@@ -130,8 +132,12 @@ file(GLOB CONTROL_PROTOS
     "${PROTO_SRC_DIR_CTRL}/*.proto")
 file(GLOB BLOCKCHAIN_PROTOS
     "${PROTO_SRC_DIR_BLOCKCHAIN}/*.proto")
+file(GLOB EFT_PROTOS
+    "${PROTO_SRC_DIR_EFT}/*.proto")
 file(GLOB ISO20022_PROTOS
     "${PROTO_SRC_DIR_ISO20022}/*.proto")
+file(GLOB FIX_PROTOS
+    "${PROTO_SRC_DIR_FIX}/*.proto")
 file(GLOB KERNEL_PROTOS
     "${PROTO_SRC_DIR_KERNEL}/*.proto")
 file(GLOB NETWORK_PROTOS
@@ -161,12 +167,28 @@ list(APPEND proto_list ${BLOCKCHAIN_PROTO_SRCS})
 list(APPEND proto_list ${BLOCKCHAIN_GRPC_SRCS})
 endforeach()
 endif()
+if(EFT_PROTOS)
+foreach(PROTO ${EFT_PROTOS})
+protobuf_generate_cpp(EFT_PROTO_SRCS EFT_PROTO_HDRS ${CMAKE_CURRENT_LIST_DIR} ${PROTO})
+grpc_generate_cpp(EFT_GRPC_SRCS EFT_GRPC_HDRS ${CMAKE_CURRENT_LIST_DIR} ${PROTO})
+list(APPEND proto_list ${EFT_PROTO_SRCS})
+list(APPEND proto_list ${EFT_GRPC_SRCS})
+endforeach()
+endif()
 if(ISO20022_PROTOS)
 foreach(PROTO ${ISO20022_PROTOS})
 protobuf_generate_cpp(ISO20022_PROTO_SRCS ISO20022_PROTO_HDRS ${CMAKE_CURRENT_LIST_DIR} ${PROTO})
 grpc_generate_cpp(ISO20022_GRPC_SRCS ISO20022_GRPC_HDRS ${CMAKE_CURRENT_LIST_DIR} ${PROTO})
 list(APPEND proto_list ${ISO20022_PROTO_SRCS})
 list(APPEND proto_list ${ISO20022_GRPC_SRCS})
+endforeach()
+endif()
+if(FIX_PROTOS)
+foreach(PROTO ${FIX_PROTOS})
+protobuf_generate_cpp(FIX_PROTO_SRCS FIX_PROTO_HDRS ${CMAKE_CURRENT_LIST_DIR} ${PROTO})
+grpc_generate_cpp(FIX_GRPC_SRCS FIX_GRPC_HDRS ${CMAKE_CURRENT_LIST_DIR} ${PROTO})
+list(APPEND proto_list ${FIX_PROTO_SRCS})
+list(APPEND proto_list ${FIX_GRPC_SRCS})
 endforeach()
 endif()
 if(NETWORK_PROTOS)
@@ -177,6 +199,7 @@ list(APPEND proto_list ${NETWORK_PROTO_SRCS})
 list(APPEND proto_list ${NETWORK_GRPC_SRCS})
 endforeach()
 endif()
+
 
 #  The main openeft executable
 add_executable(openeft

@@ -16,16 +16,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 
+syntax = "proto3";
+package pain.creditor_payment_activation_request_status_report; /* pain_014_001_06_proto */
+
 message UnspecifiedType
 {
-	required string baseObjectType = 1;
-	required bytes object = 2;
+	string baseObjectType = 1;
+	bytes object = 2;
 }
 
 message DateAndDateTimeChoice
 {
-	optional int32 Dt = 1;
-	optional int64 DtTm = 2;
+	int32 Dt = 1;
+	int64 DtTm = 2;
 }
 
 message SupplementaryDataEnvelope1
@@ -34,68 +37,68 @@ message SupplementaryDataEnvelope1
 
 message NumberOfTransactionsPerStatus5
 {
-	required string DtldNbOfTxs = 1;
-	required string DtldSts = 2;
-	optional double DtldCtrlSum = 3;
+	string DtldNbOfTxs = 1;
+	string DtldSts = 2;
+	double DtldCtrlSum = 3;
 }
 
 message TaxAmountType1Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message CreditorReferenceType1Choice
 {
 	enum DocumentType3Code
 	{
-		DocumentType3Code_DISP = 1;
+		DocumentType3Code_DISP = 0;
 		DocumentType3Code_FXDR = 2;
 		DocumentType3Code_PUOR = 3;
 		DocumentType3Code_RADM = 4;
 		DocumentType3Code_RPIN = 5;
 		DocumentType3Code_SCOR = 6;
 	}
-	optional DocumentType3Code Cd = 1;
-	optional string Prtry = 2;
+	DocumentType3Code Cd = 1;
+	string Prtry = 2;
 }
 
 message DatePeriodDetails
 {
-	required int32 FrDt = 1;
-	required int32 ToDt = 2;
+	int32 FrDt = 1;
+	int32 ToDt = 2;
 }
 
 message PersonIdentificationSchemeName1Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message ActiveOrHistoricCurrencyAndAmount
 {
-	required string Ccy = 1;
+	string Ccy = 1;
 }
 
 message DateAndPlaceOfBirth
 {
-	required int32 BirthDt = 1;
-	optional string PrvcOfBirth = 2;
-	required string CityOfBirth = 3;
-	required string CtryOfBirth = 4;
+	int32 BirthDt = 1;
+	string PrvcOfBirth = 2;
+	string CityOfBirth = 3;
+	string CtryOfBirth = 4;
 }
 
 message DiscountAmountType1Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message ReferredDocumentType3Choice
 {
 	enum DocumentType6Code
 	{
-		DocumentType6Code_AROI = 1;
+		DocumentType6Code_AROI = 0;
 		DocumentType6Code_BOLD = 2;
 		DocumentType6Code_CINV = 3;
 		DocumentType6Code_CMCN = 4;
@@ -112,168 +115,168 @@ message ReferredDocumentType3Choice
 		DocumentType6Code_TSUT = 15;
 		DocumentType6Code_VCHR = 16;
 	}
-	optional DocumentType6Code Cd = 1;
-	optional string Prtry = 2;
+	DocumentType6Code Cd = 1;
+	string Prtry = 2;
 }
 
 message TaxAmountAndType1
 {
-	optional TaxAmountType1Choice Tp = 1;
-	required ActiveOrHistoricCurrencyAndAmount Amt = 2;
+	TaxAmountType1Choice Tp = 1;
+	ActiveOrHistoricCurrencyAndAmount Amt = 2;
 }
 
 message ClearingSystemIdentification2Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message CashAccountType2Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message OrganisationIdentificationSchemeName1Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message ReferredDocumentType4
 {
-	required ReferredDocumentType3Choice CdOrPrtry = 1;
-	optional string Issr = 2;
+	ReferredDocumentType3Choice CdOrPrtry = 1;
+	string Issr = 2;
 }
 
 message GenericPersonIdentification1
 {
-	required string Id = 1;
-	optional PersonIdentificationSchemeName1Choice SchmeNm = 2;
-	optional string Issr = 3;
+	string Id = 1;
+	PersonIdentificationSchemeName1Choice SchmeNm = 2;
+	string Issr = 3;
 }
 
 message CategoryPurpose1Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message TaxParty1
 {
-	optional string TaxId = 1;
-	optional string RegnId = 2;
-	optional string TaxTp = 3;
+	string TaxId = 1;
+	string RegnId = 2;
+	string TaxTp = 3;
 }
 
 message SupplementaryData1
 {
-	optional string PlcAndNm = 1;
-	required SupplementaryDataEnvelope1 Envlp = 2;
+	string PlcAndNm = 1;
+	SupplementaryDataEnvelope1 Envlp = 2;
 }
 
 message DocumentLineType1Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message PostalAddress6
 {
 	enum AddressType2Code
 	{
-		AddressType2Code_ADDR = 1;
+		AddressType2Code_ADDR = 0;
 		AddressType2Code_BIZZ = 2;
 		AddressType2Code_DLVY = 3;
 		AddressType2Code_HOME = 4;
 		AddressType2Code_MLTO = 5;
 		AddressType2Code_PBOX = 6;
 	}
-	optional AddressType2Code AdrTp = 1;
-	optional string Dept = 2;
-	optional string SubDept = 3;
-	optional string StrtNm = 4;
-	optional string BldgNb = 5;
-	optional string PstCd = 6;
-	optional string TwnNm = 7;
-	optional string CtrySubDvsn = 8;
-	optional string Ctry = 9;
+	AddressType2Code AdrTp = 1;
+	string Dept = 2;
+	string SubDept = 3;
+	string StrtNm = 4;
+	string BldgNb = 5;
+	string PstCd = 6;
+	string TwnNm = 7;
+	string CtrySubDvsn = 8;
+	string Ctry = 9;
 	repeated string AdrLine = 10;
 }
 
 message ServiceLevel8Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message GarnishmentType1Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message EquivalentAmount2
 {
-	required ActiveOrHistoricCurrencyAndAmount Amt = 1;
-	required string CcyOfTrf = 2;
+	ActiveOrHistoricCurrencyAndAmount Amt = 1;
+	string CcyOfTrf = 2;
 }
 
 message CreditorReferenceType2
 {
-	required CreditorReferenceType1Choice CdOrPrtry = 1;
-	optional string Issr = 2;
+	CreditorReferenceType1Choice CdOrPrtry = 1;
+	string Issr = 2;
 }
 
 message ContactDetails2
 {
 	enum NamePrefix1Code
 	{
-		NamePrefix1Code_DOCT = 1;
+		NamePrefix1Code_DOCT = 0;
 		NamePrefix1Code_MADM = 2;
 		NamePrefix1Code_MISS = 3;
 		NamePrefix1Code_MIST = 4;
 	}
-	optional NamePrefix1Code NmPrfx = 1;
-	optional string Nm = 2;
-	optional string PhneNb = 3;
-	optional string MobNb = 4;
-	optional string FaxNb = 5;
-	optional string EmailAdr = 6;
-	optional string Othr = 7;
+	NamePrefix1Code NmPrfx = 1;
+	string Nm = 2;
+	string PhneNb = 3;
+	string MobNb = 4;
+	string FaxNb = 5;
+	string EmailAdr = 6;
+	string Othr = 7;
 }
 
 message LocalInstrument2Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message TaxAuthorisation1
 {
-	optional string Titl = 1;
-	optional string Nm = 2;
+	string Titl = 1;
+	string Nm = 2;
 }
 
 message PaymentTypeInformation19
 {
 	enum Priority2Code
 	{
-		Priority2Code_HIGH = 1;
+		Priority2Code_HIGH = 0;
 		Priority2Code_NORM = 2;
 	}
-	optional Priority2Code InstrPrty = 1;
-	optional ServiceLevel8Choice SvcLvl = 2;
-	optional LocalInstrument2Choice LclInstrm = 3;
-	optional CategoryPurpose1Choice CtgyPurp = 4;
+	Priority2Code InstrPrty = 1;
+	ServiceLevel8Choice SvcLvl = 2;
+	LocalInstrument2Choice LclInstrm = 3;
+	CategoryPurpose1Choice CtgyPurp = 4;
 }
 
 message TaxPeriod1
 {
-	optional int32 Yr = 1;
+	int32 Yr = 1;
 	enum TaxRecordPeriod1Code
 	{
-		TaxRecordPeriod1Code_HLF1 = 1;
+		TaxRecordPeriod1Code_HLF1 = 0;
 		TaxRecordPeriod1Code_HLF2 = 2;
 		TaxRecordPeriod1Code_MM01 = 3;
 		TaxRecordPeriod1Code_MM02 = 4;
@@ -292,287 +295,287 @@ message TaxPeriod1
 		TaxRecordPeriod1Code_QTR3 = 17;
 		TaxRecordPeriod1Code_QTR4 = 18;
 	}
-	optional TaxRecordPeriod1Code Tp = 2;
-	optional DatePeriodDetails FrToDt = 3;
+	TaxRecordPeriod1Code Tp = 2;
+	DatePeriodDetails FrToDt = 3;
 }
 
 message BranchData2
 {
-	optional string Id = 1;
-	optional string Nm = 2;
-	optional PostalAddress6 PstlAdr = 3;
+	string Id = 1;
+	string Nm = 2;
+	PostalAddress6 PstlAdr = 3;
 }
 
 message AccountSchemeName1Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message DocumentLineType1
 {
-	required DocumentLineType1Choice CdOrPrtry = 1;
-	optional string Issr = 2;
+	DocumentLineType1Choice CdOrPrtry = 1;
+	string Issr = 2;
 }
 
 message StatusReason6Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message PersonIdentification5
 {
-	optional DateAndPlaceOfBirth DtAndPlcOfBirth = 1;
+	DateAndPlaceOfBirth DtAndPlcOfBirth = 1;
 	repeated GenericPersonIdentification1 Othr = 2;
 }
 
 message AmountType4Choice
 {
-	optional ActiveOrHistoricCurrencyAndAmount InstdAmt = 1;
-	optional EquivalentAmount2 EqvtAmt = 2;
+	ActiveOrHistoricCurrencyAndAmount InstdAmt = 1;
+	EquivalentAmount2 EqvtAmt = 2;
 }
 
 message FinancialIdentificationSchemeName1Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message CreditorReferenceInformation2
 {
-	optional CreditorReferenceType2 Tp = 1;
-	optional string Ref = 2;
+	CreditorReferenceType2 Tp = 1;
+	string Ref = 2;
 }
 
 message DiscountAmountAndType1
 {
-	optional DiscountAmountType1Choice Tp = 1;
-	required ActiveOrHistoricCurrencyAndAmount Amt = 2;
+	DiscountAmountType1Choice Tp = 1;
+	ActiveOrHistoricCurrencyAndAmount Amt = 2;
 }
 
 message DocumentLineIdentification1
 {
-	optional DocumentLineType1 Tp = 1;
-	optional string Nb = 2;
-	optional int32 RltdDt = 3;
+	DocumentLineType1 Tp = 1;
+	string Nb = 2;
+	int32 RltdDt = 3;
 }
 
 message TaxRecordDetails1
 {
-	optional TaxPeriod1 Prd = 1;
-	required ActiveOrHistoricCurrencyAndAmount Amt = 2;
+	TaxPeriod1 Prd = 1;
+	ActiveOrHistoricCurrencyAndAmount Amt = 2;
 }
 
 message DocumentAdjustment1
 {
-	required ActiveOrHistoricCurrencyAndAmount Amt = 1;
+	ActiveOrHistoricCurrencyAndAmount Amt = 1;
 	enum CreditDebitCode
 	{
-		CreditDebitCode_CRDT = 1;
+		CreditDebitCode_CRDT = 0;
 		CreditDebitCode_DBIT = 2;
 	}
-	optional CreditDebitCode CdtDbtInd = 2;
-	optional string Rsn = 3;
-	optional string AddtlInf = 4;
+	CreditDebitCode CdtDbtInd = 2;
+	string Rsn = 3;
+	string AddtlInf = 4;
 }
 
 message GenericOrganisationIdentification1
 {
-	required string Id = 1;
-	optional OrganisationIdentificationSchemeName1Choice SchmeNm = 2;
-	optional string Issr = 3;
+	string Id = 1;
+	OrganisationIdentificationSchemeName1Choice SchmeNm = 2;
+	string Issr = 3;
 }
 
 message TaxAmount1
 {
-	optional double Rate = 1;
-	optional ActiveOrHistoricCurrencyAndAmount TaxblBaseAmt = 2;
-	optional ActiveOrHistoricCurrencyAndAmount TtlAmt = 3;
+	double Rate = 1;
+	ActiveOrHistoricCurrencyAndAmount TaxblBaseAmt = 2;
+	ActiveOrHistoricCurrencyAndAmount TtlAmt = 3;
 	repeated TaxRecordDetails1 Dtls = 4;
 }
 
 message ClearingSystemMemberIdentification2
 {
-	optional ClearingSystemIdentification2Choice ClrSysId = 1;
-	required string MmbId = 2;
+	ClearingSystemIdentification2Choice ClrSysId = 1;
+	string MmbId = 2;
 }
 
 message TaxRecord1
 {
-	optional string Tp = 1;
-	optional string Ctgy = 2;
-	optional string CtgyDtls = 3;
-	optional string DbtrSts = 4;
-	optional string CertId = 5;
-	optional string FrmsCd = 6;
-	optional TaxPeriod1 Prd = 7;
-	optional TaxAmount1 TaxAmt = 8;
-	optional string AddtlInf = 9;
+	string Tp = 1;
+	string Ctgy = 2;
+	string CtgyDtls = 3;
+	string DbtrSts = 4;
+	string CertId = 5;
+	string FrmsCd = 6;
+	TaxPeriod1 Prd = 7;
+	TaxAmount1 TaxAmt = 8;
+	string AddtlInf = 9;
 }
 
 message OrganisationIdentification8
 {
-	optional string AnyBIC = 1;
+	string AnyBIC = 1;
 	repeated GenericOrganisationIdentification1 Othr = 2;
 }
 
 message GenericAccountIdentification1
 {
-	required string Id = 1;
-	optional AccountSchemeName1Choice SchmeNm = 2;
-	optional string Issr = 3;
+	string Id = 1;
+	AccountSchemeName1Choice SchmeNm = 2;
+	string Issr = 3;
 }
 
 message TaxParty2
 {
-	optional string TaxId = 1;
-	optional string RegnId = 2;
-	optional string TaxTp = 3;
-	optional TaxAuthorisation1 Authstn = 4;
+	string TaxId = 1;
+	string RegnId = 2;
+	string TaxTp = 3;
+	TaxAuthorisation1 Authstn = 4;
 }
 
 message GarnishmentType1
 {
-	required GarnishmentType1Choice CdOrPrtry = 1;
-	optional string Issr = 2;
+	GarnishmentType1Choice CdOrPrtry = 1;
+	string Issr = 2;
 }
 
 message RemittanceAmount3
 {
-	optional ActiveOrHistoricCurrencyAndAmount DuePyblAmt = 1;
+	ActiveOrHistoricCurrencyAndAmount DuePyblAmt = 1;
 	repeated DiscountAmountAndType1 DscntApldAmt = 2;
-	optional ActiveOrHistoricCurrencyAndAmount CdtNoteAmt = 3;
+	ActiveOrHistoricCurrencyAndAmount CdtNoteAmt = 3;
 	repeated TaxAmountAndType1 TaxAmt = 4;
 	repeated DocumentAdjustment1 AdjstmntAmtAndRsn = 5;
-	optional ActiveOrHistoricCurrencyAndAmount RmtdAmt = 6;
+	ActiveOrHistoricCurrencyAndAmount RmtdAmt = 6;
 }
 
 message RemittanceAmount2
 {
-	optional ActiveOrHistoricCurrencyAndAmount DuePyblAmt = 1;
+	ActiveOrHistoricCurrencyAndAmount DuePyblAmt = 1;
 	repeated DiscountAmountAndType1 DscntApldAmt = 2;
-	optional ActiveOrHistoricCurrencyAndAmount CdtNoteAmt = 3;
+	ActiveOrHistoricCurrencyAndAmount CdtNoteAmt = 3;
 	repeated TaxAmountAndType1 TaxAmt = 4;
 	repeated DocumentAdjustment1 AdjstmntAmtAndRsn = 5;
-	optional ActiveOrHistoricCurrencyAndAmount RmtdAmt = 6;
+	ActiveOrHistoricCurrencyAndAmount RmtdAmt = 6;
 }
 
 message GenericFinancialIdentification1
 {
-	required string Id = 1;
-	optional FinancialIdentificationSchemeName1Choice SchmeNm = 2;
-	optional string Issr = 3;
+	string Id = 1;
+	FinancialIdentificationSchemeName1Choice SchmeNm = 2;
+	string Issr = 3;
 }
 
 message Party11Choice
 {
-	optional OrganisationIdentification8 OrgId = 1;
-	optional PersonIdentification5 PrvtId = 2;
+	OrganisationIdentification8 OrgId = 1;
+	PersonIdentification5 PrvtId = 2;
 }
 
 message TaxInformation4
 {
-	optional TaxParty1 Cdtr = 1;
-	optional TaxParty2 Dbtr = 2;
-	optional TaxParty2 UltmtDbtr = 3;
-	optional string AdmstnZone = 4;
-	optional string RefNb = 5;
-	optional string Mtd = 6;
-	optional ActiveOrHistoricCurrencyAndAmount TtlTaxblBaseAmt = 7;
-	optional ActiveOrHistoricCurrencyAndAmount TtlTaxAmt = 8;
-	optional int32 Dt = 9;
-	optional double SeqNb = 10;
+	TaxParty1 Cdtr = 1;
+	TaxParty2 Dbtr = 2;
+	TaxParty2 UltmtDbtr = 3;
+	string AdmstnZone = 4;
+	string RefNb = 5;
+	string Mtd = 6;
+	ActiveOrHistoricCurrencyAndAmount TtlTaxblBaseAmt = 7;
+	ActiveOrHistoricCurrencyAndAmount TtlTaxAmt = 8;
+	int32 Dt = 9;
+	double SeqNb = 10;
 	repeated TaxRecord1 Rcrd = 11;
 }
 
 message PartyIdentification43
 {
-	optional string Nm = 1;
-	optional PostalAddress6 PstlAdr = 2;
-	optional Party11Choice Id = 3;
-	optional string CtryOfRes = 4;
-	optional ContactDetails2 CtctDtls = 5;
+	string Nm = 1;
+	PostalAddress6 PstlAdr = 2;
+	Party11Choice Id = 3;
+	string CtryOfRes = 4;
+	ContactDetails2 CtctDtls = 5;
 }
 
 message DocumentLineInformation1
 {
 	repeated DocumentLineIdentification1 Id = 1;
-	optional string Desc = 2;
-	optional RemittanceAmount3 Amt = 3;
+	string Desc = 2;
+	RemittanceAmount3 Amt = 3;
 }
 
 message FinancialInstitutionIdentification8
 {
-	optional string BICFI = 1;
-	optional ClearingSystemMemberIdentification2 ClrSysMmbId = 2;
-	optional string Nm = 3;
-	optional PostalAddress6 PstlAdr = 4;
-	optional GenericFinancialIdentification1 Othr = 5;
+	string BICFI = 1;
+	ClearingSystemMemberIdentification2 ClrSysMmbId = 2;
+	string Nm = 3;
+	PostalAddress6 PstlAdr = 4;
+	GenericFinancialIdentification1 Othr = 5;
 }
 
 message AccountIdentification4Choice
 {
-	optional string IBAN = 1;
-	optional GenericAccountIdentification1 Othr = 2;
+	string IBAN = 1;
+	GenericAccountIdentification1 Othr = 2;
 }
 
 message CashAccount24
 {
-	required AccountIdentification4Choice Id = 1;
-	optional CashAccountType2Choice Tp = 2;
-	optional string Ccy = 3;
-	optional string Nm = 4;
+	AccountIdentification4Choice Id = 1;
+	CashAccountType2Choice Tp = 2;
+	string Ccy = 3;
+	string Nm = 4;
 }
 
 message BranchAndFinancialInstitutionIdentification5
 {
-	required FinancialInstitutionIdentification8 FinInstnId = 1;
-	optional BranchData2 BrnchId = 2;
+	FinancialInstitutionIdentification8 FinInstnId = 1;
+	BranchData2 BrnchId = 2;
 }
 
 message StatusReasonInformation9
 {
-	optional PartyIdentification43 Orgtr = 1;
-	optional StatusReason6Choice Rsn = 2;
+	PartyIdentification43 Orgtr = 1;
+	StatusReason6Choice Rsn = 2;
 	repeated string AddtlInf = 3;
 }
 
 message ReferredDocumentInformation7
 {
-	optional ReferredDocumentType4 Tp = 1;
-	optional string Nb = 2;
-	optional int32 RltdDt = 3;
+	ReferredDocumentType4 Tp = 1;
+	string Nb = 2;
+	int32 RltdDt = 3;
 	repeated DocumentLineInformation1 LineDtls = 4;
 }
 
 message Garnishment1
 {
-	required GarnishmentType1 Tp = 1;
-	optional PartyIdentification43 Grnshee = 2;
-	optional PartyIdentification43 GrnshmtAdmstr = 3;
-	optional string RefNb = 4;
-	optional int32 Dt = 5;
-	optional ActiveOrHistoricCurrencyAndAmount RmtdAmt = 6;
-	optional bool FmlyMdclInsrncInd = 7;
-	optional bool MplyeeTermntnInd = 8;
+	GarnishmentType1 Tp = 1;
+	PartyIdentification43 Grnshee = 2;
+	PartyIdentification43 GrnshmtAdmstr = 3;
+	string RefNb = 4;
+	int32 Dt = 5;
+	ActiveOrHistoricCurrencyAndAmount RmtdAmt = 6;
+	bool FmlyMdclInsrncInd = 7;
+	bool MplyeeTermntnInd = 8;
 }
 
 message Charges2
 {
-	required ActiveOrHistoricCurrencyAndAmount Amt = 1;
-	required BranchAndFinancialInstitutionIdentification5 Agt = 2;
+	ActiveOrHistoricCurrencyAndAmount Amt = 1;
+	BranchAndFinancialInstitutionIdentification5 Agt = 2;
 }
 
 message StructuredRemittanceInformation13
 {
 	repeated ReferredDocumentInformation7 RfrdDocInf = 1;
-	optional RemittanceAmount2 RfrdDocAmt = 2;
-	optional CreditorReferenceInformation2 CdtrRefInf = 3;
-	optional PartyIdentification43 Invcr = 4;
-	optional PartyIdentification43 Invcee = 5;
-	optional TaxInformation4 TaxRmt = 6;
-	optional Garnishment1 GrnshmtRmt = 7;
+	RemittanceAmount2 RfrdDocAmt = 2;
+	CreditorReferenceInformation2 CdtrRefInf = 3;
+	PartyIdentification43 Invcr = 4;
+	PartyIdentification43 Invcee = 5;
+	TaxInformation4 TaxRmt = 6;
+	Garnishment1 GrnshmtRmt = 7;
 	repeated string AddtlRmtInf = 8;
 }
 
@@ -584,70 +587,70 @@ message RemittanceInformation11
 
 message GroupHeader46
 {
-	required string MsgId = 1;
-	required int64 CreDtTm = 2;
-	required PartyIdentification43 InitgPty = 3;
-	optional BranchAndFinancialInstitutionIdentification5 DbtrAgt = 4;
-	optional BranchAndFinancialInstitutionIdentification5 CdtrAgt = 5;
+	string MsgId = 1;
+	int64 CreDtTm = 2;
+	PartyIdentification43 InitgPty = 3;
+	BranchAndFinancialInstitutionIdentification5 DbtrAgt = 4;
+	BranchAndFinancialInstitutionIdentification5 CdtrAgt = 5;
 }
 
 message OriginalGroupInformation28
 {
-	required string OrgnlMsgId = 1;
-	required string OrgnlMsgNmId = 2;
-	optional int64 OrgnlCreDtTm = 3;
-	optional string OrgnlNbOfTxs = 4;
-	optional double OrgnlCtrlSum = 5;
-	optional string GrpSts = 6;
+	string OrgnlMsgId = 1;
+	string OrgnlMsgNmId = 2;
+	int64 OrgnlCreDtTm = 3;
+	string OrgnlNbOfTxs = 4;
+	double OrgnlCtrlSum = 5;
+	string GrpSts = 6;
 	repeated StatusReasonInformation9 StsRsnInf = 7;
 	repeated NumberOfTransactionsPerStatus5 NbOfTxsPerSts = 8;
 }
 
 message OriginalTransactionReference26
 {
-	optional AmountType4Choice Amt = 1;
-	optional DateAndDateTimeChoice ReqdExctnDt = 2;
-	optional PaymentTypeInformation19 PmtTpInf = 3;
+	AmountType4Choice Amt = 1;
+	DateAndDateTimeChoice ReqdExctnDt = 2;
+	PaymentTypeInformation19 PmtTpInf = 3;
 	enum PaymentMethod4Code
 	{
-		PaymentMethod4Code_CHK = 1;
+		PaymentMethod4Code_CHK = 0;
 		PaymentMethod4Code_DD = 2;
 		PaymentMethod4Code_TRA = 3;
 		PaymentMethod4Code_TRF = 4;
 	}
-	optional PaymentMethod4Code PmtMtd = 4;
-	optional RemittanceInformation11 RmtInf = 5;
-	optional PartyIdentification43 UltmtDbtr = 6;
-	optional PartyIdentification43 Dbtr = 7;
-	optional CashAccount24 DbtrAcct = 8;
-	optional BranchAndFinancialInstitutionIdentification5 DbtrAgt = 9;
-	required BranchAndFinancialInstitutionIdentification5 CdtrAgt = 10;
-	required PartyIdentification43 Cdtr = 11;
-	optional CashAccount24 CdtrAcct = 12;
-	optional PartyIdentification43 UltmtCdtr = 13;
+	PaymentMethod4Code PmtMtd = 4;
+	RemittanceInformation11 RmtInf = 5;
+	PartyIdentification43 UltmtDbtr = 6;
+	PartyIdentification43 Dbtr = 7;
+	CashAccount24 DbtrAcct = 8;
+	BranchAndFinancialInstitutionIdentification5 DbtrAgt = 9;
+	BranchAndFinancialInstitutionIdentification5 CdtrAgt = 10;
+	PartyIdentification43 Cdtr = 11;
+	CashAccount24 CdtrAcct = 12;
+	PartyIdentification43 UltmtCdtr = 13;
 }
 
 message PaymentTransaction83
 {
-	optional string StsId = 1;
-	optional string OrgnlInstrId = 2;
-	optional string OrgnlEndToEndId = 3;
-	optional string TxSts = 4;
+	string StsId = 1;
+	string OrgnlInstrId = 2;
+	string OrgnlEndToEndId = 3;
+	string TxSts = 4;
 	repeated StatusReasonInformation9 StsRsnInf = 5;
 	repeated Charges2 ChrgsInf = 6;
-	optional int64 AccptncDtTm = 7;
-	optional string AcctSvcrRef = 8;
-	optional string ClrSysRef = 9;
-	optional OriginalTransactionReference26 OrgnlTxRef = 10;
+	int64 AccptncDtTm = 7;
+	string AcctSvcrRef = 8;
+	string ClrSysRef = 9;
+	OriginalTransactionReference26 OrgnlTxRef = 10;
 	repeated SupplementaryData1 SplmtryData = 11;
 }
 
 message OriginalPaymentInstruction24
 {
-	required string OrgnlPmtInfId = 1;
-	optional string OrgnlNbOfTxs = 2;
-	optional double OrgnlCtrlSum = 3;
-	optional string PmtInfSts = 4;
+	string OrgnlPmtInfId = 1;
+	string OrgnlNbOfTxs = 2;
+	double OrgnlCtrlSum = 3;
+	string PmtInfSts = 4;
 	repeated StatusReasonInformation9 StsRsnInf = 5;
 	repeated NumberOfTransactionsPerStatus5 NbOfTxsPerSts = 6;
 	repeated PaymentTransaction83 TxInfAndSts = 7;
@@ -655,14 +658,14 @@ message OriginalPaymentInstruction24
 
 message CreditorPaymentActivationRequestStatusReportV06
 {
-	required GroupHeader46 GrpHdr = 1;
-	required OriginalGroupInformation28 OrgnlGrpInfAndSts = 2;
+	GroupHeader46 GrpHdr = 1;
+	OriginalGroupInformation28 OrgnlGrpInfAndSts = 2;
 	repeated OriginalPaymentInstruction24 OrgnlPmtInfAndSts = 3;
 	repeated SupplementaryData1 SplmtryData = 4;
 }
 
 message Document
 {
-	required CreditorPaymentActivationRequestStatusReportV06 CdtrPmtActvtnReqStsRpt = 1;
+	CreditorPaymentActivationRequestStatusReportV06 CdtrPmtActvtnReqStsRpt = 1;
 }
 

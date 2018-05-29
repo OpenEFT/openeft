@@ -16,10 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 
+syntax = "proto3";
+package pain.mandate_suspention_request; /* pain_018_001_01_proto */
+
 message UnspecifiedType
 {
-	required string baseObjectType = 1;
-	required bytes object = 2;
+	string baseObjectType = 1;
+	bytes object = 2;
 }
 
 message SupplementaryDataEnvelope1
@@ -30,7 +33,7 @@ message FrequencyAndMoment1
 {
 	enum Frequency6Code
 	{
-		Frequency6Code_ADHO = 1;
+		Frequency6Code_ADHO = 0;
 		Frequency6Code_DAIL = 2;
 		Frequency6Code_FRTN = 3;
 		Frequency6Code_INDA = 4;
@@ -40,77 +43,77 @@ message FrequencyAndMoment1
 		Frequency6Code_WEEK = 8;
 		Frequency6Code_YEAR = 9;
 	}
-	required Frequency6Code Tp = 1;
-	required string PtInTm = 2;
+	Frequency6Code Tp = 1;
+	string PtInTm = 2;
 }
 
 message Frequency37Choice
 {
 	enum Frequency10Code
 	{
-		Frequency10Code_MIAN = 1;
+		Frequency10Code_MIAN = 0;
 		Frequency10Code_NEVR = 2;
 		Frequency10Code_QURT = 3;
 		Frequency10Code_RATE = 4;
 		Frequency10Code_YEAR = 5;
 	}
-	optional Frequency10Code Cd = 1;
-	optional string Prtry = 2;
+	Frequency10Code Cd = 1;
+	string Prtry = 2;
 }
 
 message MandateClassification1Choice
 {
 	enum MandateClassification1Code
 	{
-		MandateClassification1Code_FIXE = 1;
+		MandateClassification1Code_FIXE = 0;
 		MandateClassification1Code_USGB = 2;
 		MandateClassification1Code_VARI = 3;
 	}
-	optional MandateClassification1Code Cd = 1;
-	optional string Prtry = 2;
+	MandateClassification1Code Cd = 1;
+	string Prtry = 2;
 }
 
 message PersonIdentificationSchemeName1Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message Authorisation1Choice
 {
 	enum Authorisation1Code
 	{
-		Authorisation1Code_AUTH = 1;
+		Authorisation1Code_AUTH = 0;
 		Authorisation1Code_FDET = 2;
 		Authorisation1Code_FSUM = 3;
 		Authorisation1Code_ILEV = 4;
 	}
-	optional Authorisation1Code Cd = 1;
-	optional string Prtry = 2;
+	Authorisation1Code Cd = 1;
+	string Prtry = 2;
 }
 
 message DatePeriodDetails1
 {
-	required int32 FrDt = 1;
-	optional int32 ToDt = 2;
+	int32 FrDt = 1;
+	int32 ToDt = 2;
 }
 
 message MandateSetupReason1Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message ActiveOrHistoricCurrencyAndAmount
 {
-	required string Ccy = 1;
+	string Ccy = 1;
 }
 
 message FrequencyPeriod1
 {
 	enum Frequency6Code
 	{
-		Frequency6Code_ADHO = 1;
+		Frequency6Code_ADHO = 0;
 		Frequency6Code_DAIL = 2;
 		Frequency6Code_FRTN = 3;
 		Frequency6Code_INDA = 4;
@@ -120,29 +123,29 @@ message FrequencyPeriod1
 		Frequency6Code_WEEK = 8;
 		Frequency6Code_YEAR = 9;
 	}
-	required Frequency6Code Tp = 1;
-	required double CntPerPrd = 2;
+	Frequency6Code Tp = 1;
+	double CntPerPrd = 2;
 }
 
 message MandateSuspensionReason1Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message DateAndPlaceOfBirth
 {
-	required int32 BirthDt = 1;
-	optional string PrvcOfBirth = 2;
-	required string CityOfBirth = 3;
-	required string CtryOfBirth = 4;
+	int32 BirthDt = 1;
+	string PrvcOfBirth = 2;
+	string CityOfBirth = 3;
+	string CtryOfBirth = 4;
 }
 
 message Frequency36Choice
 {
 	enum Frequency6Code
 	{
-		Frequency6Code_ADHO = 1;
+		Frequency6Code_ADHO = 0;
 		Frequency6Code_DAIL = 2;
 		Frequency6Code_FRTN = 3;
 		Frequency6Code_INDA = 4;
@@ -152,16 +155,16 @@ message Frequency36Choice
 		Frequency6Code_WEEK = 8;
 		Frequency6Code_YEAR = 9;
 	}
-	optional Frequency6Code Tp = 1;
-	optional FrequencyPeriod1 Prd = 2;
-	optional FrequencyAndMoment1 PtInTm = 3;
+	Frequency6Code Tp = 1;
+	FrequencyPeriod1 Prd = 2;
+	FrequencyAndMoment1 PtInTm = 3;
 }
 
 message ReferredDocumentType3Choice
 {
 	enum DocumentType6Code
 	{
-		DocumentType6Code_AROI = 1;
+		DocumentType6Code_AROI = 0;
 		DocumentType6Code_BOLD = 2;
 		DocumentType6Code_CINV = 3;
 		DocumentType6Code_CMCN = 4;
@@ -178,338 +181,338 @@ message ReferredDocumentType3Choice
 		DocumentType6Code_TSUT = 15;
 		DocumentType6Code_VCHR = 16;
 	}
-	optional DocumentType6Code Cd = 1;
-	optional string Prtry = 2;
+	DocumentType6Code Cd = 1;
+	string Prtry = 2;
 }
 
 message ClearingSystemIdentification2Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message CashAccountType2Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message AuthenticationChannel1Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message OrganisationIdentificationSchemeName1Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message ReferredDocumentType4
 {
-	required ReferredDocumentType3Choice CdOrPrtry = 1;
-	optional string Issr = 2;
+	ReferredDocumentType3Choice CdOrPrtry = 1;
+	string Issr = 2;
 }
 
 message GenericPersonIdentification1
 {
-	required string Id = 1;
-	optional PersonIdentificationSchemeName1Choice SchmeNm = 2;
-	optional string Issr = 3;
+	string Id = 1;
+	PersonIdentificationSchemeName1Choice SchmeNm = 2;
+	string Issr = 3;
 }
 
 message CategoryPurpose1Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message SupplementaryData1
 {
-	optional string PlcAndNm = 1;
-	required SupplementaryDataEnvelope1 Envlp = 2;
+	string PlcAndNm = 1;
+	SupplementaryDataEnvelope1 Envlp = 2;
 }
 
 message PostalAddress6
 {
 	enum AddressType2Code
 	{
-		AddressType2Code_ADDR = 1;
+		AddressType2Code_ADDR = 0;
 		AddressType2Code_BIZZ = 2;
 		AddressType2Code_DLVY = 3;
 		AddressType2Code_HOME = 4;
 		AddressType2Code_MLTO = 5;
 		AddressType2Code_PBOX = 6;
 	}
-	optional AddressType2Code AdrTp = 1;
-	optional string Dept = 2;
-	optional string SubDept = 3;
-	optional string StrtNm = 4;
-	optional string BldgNb = 5;
-	optional string PstCd = 6;
-	optional string TwnNm = 7;
-	optional string CtrySubDvsn = 8;
-	optional string Ctry = 9;
+	AddressType2Code AdrTp = 1;
+	string Dept = 2;
+	string SubDept = 3;
+	string StrtNm = 4;
+	string BldgNb = 5;
+	string PstCd = 6;
+	string TwnNm = 7;
+	string CtrySubDvsn = 8;
+	string Ctry = 9;
 	repeated string AdrLine = 10;
 }
 
 message ReferredMandateDocument1
 {
-	optional ReferredDocumentType4 Tp = 1;
-	optional string Nb = 2;
-	optional string CdtrRef = 3;
-	optional int32 RltdDt = 4;
+	ReferredDocumentType4 Tp = 1;
+	string Nb = 2;
+	string CdtrRef = 3;
+	int32 RltdDt = 4;
 }
 
 message ServiceLevel8Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message ContactDetails2
 {
 	enum NamePrefix1Code
 	{
-		NamePrefix1Code_DOCT = 1;
+		NamePrefix1Code_DOCT = 0;
 		NamePrefix1Code_MADM = 2;
 		NamePrefix1Code_MISS = 3;
 		NamePrefix1Code_MIST = 4;
 	}
-	optional NamePrefix1Code NmPrfx = 1;
-	optional string Nm = 2;
-	optional string PhneNb = 3;
-	optional string MobNb = 4;
-	optional string FaxNb = 5;
-	optional string EmailAdr = 6;
-	optional string Othr = 7;
+	NamePrefix1Code NmPrfx = 1;
+	string Nm = 2;
+	string PhneNb = 3;
+	string MobNb = 4;
+	string FaxNb = 5;
+	string EmailAdr = 6;
+	string Othr = 7;
 }
 
 message OriginalMessageInformation1
 {
-	required string MsgId = 1;
-	required string MsgNmId = 2;
-	optional int64 CreDtTm = 3;
+	string MsgId = 1;
+	string MsgNmId = 2;
+	int64 CreDtTm = 3;
 }
 
 message MandateAuthentication1
 {
-	optional string MsgAuthntcnCd = 1;
-	optional int32 Dt = 2;
-	optional AuthenticationChannel1Choice Chanl = 3;
+	string MsgAuthntcnCd = 1;
+	int32 Dt = 2;
+	AuthenticationChannel1Choice Chanl = 3;
 }
 
 message LocalInstrument2Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message BranchData2
 {
-	optional string Id = 1;
-	optional string Nm = 2;
-	optional PostalAddress6 PstlAdr = 3;
+	string Id = 1;
+	string Nm = 2;
+	PostalAddress6 PstlAdr = 3;
 }
 
 message AccountSchemeName1Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message PersonIdentification5
 {
-	optional DateAndPlaceOfBirth DtAndPlcOfBirth = 1;
+	DateAndPlaceOfBirth DtAndPlcOfBirth = 1;
 	repeated GenericPersonIdentification1 Othr = 2;
 }
 
 message ActiveCurrencyAndAmount
 {
-	required string Ccy = 1;
+	string Ccy = 1;
 }
 
 message FinancialIdentificationSchemeName1Choice
 {
-	optional string Cd = 1;
-	optional string Prtry = 2;
+	string Cd = 1;
+	string Prtry = 2;
 }
 
 message GenericOrganisationIdentification1
 {
-	required string Id = 1;
-	optional OrganisationIdentificationSchemeName1Choice SchmeNm = 2;
-	optional string Issr = 3;
+	string Id = 1;
+	OrganisationIdentificationSchemeName1Choice SchmeNm = 2;
+	string Issr = 3;
 }
 
 message ClearingSystemMemberIdentification2
 {
-	optional ClearingSystemIdentification2Choice ClrSysId = 1;
-	required string MmbId = 2;
+	ClearingSystemIdentification2Choice ClrSysId = 1;
+	string MmbId = 2;
 }
 
 message MandateOccurrences4
 {
 	enum SequenceType2Code
 	{
-		SequenceType2Code_OOFF = 1;
+		SequenceType2Code_OOFF = 0;
 		SequenceType2Code_RCUR = 2;
 	}
-	required SequenceType2Code SeqTp = 1;
-	optional Frequency36Choice Frqcy = 2;
-	optional DatePeriodDetails1 Drtn = 3;
-	optional int32 FrstColltnDt = 4;
-	optional int32 FnlColltnDt = 5;
+	SequenceType2Code SeqTp = 1;
+	Frequency36Choice Frqcy = 2;
+	DatePeriodDetails1 Drtn = 3;
+	int32 FrstColltnDt = 4;
+	int32 FnlColltnDt = 5;
 }
 
 message MandateTypeInformation2
 {
-	optional ServiceLevel8Choice SvcLvl = 1;
-	optional LocalInstrument2Choice LclInstrm = 2;
-	optional CategoryPurpose1Choice CtgyPurp = 3;
-	optional MandateClassification1Choice Clssfctn = 4;
+	ServiceLevel8Choice SvcLvl = 1;
+	LocalInstrument2Choice LclInstrm = 2;
+	CategoryPurpose1Choice CtgyPurp = 3;
+	MandateClassification1Choice Clssfctn = 4;
 }
 
 message OrganisationIdentification8
 {
-	optional string AnyBIC = 1;
+	string AnyBIC = 1;
 	repeated GenericOrganisationIdentification1 Othr = 2;
 }
 
 message GenericAccountIdentification1
 {
-	required string Id = 1;
-	optional AccountSchemeName1Choice SchmeNm = 2;
-	optional string Issr = 3;
+	string Id = 1;
+	AccountSchemeName1Choice SchmeNm = 2;
+	string Issr = 3;
 }
 
 message GenericFinancialIdentification1
 {
-	required string Id = 1;
-	optional FinancialIdentificationSchemeName1Choice SchmeNm = 2;
-	optional string Issr = 3;
+	string Id = 1;
+	FinancialIdentificationSchemeName1Choice SchmeNm = 2;
+	string Issr = 3;
 }
 
 message MandateAdjustment1
 {
-	required bool DtAdjstmntRuleInd = 1;
-	optional Frequency37Choice Ctgy = 2;
-	optional ActiveCurrencyAndAmount Amt = 3;
-	optional double Rate = 4;
+	bool DtAdjstmntRuleInd = 1;
+	Frequency37Choice Ctgy = 2;
+	ActiveCurrencyAndAmount Amt = 3;
+	double Rate = 4;
 }
 
 message Party11Choice
 {
-	optional OrganisationIdentification8 OrgId = 1;
-	optional PersonIdentification5 PrvtId = 2;
+	OrganisationIdentification8 OrgId = 1;
+	PersonIdentification5 PrvtId = 2;
 }
 
 message PartyIdentification43
 {
-	optional string Nm = 1;
-	optional PostalAddress6 PstlAdr = 2;
-	optional Party11Choice Id = 3;
-	optional string CtryOfRes = 4;
-	optional ContactDetails2 CtctDtls = 5;
+	string Nm = 1;
+	PostalAddress6 PstlAdr = 2;
+	Party11Choice Id = 3;
+	string CtryOfRes = 4;
+	ContactDetails2 CtctDtls = 5;
 }
 
 message MandateSuspensionReason1
 {
-	optional PartyIdentification43 Orgtr = 1;
-	required MandateSuspensionReason1Choice Rsn = 2;
+	PartyIdentification43 Orgtr = 1;
+	MandateSuspensionReason1Choice Rsn = 2;
 	repeated string AddtlInf = 3;
 }
 
 message FinancialInstitutionIdentification8
 {
-	optional string BICFI = 1;
-	optional ClearingSystemMemberIdentification2 ClrSysMmbId = 2;
-	optional string Nm = 3;
-	optional PostalAddress6 PstlAdr = 4;
-	optional GenericFinancialIdentification1 Othr = 5;
+	string BICFI = 1;
+	ClearingSystemMemberIdentification2 ClrSysMmbId = 2;
+	string Nm = 3;
+	PostalAddress6 PstlAdr = 4;
+	GenericFinancialIdentification1 Othr = 5;
 }
 
 message AccountIdentification4Choice
 {
-	optional string IBAN = 1;
-	optional GenericAccountIdentification1 Othr = 2;
+	string IBAN = 1;
+	GenericAccountIdentification1 Othr = 2;
 }
 
 message CashAccount24
 {
-	required AccountIdentification4Choice Id = 1;
-	optional CashAccountType2Choice Tp = 2;
-	optional string Ccy = 3;
-	optional string Nm = 4;
+	AccountIdentification4Choice Id = 1;
+	CashAccountType2Choice Tp = 2;
+	string Ccy = 3;
+	string Nm = 4;
 }
 
 message BranchAndFinancialInstitutionIdentification5
 {
-	required FinancialInstitutionIdentification8 FinInstnId = 1;
-	optional BranchData2 BrnchId = 2;
+	FinancialInstitutionIdentification8 FinInstnId = 1;
+	BranchData2 BrnchId = 2;
 }
 
 message Mandate9
 {
-	required string MndtId = 1;
-	optional string MndtReqId = 2;
-	optional MandateAuthentication1 Authntcn = 3;
-	optional MandateTypeInformation2 Tp = 4;
-	optional MandateOccurrences4 Ocrncs = 5;
-	required bool TrckgInd = 6;
-	optional ActiveOrHistoricCurrencyAndAmount FrstColltnAmt = 7;
-	optional ActiveOrHistoricCurrencyAndAmount ColltnAmt = 8;
-	optional ActiveOrHistoricCurrencyAndAmount MaxAmt = 9;
-	optional MandateAdjustment1 Adjstmnt = 10;
-	optional MandateSetupReason1Choice Rsn = 11;
-	optional PartyIdentification43 CdtrSchmeId = 12;
-	required PartyIdentification43 Cdtr = 13;
-	optional CashAccount24 CdtrAcct = 14;
-	optional BranchAndFinancialInstitutionIdentification5 CdtrAgt = 15;
-	optional PartyIdentification43 UltmtCdtr = 16;
-	required PartyIdentification43 Dbtr = 17;
-	optional CashAccount24 DbtrAcct = 18;
-	required BranchAndFinancialInstitutionIdentification5 DbtrAgt = 19;
-	optional PartyIdentification43 UltmtDbtr = 20;
-	optional string MndtRef = 21;
+	string MndtId = 1;
+	string MndtReqId = 2;
+	MandateAuthentication1 Authntcn = 3;
+	MandateTypeInformation2 Tp = 4;
+	MandateOccurrences4 Ocrncs = 5;
+	bool TrckgInd = 6;
+	ActiveOrHistoricCurrencyAndAmount FrstColltnAmt = 7;
+	ActiveOrHistoricCurrencyAndAmount ColltnAmt = 8;
+	ActiveOrHistoricCurrencyAndAmount MaxAmt = 9;
+	MandateAdjustment1 Adjstmnt = 10;
+	MandateSetupReason1Choice Rsn = 11;
+	PartyIdentification43 CdtrSchmeId = 12;
+	PartyIdentification43 Cdtr = 13;
+	CashAccount24 CdtrAcct = 14;
+	BranchAndFinancialInstitutionIdentification5 CdtrAgt = 15;
+	PartyIdentification43 UltmtCdtr = 16;
+	PartyIdentification43 Dbtr = 17;
+	CashAccount24 DbtrAcct = 18;
+	BranchAndFinancialInstitutionIdentification5 DbtrAgt = 19;
+	PartyIdentification43 UltmtDbtr = 20;
+	string MndtRef = 21;
 	repeated ReferredMandateDocument1 RfrdDoc = 22;
 }
 
 message OriginalMandate4Choice
 {
-	optional string OrgnlMndtId = 1;
-	optional Mandate9 OrgnlMndt = 2;
+	string OrgnlMndtId = 1;
+	Mandate9 OrgnlMndt = 2;
 }
 
 message GroupHeader47
 {
-	required string MsgId = 1;
-	required int64 CreDtTm = 2;
+	string MsgId = 1;
+	int64 CreDtTm = 2;
 	repeated Authorisation1Choice Authstn = 3;
-	optional PartyIdentification43 InitgPty = 4;
-	optional BranchAndFinancialInstitutionIdentification5 InstgAgt = 5;
-	optional BranchAndFinancialInstitutionIdentification5 InstdAgt = 6;
+	PartyIdentification43 InitgPty = 4;
+	BranchAndFinancialInstitutionIdentification5 InstgAgt = 5;
+	BranchAndFinancialInstitutionIdentification5 InstdAgt = 6;
 }
 
 message MandateSuspension1
 {
-	required string SspnsnReqId = 1;
-	optional OriginalMessageInformation1 OrgnlMsgInf = 2;
-	required MandateSuspensionReason1 SspnsnRsn = 3;
-	required OriginalMandate4Choice OrgnlMndt = 4;
+	string SspnsnReqId = 1;
+	OriginalMessageInformation1 OrgnlMsgInf = 2;
+	MandateSuspensionReason1 SspnsnRsn = 3;
+	OriginalMandate4Choice OrgnlMndt = 4;
 	repeated SupplementaryData1 SplmtryData = 5;
 }
 
 message MandateSuspensionRequestV01
 {
-	required GroupHeader47 GrpHdr = 1;
+	GroupHeader47 GrpHdr = 1;
 	repeated MandateSuspension1 UndrlygSspnsnDtls = 2;
 	repeated SupplementaryData1 SplmtryData = 3;
 }
 
 message Document
 {
-	required MandateSuspensionRequestV01 MndtSspnsnReq = 1;
+	MandateSuspensionRequestV01 MndtSspnsnReq = 1;
 }
 
