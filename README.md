@@ -60,6 +60,4 @@ Firstly it is important to understand that OpenEFT is complex. It is both a full
 
 However, there are still a number of ways to contribute to the project without joining the development team. We welcome such contributions:
   * Bug fixes and enhancements to the code and documentation can be submitted via GitHub as issues or pull requests
-  * We are always looking for good people to help us build up the information held in our wiki. Documentation if a crucial area for us to improve. 
-
-Please contact with info@openeft.org for details of how to contribute in the project.
+  * We are always looking for good people to help us build up the information held in our wiki. Documentation if a crucial area for us to improve. Please contact to info@openeft.org for details on how to contribute to the project's documentation.
