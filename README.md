@@ -7,10 +7,10 @@ OpenEFT daemon provides following features:
     - Linux
     - Mac
     - Windows
- * Crypto-asset
+ * Crypto Asset
  * Smart Contract
  * Tokenization
- 
+
 
 ## Programing language
 C++ programming language is used in development of openeft.
