@@ -12,11 +12,9 @@ OpenEFT daemon provides following features:
  * Tokenization
 
  ## Official links
-https://www.openeft.org/
-https://www.facebook.com/openeft/
-https://www.linkedin.com/company/openeft/
-https://twitter.com/reza_schadmani
-https://www.macronodes.com/
+https://www.openeft.org/ <br />
+https://twitter.com/reza_schadmani <br />
+https://www.macronodes.com/ <br />
 
 
 ## Programing language
