@@ -11,6 +11,13 @@ OpenEFT daemon provides following features:
  * Smart Contract
  * Tokenization
 
+ ## Official links
+https://www.openeft.org/
+https://www.facebook.com/openeft/
+https://www.linkedin.com/company/openeft/
+https://twitter.com/reza_schadmani
+https://www.macronodes.com/
+
 
 ## Programing language
 C++ programming language is used in development of openeft.
