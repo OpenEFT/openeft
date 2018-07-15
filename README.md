@@ -13,7 +13,6 @@ OpenEFT daemon provides following features:
 
  ## Official links
 https://www.openeft.org/ <br />
-https://twitter.com/reza_schadmani <br />
 https://www.macronodes.com/ <br />
 
 
