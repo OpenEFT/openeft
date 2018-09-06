@@ -27,7 +27,7 @@ Run following commands in bash/console to build the project:
     - RocksDb 5.12.4
     - Protobuf 3.5.1
     - GRPC 1.12.0
-      - https://github.com/OpenEFT/openeft.git
+      - https://github.com/grpc/grpc/blob/master/BUILDING.md
     - Cmake 3.9.1
     - GCC 7.2.0
 
