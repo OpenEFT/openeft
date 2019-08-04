@@ -74,5 +74,5 @@ Macronodes PTY LTD
 L32 101 Miller St. North Sydney, NSW 2060 Australia
 
 ## Contributors
-Reza Shadmani
+Reza Shademani
 Reza@macronodes.com
