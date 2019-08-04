@@ -63,7 +63,7 @@ Make sure that .editorconfig is correctly read by the IDE. You can test TAB and 
     - OpenEFT mining application.
 
 ## How to join the OpenEFT development team
-Firstly it is important to understand that OpenEFT is complex. It is both a fully featured decentralized payment software as well as a standalone crypto payment library. In addition the command line tools provide a wide array of capabilities. It can take quite a while to become proficient in coding in the internals. It is also clearly security sensitive and also needs good understanding of payments principles. For those reasons joining the main development team is by invitation only.
+Firstly it is important to understand that OpenEFT is complex. It is both full featured decentralized payment software as well as a standalone crypto payment library. In addition the command line tools provide a wide array of capabilities. It can take quite a while to become proficient in coding in the internals. It is also clearly security sensitive and also needs good understanding of payments principles. For those reasons joining the main development team is by invitation only.
 
 However, there are still a number of ways to contribute to the project without joining the development team. We welcome such contributions:
   * Bug fixes and enhancements to the code and documentation can be submitted via GitHub as issues or pull requests.
