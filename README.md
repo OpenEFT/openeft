@@ -12,7 +12,6 @@ OpenEFT daemon provides following features:
  * Tokenization
 
  ## Official links
-https://www.openeft.org/ <br />
 https://www.macronodes.com/ <br />
 
 
@@ -75,4 +74,5 @@ L32 101 Miller St. North Sydney, NSW 2060 Australia
 
 ## Contributors
 Reza Shadmani
-Reza@macronodes.com
+info@macronodes.com
+
