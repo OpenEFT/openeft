@@ -1,6 +1,6 @@
 # OpenEFT project
 
-OpenEFT is an open source decentralized electronic financial transaction processing system.
+OpenEFT is an open source electronic financial transaction processing system.
 
 OpenEFT daemon provides following features:
  * Cross Platform
@@ -62,9 +62,7 @@ Make sure that .editorconfig is correctly read by the IDE. You can test TAB and 
     - OpenEFT mining application.
 
 ## How to join the OpenEFT development team
-Firstly it is important to understand that OpenEFT is complex. It is both full featured decentralized payment software as well as a standalone crypto payment library. In addition the command line tools provide a wide array of capabilities. It can take quite a while to become proficient in coding in the internals. It is also clearly security sensitive and also needs good understanding of payments principles. For those reasons joining the main development team is by invitation only.
-
-However, there are still a number of ways to contribute to the project without joining the development team. We welcome such contributions:
+There are a number of ways to contribute to the project without joining the development team. We welcome such contributions:
   * Bug fixes and enhancements to the code and documentation can be submitted via GitHub as issues or pull requests.
   * We are always looking for good people to help us build up the information held in our wiki. Documentation if a crucial area for us to improve. Please contact to info@openeft.org for details on how to contribute to the project's documentation.
   
