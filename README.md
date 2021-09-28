@@ -2,14 +2,17 @@
 
 OpenEFT is an open source electronic financial transaction processing system.
 
-OpenEFT daemon provides following features:
+OpenEFT daemon provides following major features:
  * Cross Platform
     - Linux
     - Mac
     - Windows
+ * Eftpos, ATM, POS payment gateway
  * Crypto Asset
  * Smart Contract
  * Tokenization
+ * Payment protocol conversion
+ * Data collection and analythics
 
  ## Official links
 https://www.macronodes.com/ <br />
